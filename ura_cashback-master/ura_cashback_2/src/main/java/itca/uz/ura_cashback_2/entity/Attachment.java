@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Attachment extends AbsEntity {
 
 
