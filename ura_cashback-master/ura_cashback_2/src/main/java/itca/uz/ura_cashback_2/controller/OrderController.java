@@ -31,6 +31,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getFindByUser(id));
     }
 
+    @PutMapping("statistic/{id}")
+    public HttpEntity<?> getStatistic(@PathVariable Long id){
+        return ResponseEntity.ok(orderService.getStatisticList(id));
+    }
+
     @PostMapping
     public HttpEntity<?> addOrder(@RequestBody OrderDto orderDto) {
         ApiResponse<?> apiResponse = orderService.addOrder(new Order(), orderDto);
