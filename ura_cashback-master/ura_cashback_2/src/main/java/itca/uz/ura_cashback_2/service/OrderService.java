@@ -80,40 +80,38 @@ public class OrderService {
     }
 
     public List<Statistic> getStatisticList(Long companyId) {
-        List<Statistic> statisticList = new ArrayList<>();
-        List<Long> userIdList = getAdminId(companyId);
-        return getOrder(userIdList, statisticList);
+        return getOrder(getAdminId(companyId), new ArrayList<>());
     }
 
     public List<Statistic> getOrder(List<Long> userIdList, List<Statistic> statisticList) {
-        for (Long adminId : userIdList) {
-            List<Order> orderList = orderRepository.findCreatedBy(adminId);
-            getStatistic(orderList, statisticList);
-        }
+        for (Long adminId : userIdList)
+            getStatistic(orderRepository.findCreatedBy(adminId), statisticList);
         return statisticList;
     }
 
     public void getStatistic(List<Order> order, List<Statistic> statisticList) {
-        for (Order onrOrder : order) {
-            Statistic statistic = Statistic.builder()
-                    .admin(authService.getOneUser(onrOrder.getCreatedBy()))
-                    .id(onrOrder.getId())
-                    .cash_price(onrOrder.getCash_price())
-                    .cashback(onrOrder.getCashback())
-                    .user(onrOrder.getClient())
-                    .build();
-            statisticList.add(statistic);
-        }
+        for (Order onrOrder : order) findByDate(onrOrder, statisticList);
+    }
+
+    public void findByDate(Order order, List<Statistic> statisticList) {
+        Statistic statistic = Statistic.builder()
+                .id(order.getId())
+                .admin(authService.getOneUser(order.getCreatedBy()))
+                .cash_price(order.getCash_price())
+                .cashback(order.getCashback())
+                .user(order.getClient())
+                .build();
+        statisticList.add(statistic);
     }
 
     public List<Long> getAdminId(Long companyId) {
-        return companyUserRoleRepository.getCompanyRole
-                (companyId, roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() ->
-                                new ResourceNotFoundException(403, "Role", "role Admin", companyId)).getId(),
-                        roleRepository.findRoleName(RoleName.ROLE_SUPER_ADMIN).orElseThrow(() ->
-                                new ResourceNotFoundException(403, "Role", "role Super Admin", companyId)).getId(),
-                        roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() ->
-                                new ResourceNotFoundException(403, "Role", "role Kasseer", companyId)).getId());
+        return companyUserRoleRepository.getCompanyRole(companyId,
+                roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() ->
+                        new ResourceNotFoundException(403, "Role", "role Admin", companyId)).getId(),
+                roleRepository.findRoleName(RoleName.ROLE_SUPER_ADMIN).orElseThrow(() ->
+                        new ResourceNotFoundException(403, "Role", "role Super Admin", companyId)).getId(),
+                roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() ->
+                        new ResourceNotFoundException(403, "Role", "role Kasser", companyId)).getId());
     }
 
     public List<Order> getFindByUser(Long userId) {
