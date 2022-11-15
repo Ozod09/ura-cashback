@@ -16,6 +16,7 @@ import CompanyKassa from "../pages/companyCabinet/CompanyKassa";
 import CabinetClient from "../pages/companyCabinet/CabinetClient";
 import CompanySettings from "../pages/companyCabinet/CompanySettings";
 import AdminPanel from "../pages/admin/company/AdminPanel";
+import Statistic from "../pages/admin/statestic/Statistic";
 
 
 //https://www.w3schools.com/react/showreact.asp?filename=demo2_react_usememo // add uchun menga kk
@@ -26,6 +27,7 @@ function App() {
             <Routes>
                 //
                 <Route path='/' element={<Home/>}/>
+                <Route path='/s' element={<Statistic/>}/>
                 //
 
                 //SuperAdminPanel

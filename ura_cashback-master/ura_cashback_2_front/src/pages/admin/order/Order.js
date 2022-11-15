@@ -22,6 +22,7 @@ class Order extends Component {
         this.props.dispatch(getOrder())
     }
 
+
     state = {
         infoModal: false,
         currentUserOrder: {},
