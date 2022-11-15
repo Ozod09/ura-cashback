@@ -53,7 +53,7 @@ public class CompanyController {
 
     @GetMapping
     public HttpEntity<?> getCompanyList(){
-        return ResponseEntity.ok(companyRepository.findAll());
+        return ResponseEntity.ok(companyService.getCompanyList());
     }
 
 

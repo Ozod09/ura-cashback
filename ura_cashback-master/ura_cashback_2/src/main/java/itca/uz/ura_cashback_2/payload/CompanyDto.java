@@ -25,7 +25,6 @@ public class CompanyDto {
 
     private int clintPercentage;
 
-
     private Attachment attachment;
     private Long attachmentId;
 
@@ -38,6 +37,6 @@ public class CompanyDto {
 
     private List<User> clint;
 
-    private byte active;
+    private boolean active1;
 
 }

@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 public interface AttachmentContentRepository extends JpaRepository<AttachmentContent, String> {
 //    @Query("select a from AttachmentContent a where a.attachment =: attachment")
-    AttachmentContent findByAttachment(Attachment attachment);
+//    AttachmentContent findByAttachment(Attachment attachment);
 }

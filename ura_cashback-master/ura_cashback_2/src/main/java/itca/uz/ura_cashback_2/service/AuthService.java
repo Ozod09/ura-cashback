@@ -144,6 +144,7 @@ public class AuthService{
         if(company.getActive()==1) {
             if (role.getRoleName().equals(RoleName.ROLE_ADMIN) || role.getRoleName().equals(RoleName.ROLE_KASSA)) {
                 companyMapper.fromCompany(company);
+                companyDto.setActive1(company.getActive()==1);
                 companyDto.setUser(user);
                 List<User> kassaList = new ArrayList<>();
                 List<User> clintList = new ArrayList<>();
@@ -180,7 +181,7 @@ public class AuthService{
             orderDto.setCreatedBy(kassaOrder.getCreatedBy());
             orderDto.setAdmin(authRepository.findById(kassaOrder.getCreatedBy()).orElseThrow(() -> new ResourceAccessException("GetKassir")));
             orderDto.setClient(kassaOrder.getClient());
-            orderDto.setCashback(kassaOrder.getCashback());
+            orderDto.setCashback(kassaOrder.getCompanyClientCash());
             orderDto.setCash_price(kassaOrder.getCash_price());
             orderDtoList.add(orderDto);
         }
@@ -213,8 +214,4 @@ public class AuthService{
         return null;
     }
 
-
-    public AttachmentRepository getAttachmentRepository() {
-        return attachmentRepository;
-    }
 }

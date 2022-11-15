@@ -4,6 +4,7 @@ import itca.uz.ura_cashback_2.entity.CompanyUserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface CompanyUserRoleRepository extends JpaRepository<CompanyUserRole, Long> {

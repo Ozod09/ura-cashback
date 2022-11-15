@@ -14,6 +14,8 @@ import itca.uz.ura_cashback_2.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +43,17 @@ public class CompanyService {
        return addOrEditCompany(companyDto);
     }
 
+    public List<CompanyDto> getCompanyList(){
+        List<Company> all = companyRepository.findAll();
+        List<CompanyDto> companyDtoList = new ArrayList<>();
+        for (Company company : all) {
+            CompanyDto companyDto = companyMapper.fromCompany(company);
+            companyDto.setActive1(company.getActive() == 1);
+            companyDtoList.add(companyDto);
+        }
+        return companyDtoList;
+    }
+
     public Company getOneCompany(Long companyId) {
         return companyRepository.findById(companyId).orElseThrow(() -> new ResourceAccessException("GetCompany"));
     }
@@ -63,22 +76,17 @@ public class CompanyService {
     }
 
     public ApiResponse<?> addOrEditCompany(CompanyDto companyDto){
-        if (companyRepository.existsName(companyDto.getName())!= null) {
-            if (companyRepository.existsAttachment(companyDto.getAttachmentId())!= null) {
-                Company company = companyMapper.fromDto(companyDto);
-                company.setAttachment(attachmentRepository.findById(companyDto.getAttachmentId())
-                        .orElseThrow(() -> new ResourceAccessException("GetAttachment")));
-                Company saveCompany = companyRepository.save(company);
-                //companyUser
-                CompanyUserRole companyUserRole = new CompanyUserRole();
-                companyUserRole.setCompanyId(saveCompany.getId());
-                companyUserRole.setRoleId(roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(404, "Role", "roleName", companyDto.getUserId())).getId());
-                companyUserRole.setUserId(companyDto.getUserId());
-                companyUserRoleRepository.save(companyUserRole);
-                return new ApiResponse<>("Successfully saved company", 200);
-            }
-            return new ApiResponse<>("Attachment already exist", 401);
-        }
-        return new ApiResponse<>("Name already exist", 401);
+        Company company = companyMapper.fromDto(companyDto);
+        company.setActive((byte) (companyDto.isActive1() ? 1 : 0));
+        company.setAttachment(attachmentRepository.findById(companyDto.getAttachmentId())
+                .orElseThrow(() -> new ResourceAccessException("GetAttachment")));
+        Company saveCompany = companyRepository.save(company);
+        //companyUser
+        CompanyUserRole companyUserRole = new CompanyUserRole();
+        companyUserRole.setCompanyId(saveCompany.getId());
+        companyUserRole.setRoleId(2);
+        companyUserRole.setUserId(companyDto.getUserId());
+        companyUserRoleRepository.save(companyUserRole);
+        return new ApiResponse<>("Successfully saved company", 200);
     }
 }
