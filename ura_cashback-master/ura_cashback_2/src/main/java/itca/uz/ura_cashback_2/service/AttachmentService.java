@@ -1,7 +1,6 @@
 package itca.uz.ura_cashback_2.service;
 
 import itca.uz.ura_cashback_2.entity.Attachment;
-import itca.uz.ura_cashback_2.payload.ApiResponse;
 import itca.uz.ura_cashback_2.payload.AttachmentResDto;
 import itca.uz.ura_cashback_2.repository.AttachmentContentRepository;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;

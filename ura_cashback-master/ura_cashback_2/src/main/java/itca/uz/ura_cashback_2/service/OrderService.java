@@ -56,7 +56,7 @@ public class OrderService {
         }
         order = Order.builder()
                 .client(getClient)
-                .companyId(companyUserRoleRepository.findByUserAndRole(getAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "RoleKassa", getAdmin)).getId()).getCompanyId())
+                .companyId(companyUserRoleRepository.deleteKassir(getAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "RoleKassa", getAdmin)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", orderDto)).getCompanyId())
                 .clientCompCash(cashback)
                 .cash_price(cash_price).build();
         order.setCreatedBy(getAdmin.getId());
@@ -65,9 +65,9 @@ public class OrderService {
     }
 
     public User login(ReqLogin reqLogin) {
-        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword());
-        CompanyUserRole companyUserRole = companyUserRoleRepository.findByUserAndRole(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId());
-        CompanyUserRole companyUserRole1 = companyUserRoleRepository.findByUserAndRole(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId());
+        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.deleteKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole1 = companyUserRoleRepository.deleteKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         if (companyUserRole != null || companyUserRole1 != null) {
             return user;
         }

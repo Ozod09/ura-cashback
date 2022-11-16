@@ -44,15 +44,12 @@ public class AuthController {
             return ResponseEntity.ok(authService.addKassa(authDto));
     }
 
+    //ishlamayopti
     @PostMapping("/company/login")
     public HttpEntity<?> loginCompany(@RequestBody ReqLogin reqLogin){
         return ResponseEntity.ok( authService.loginCompany(reqLogin));
     }
 
-    @PostMapping("/superAdmin/login")
-    public HttpEntity<?> loginSuperAdmin(@RequestBody ReqLogin reqLogin){
-        return ResponseEntity.ok(authService.loginSuperAdmin(reqLogin));
-    }
     @PostMapping("/admin/password")
     public HttpEntity<?> passwordEdit(@RequestBody ReqPassword reqPassword){
         return ResponseEntity.ok(authService.editPassword(reqPassword));
@@ -71,6 +68,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.editKassa(authDto, user));
     }
 
+    //ishlamayopti
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteAuth(@PathVariable Long id){
         return ResponseEntity.ok(authService.deleteClient(id));
@@ -97,9 +95,16 @@ public class AuthController {
     }
 
 
+    //ishlamayopti
     @GetMapping("/order/{phoneNumber}")
     public HttpEntity<?> findByPhoneNumber(@PathVariable String phoneNumber) {
         return ResponseEntity.ok(authService.findByPhoneNumber(phoneNumber));
     }
+
+    //    @PostMapping("/superAdmin/login")
+//    public HttpEntity<?> loginSuperAdmin(@RequestBody ReqLogin reqLogin){
+//        return ResponseEntity.ok(authService.loginSuperAdmin(reqLogin));
+//    }
+
 
 }
