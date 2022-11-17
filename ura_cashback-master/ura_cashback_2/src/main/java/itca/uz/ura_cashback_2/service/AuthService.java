@@ -65,13 +65,13 @@ public class AuthService{
 
     public AuthDto editKassa(AuthDto authDto, User user) {
         AuthDto save = editUser(authDto, user);
-        CompanyUserRole companyUserRole = companyUserRoleRepository.deleteKassir(authDto.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", save));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(authDto.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", save));
         companyUserRoleService.addCompanyUserRole(companyUserRole, companyUserRole.getUserId(), companyUserRole.getCompanyId(), companyUserRole.getRoleId());
         return save;
     }
 
     public ApiResponse<?> deleteClient(Long id) {
-        CompanyUserRole companyUserRole = companyUserRoleRepository.deleteKassir(id, 4).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", id));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(id, 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", id));
         authRepository.deleteById(id);
         companyUserRoleRepository.deleteById(companyUserRole.getId());
         return new ApiResponse<>("Successfully delete kassir", 200);
@@ -89,9 +89,8 @@ public class AuthService{
         return new ApiResponse<>("Successfully active", 200);
     }
 
-    public void editUserSalary(int salary) {
-        User user = User.builder()
-                .salary(salary).build();
+    public void editUserSalary(User user, int salary) {
+        user.setSalary(salary);
         authRepository.save(user);
     }
 

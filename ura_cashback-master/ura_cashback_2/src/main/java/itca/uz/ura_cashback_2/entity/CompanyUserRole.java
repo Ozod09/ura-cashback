@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CompanyUserRole extends AbsEntity {
+public class  CompanyUserRole extends AbsEntity {
 
     @Column(nullable = false)
     private Long userId;

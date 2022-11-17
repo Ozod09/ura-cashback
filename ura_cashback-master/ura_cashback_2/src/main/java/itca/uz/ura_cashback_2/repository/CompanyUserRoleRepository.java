@@ -22,5 +22,5 @@ public interface CompanyUserRoleRepository extends JpaRepository<CompanyUserRole
     List<Long> getCompanyRole(Long companyId, Integer adminRole, Integer superAdminRole, Integer kasserRole);
 
     @Query("select c from CompanyUserRole  c where c.userId=:userId and c.roleId=:roleId")
-    Optional<CompanyUserRole> deleteKassir(Long userId, Integer roleId);
+    Optional<CompanyUserRole> getKassir(Long userId, Integer roleId);
 }

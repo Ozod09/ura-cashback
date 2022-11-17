@@ -36,38 +36,39 @@ public class OrderService {
     }
 
     public ApiResponse<?> addOrder(Order order, OrderDto orderDto) {
-        int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price();
+        int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price(), companyClientCash;
         User getClient = authService.getOneUser(orderDto.getClientId());
         User getAdmin = authService.getOneUser(orderDto.getAdminId());
         Company getCompany;
         try {
-            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", getAdmin)).getId());
+            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(),2);
         } catch (Exception e) {
-            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", getAdmin)).getId());
+            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), 3);
         }
         if (cashback <= getClient.getSalary()) {
-            order.setCompanyClientCash((((cash_price - cashback) / 100) * getCompany.getClientPercentage()));
+            companyClientCash = ((((cash_price - cashback) / 100) * getCompany.getClientPercentage()));
             int salary = cashback == 0
                     ? getClient.getSalary() + ((cash_price / 100) * getCompany.getClientPercentage())
                     : (getClient.getSalary() - cashback) + ((((cash_price - cashback) / 100) * getCompany.getClientPercentage()));
-            authService.editUserSalary(salary);
+            authService.editUserSalary(getClient, salary);
         } else {
             return new ApiResponse<>("There are not enough funds in your Cashback account", 401);
         }
         order = Order.builder()
                 .client(getClient)
-                .companyId(companyUserRoleRepository.deleteKassir(getAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "RoleKassa", getAdmin)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", orderDto)).getCompanyId())
+                .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())
                 .clientCompCash(cashback)
                 .cash_price(cash_price).build();
         order.setCreatedBy(getAdmin.getId());
+        order.setCompanyClientCash(companyClientCash);
         orderRepository.save(order);
         return new ApiResponse<>("successfully saved order", 200);
     }
 
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.deleteKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        CompanyUserRole companyUserRole1 = companyUserRoleRepository.deleteKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         if (companyUserRole != null || companyUserRole1 != null) {
             return user;
         }

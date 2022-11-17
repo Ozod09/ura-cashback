@@ -27,6 +27,6 @@ public class CompanyUserRoleService {
     }
 
     public Company getCompanyFindByUser(Long userId, Integer roleId) {
-        return companyService.getOneCompany(companyUserRoleRepository.deleteKassir(userId, roleId).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", userId)).getCompanyId());
+        return companyService.getOneCompany(companyUserRoleRepository.getKassir(userId, roleId).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", userId)).getCompanyId());
     }
 }
