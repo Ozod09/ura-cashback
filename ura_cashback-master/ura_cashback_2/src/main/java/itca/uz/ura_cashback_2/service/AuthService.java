@@ -12,6 +12,7 @@ import itca.uz.ura_cashback_2.utils.CommonUtils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class AuthService{
 
     public ApiResponse<?> addRegisterClient(AuthDto authDto) {
         AuthDto save = addUser(authDto);
-        companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), roleRepository.findRoleName(RoleName.ROLE_USER).orElseThrow(() -> new ResourceNotFoundException( 403, "Role", "roleName", save.getId())).getId());
+        companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), roleRepository.findRoleByRoleNameEquals(RoleName.ROLE_USER).getId());
         return new ApiResponse<>("User saved", 200);
     }
 
@@ -200,7 +201,7 @@ public class AuthService{
     public AuthDto addUser(AuthDto authDto) {
         try {
             if (authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail())==null){
-                System.out.println("salom");
+                System.out.println("Already phone number or email exist");
             }
 
         }catch (Exception e){
