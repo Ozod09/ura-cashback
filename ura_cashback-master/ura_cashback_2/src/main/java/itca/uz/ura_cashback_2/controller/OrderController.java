@@ -1,9 +1,7 @@
 package itca.uz.ura_cashback_2.controller;
 
 import itca.uz.ura_cashback_2.entity.Order;
-import itca.uz.ura_cashback_2.payload.ApiResponse;
-import itca.uz.ura_cashback_2.payload.OrderDto;
-import itca.uz.ura_cashback_2.payload.ReqLogin;
+import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.service.OrderService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -31,9 +29,15 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getFindByUser(id));
     }
 
-    @PutMapping("statistic/{id}")
-    public HttpEntity<?> getStatistic(@PathVariable Long id){
-        return ResponseEntity.ok(orderService.getStatisticList(id));
+
+//    @PutMapping("statistic/{id}")
+//    public HttpEntity<?> getStatistic(@PathVariable Long id){
+//        return ResponseEntity.ok(orderService.getStatisticList(id));
+//    }
+
+    @PostMapping("/statistic")
+    public HttpEntity<?> getStatistic( @RequestBody ReqStatistic reqStatistic){
+        return ResponseEntity.ok(orderService.getStatistic(reqStatistic));
     }
 
     @PostMapping

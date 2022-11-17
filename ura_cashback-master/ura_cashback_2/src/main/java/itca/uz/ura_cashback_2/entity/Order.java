@@ -14,10 +14,14 @@ import javax.persistence.ManyToOne;
 @Builder
 public class Order extends AbsEntity {
 
-    private int cashback;
+    private int companyClientCash;
+
+    private Long companyId;
 
     @ManyToOne
     private User client;
+
+    private int clientCompCash;
 
     private int cash_price;
 

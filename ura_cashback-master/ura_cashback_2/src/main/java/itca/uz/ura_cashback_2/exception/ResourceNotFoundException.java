@@ -1,5 +1,8 @@
 package itca.uz.ura_cashback_2.exception;
 
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus
 public class ResourceNotFoundException extends RuntimeException {
     private final String resourceName;
     private final String fieldName;

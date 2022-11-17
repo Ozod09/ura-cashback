@@ -8,14 +8,24 @@ import logoCash from "../company/img/Left.png"
 import registerCom1 from "../company/img/Rectangle.png"
 import done from "../company/img/photo_2022-10-20_11-19-28.jpg"
 import {api} from "../../../api/api";
+import {toast} from "react-toastify";
+import axios from "axios";
 
 class CompanyRegister extends Component {
     render() {
         const {currentCompany, currentUser, attachmentId, active} = this.props;
         const sendPhoto = (item) => {
             let obj = new FormData();
-            obj.append("file", item.target.files[0]);
+            obj.append("request", item.target.files[0]);
             this.props.dispatch(addAttachmentAction(obj));
+        }
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Accept': 'application/json',
+                "Content-Type": 'multipart/form-data'
+            }
         }
         console.log(attachmentId.payload)
 
@@ -51,7 +61,7 @@ class CompanyRegister extends Component {
                     <img className="oval"
                          data-aos-duration="1000"
                          data-aos-easing="ease-in-back" src={done} alt="Loading..."/>
-                    <Input className="companyImg" type="file" src={registerCom1} multiple
+                    <Input className="companyImg" type="file" src={"http://localhost/api/attachment/getFile"  } multiple
                            onChange={(item) => sendPhoto(item)}
                            required accept="image/*"/>
                     <img className="compLogo" data-aos-duration="1000"

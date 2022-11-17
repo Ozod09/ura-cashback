@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 public class Company extends AbsEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String bio;

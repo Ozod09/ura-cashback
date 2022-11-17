@@ -43,17 +43,9 @@ public class CompanyController {
         return ResponseEntity.ok(company);
     }
 
-//   @PreAuthorize(value = "hasAnyRole('ROLE_SUPER_ADMIN')")
-//    @GetMapping
-//    public HttpEntity<?> getCompanyPage(@RequestParam(value = "page", defaultValue = AppConstant.DEFAULT_PAGE) int page,
-//                                        @RequestParam(value = "size", defaultValue = AppConstant.DEFAULT_SIZE) int size,
-//                                        @CurrentUser User user) throws Exception {
-//        return ResponseEntity.ok(companyService.getCompanyList(page, size, user));
-//    }
-
     @GetMapping
     public HttpEntity<?> getCompanyList(){
-        return ResponseEntity.ok(companyRepository.findAll());
+        return ResponseEntity.ok(companyService.getCompanyList());
     }
 
 
