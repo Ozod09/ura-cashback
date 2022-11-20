@@ -37,7 +37,7 @@ public class OrderController {
 
     @PostMapping("/statistic")
     public HttpEntity<?> getStatistic( @RequestBody ReqStatistic reqStatistic){
-        return ResponseEntity.ok(orderService.getStatistic(reqStatistic));
+D        return ResponseEntity.ok(orderService.getStatistic(reqStatistic));
     }
 
     @PostMapping
@@ -46,17 +46,12 @@ public class OrderController {
         return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
     }
 
-    @PutMapping("/{id}")
-    public HttpEntity<?> editOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
-        ApiResponse<?> apiResponse = orderService.addOrder(orderService.getOneOrder(id), orderDto);
-        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
-    }
-
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.deleteOrder(id));
     }
 
+    //xato
     @PutMapping("/login")
     public HttpEntity<?> isLogin(@RequestBody ReqLogin loginDto) {
         return ResponseEntity.ok(orderService.login(loginDto));

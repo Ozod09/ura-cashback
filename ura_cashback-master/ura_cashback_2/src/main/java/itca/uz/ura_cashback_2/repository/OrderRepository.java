@@ -11,7 +11,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select ord from orders ord where ord.createdBy=: createdBy")
     List<Order> findCreatedBy(Long createdBy);
 
-    @Query(value = "select * from orders o where o.companyId= companyId and o.createdAt between startTime and endTime", nativeQuery = true)
-    List<Order> getOrder(Long companyId, Timestamp startTime, Timestamp endTime);
+                @Query(value = "select * from orders o where o.companyId= companyId and o.createdAt between startTime and endTime", nativeQuery = true)
+                List<Order> getOrder(Long companyId, Timestamp startTime, Timestamp endTime);
 
 }

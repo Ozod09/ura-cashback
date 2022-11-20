@@ -67,8 +67,8 @@ public class OrderService {
 
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         if (companyUserRole != null || companyUserRole1 != null) {
             return user;
         }
@@ -131,7 +131,7 @@ public class OrderService {
 
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
-        if (!company.isPresent()) {
+        if (company.isPresent()) {
             Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
             Timestamp andTime = Timestamp.valueOf(reqStatistic.getFinishDate());
             List<Order> orderList = orderRepository.getOrder(reqStatistic.getCompanyId(), startTime, andTime);
