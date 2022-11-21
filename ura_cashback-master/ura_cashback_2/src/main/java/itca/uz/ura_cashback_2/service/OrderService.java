@@ -4,7 +4,6 @@ import itca.uz.ura_cashback_2.entity.Company;
 import itca.uz.ura_cashback_2.entity.CompanyUserRole;
 import itca.uz.ura_cashback_2.entity.Order;
 import itca.uz.ura_cashback_2.entity.User;
-import itca.uz.ura_cashback_2.entity.enums.RoleName;
 import itca.uz.ura_cashback_2.exception.ResourceNotFoundException;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.*;
@@ -132,22 +131,25 @@ public class OrderService {
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
         if (company.isPresent()) {
+            Company company1 = company.orElseThrow(() -> new ResourceNotFoundException(404, "company", "id", company));
             Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
             Timestamp andTime = Timestamp.valueOf(reqStatistic.getFinishDate());
-            List<Order> orderList = orderRepository.getOrder(reqStatistic.getCompanyId(), startTime, andTime);
+            List<Optional<Order>> orderList = orderRepository.getOrder(company1.getId(), startTime, andTime);
             Set<Long> userCount = new HashSet<>();
             int allBalance = 0;
             int clientNaqtTulovComp = 0;
             int clientCompCash = 0;
             int companyClientCash = 0;
             int clientCash = 0;
-            for (Order order : orderList) {
-                userCount.add(order.getClient().getId());
-                allBalance+=order.getCash_price();
-                clientCompCash+=order.getClientCompCash();
-                companyClientCash+=order.getCompanyClientCash();
-                clientCash+=order.getClient().getSalary();
+            for (Optional<Order> order : orderList) {
+                final Order order1 = order.orElseThrow(() -> new ResourceNotFoundException(403, "order", "id", order));
+                userCount.add(order1.getClient().getId());
+                allBalance+=order1.getCash_price();
+                clientCompCash+=order1.getClientCompCash();
+                companyClientCash+=order1.getCompanyClientCash();
+                clientCash+=order1.getClient().getSalary();
             }
+
             return ResStatistic.builder()
                     .jamiClient(userCount.size())
                     .allBalance(allBalance)
