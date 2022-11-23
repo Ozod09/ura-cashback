@@ -131,31 +131,26 @@ public class OrderService {
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
         if (company.isPresent()) {
-            Company company1 = company.orElseThrow(() -> new ResourceNotFoundException(404, "company", "id", company));
             Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
             Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishDate());
-            System.out.println(company1.getId());
             List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
-            Set<Long> userCount = new HashSet<>();
+            Set<Long> jamiClient = new HashSet<>();
             int allBalance = 0;
-            int clientNaqtTulovComp = 0;
-            int clientCompCash = 0;
             int companyClientCash = 0;
             int clientCash = 0;
             for (Order order1 : orderList) {
-                userCount.add(order1.getClient().getId());
+                jamiClient.add(order1.getClient().getId());
                 allBalance+=order1.getCash_price();
-                clientCompCash+=order1.getClientCompCash();
                 companyClientCash+=order1.getCompanyClientCash();
                 clientCash+=order1.getClient().getSalary();
             }
+            int urtachaCheck = allBalance/ jamiClient.size();
             return ResStatistic.builder()
-                    .jamiClient(userCount.size())
+                    .jamiClient(jamiClient.size())
                     .allBalance(allBalance)
-                    .clientNaqtTulovComp(clientNaqtTulovComp)
-                    .clientCompCash(clientCompCash)
                     .companyClientCash(companyClientCash)
                     .clientCash(clientCash)
+                    .urtachaCheck(urtachaCheck)
                     .build();
         }
         return null;

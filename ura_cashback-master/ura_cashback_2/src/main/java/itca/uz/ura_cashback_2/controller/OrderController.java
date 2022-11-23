@@ -44,9 +44,6 @@ public class OrderController {
 
     @PostMapping("/statistic")
     public HttpEntity<?> getStatistic( @RequestBody ReqStatistic reqStatistic){
-
-
-
         return ResponseEntity.ok(orderService.getStatistic(reqStatistic));
     }
 
