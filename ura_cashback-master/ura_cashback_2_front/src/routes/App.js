@@ -16,7 +16,8 @@ import CompanyKassa from "../pages/companyCabinet/CompanyKassa";
 import CabinetClient from "../pages/companyCabinet/CabinetClient";
 import CompanySettings from "../pages/companyCabinet/CompanySettings";
 import AdminPanel from "../pages/admin/company/AdminPanel";
-import Statistic from "../pages/admin/statestic/Statistic";
+import CabinetHome from "../pages/companyCabinet/CabinetHome";
+import CompanyPassword from "../pages/companyCabinet/CompanyPassword";
 
 
 //https://www.w3schools.com/react/showreact.asp?filename=demo2_react_usememo // add uchun menga kk
@@ -27,7 +28,6 @@ function App() {
             <Routes>
                 //
                 <Route path='/' element={<Home/>}/>
-                <Route path='/s' element={<Statistic/>}/>
                 //
 
                 //SuperAdminPanel
@@ -39,8 +39,8 @@ function App() {
                 //
 
                 //registerCompanyAdmin
-                <Route path='/authUserCompany/register' element={<AuthUserCompany/>}/>
                 <Route path='/company/register' element={<CompanyClint/>}/>
+                <Route path='/authUserCompany/register' element={<AuthUserCompany/>}/>
                 //
 
                 //Company cabinet
@@ -48,11 +48,13 @@ function App() {
                 <Route path='/company/settings' element={<CompanySettings/>}/>
                 <Route path='/cabinetClient' element={<CabinetClient/>}/>
                 <Route path='/company/kassa' element={<CompanyKassa/>}/>
+                <Route path='/company/operation' element={<CabinetHome/>}/>
+                <Route path='/company/password' element={<CompanyPassword/>}/>
                 //
 
 
                 //client register
-                <Route path='/client' element={<ClientRegister/>}/>
+                <Route path='/register/client' element={<ClientRegister/>}/>
                 //
 
                 //login

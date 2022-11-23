@@ -8,10 +8,14 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("select ord from orders ord where ord.createdBy=: createdBy")
+
+    @Query("select ord from orders ord where ord.createdBy = ?1")
     List<Order> findCreatedBy(Long createdBy);
 
-    @Query(value = "select * from orders o where o.companyId= companyId and o.createdAt between startTime and endTime", nativeQuery = true)
-    List<Order> getOrder(Long companyId, Timestamp startTime, Timestamp endTime);
+    @Query("select com from orders com where com.companyId = ?1")
+    List<Order> companyOrder(Long companyId);
+
+//    @Query(value = "select * from orders o where o.companyId= companyId and o.createdAt between startTime and endTime", nativeQuery = true)
+//    List<Order> getOrder(Long companyId, Timestamp startTime, Timestamp endTime);
 
 }

@@ -69,6 +69,7 @@ class AuthAdmin extends Component {
 
 
 
+        //Search
         const set = (item)=>{
             const lowerCase = item.target.value.toLowerCase();
             dispatch({
@@ -79,7 +80,6 @@ class AuthAdmin extends Component {
             })
         }
 
-        //Search
         const filter = user.filter((el)=>{
             if(search === ''){
                 return el;
@@ -98,19 +98,13 @@ class AuthAdmin extends Component {
         }
 
         return (
-            <div className="ms-5 me-5">
+            <div className="superAdminClient">
                 <Sidebar/>
-                <div className="mt-5">
-                    <div className="wrapper">
-                        <div className="search-wrapper">
-                            <label htmlFor="search-form">
-                                <Input type="search" name="search-form" placeholder="Search phone"
-                                       onChange={(item)=> set(item)}/>
-                                <Button><i className="pi pi-search"/></Button>
-                            </label>
-                        </div>
-                    </div>
-
+                <div className="searchSuperAdminClient">
+                    <Input type="text" onChange={(item)=> set(item)}  placeholder="Enter phone number"/>
+                    <i className="pi pi-search searchIconcaSuperAdmin"/>
+                </div>
+                <div className="ms-5 me-5 superAdminClientTable">
                     <Table>
                         <thead>
                         <tr>

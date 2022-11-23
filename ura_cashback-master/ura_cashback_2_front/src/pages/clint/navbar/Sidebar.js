@@ -29,7 +29,6 @@ function Sidebar(props) {
                         <h5 className="offcanvas-title">
                             <img className="mt-3 mb-5" src={ura} alt="Ura!"/>
                         </h5>
-                        {/*<button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>*/}
                     </div>
                     <div className="offcanvas-body">
                         {currentUser === 0 ?

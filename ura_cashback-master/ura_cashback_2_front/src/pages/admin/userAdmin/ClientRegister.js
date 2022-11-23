@@ -5,6 +5,7 @@ import cashbackLogo from "../order/loginPage/image/logo.png";
 import registerFoto from "./registerFoto.png";
 import {Button, Input} from "reactstrap";
 import ResultClient from "./ResultClient";
+import './auth.css'
 
 
 class ClientRegister extends Component {
@@ -57,7 +58,6 @@ class ClientRegister extends Component {
             <>
                 {res ?
                     <ResultClient/>  :
-
                     <div className="row home">
                         <div className='col-6'>
                             <img className="row img1" src={cashbackLogo} alt="not"/>
@@ -78,7 +78,7 @@ class ClientRegister extends Component {
                                     <select className="mb-2 select" id="companyId">
                                         <option>Company</option>
                                         {company.map((item,i)=>
-                                            <option key={i} value={item.id}  >{item.name}</option>
+                                            <option key={i} value={item.id} >{item.name}</option>
                                         )}
                                     </select>
                                     <Input className="mb-2" type={this.state.openPassword ? "text" : "password"} id="password" placeholder="Password"

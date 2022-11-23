@@ -7,10 +7,11 @@ import edit from '../companyCabinet/img/edit2.png';
 import delit from '../companyCabinet/img/delete2.png';
 import './cabinet.css'
 import {loginCompany, removeUser, saveCompanyKassa} from "../../redux/actions/AppAction";
-import '../admin/userAdmin/auth.css';
+import Navbar from "../clint/navbar/Navbar";
 
 
 class CompanyKassa extends Component {
+
 
     componentDidMount() {
         this.props.dispatch(loginCompany({
@@ -26,19 +27,14 @@ class CompanyKassa extends Component {
         openModal:false,
         deleteModal:false,
         kassaId: '',
-        items:[
-            {id: 1 ,name: "salom1"},
-            {id: 2,name: "salom2"},
-            {id: 3,name: 'salom3'}
-        ]
     }
 
     render() {
 
         const getCompany = () => {
             this.props.dispatch(loginCompany({
-                password: sessionStorage.getItem("Password"),
-                phoneNumber: sessionStorage.getItem("PhoneNumber")
+                password: JSON.parse(localStorage.getItem("Password")),
+                phoneNumber: JSON.parse(localStorage.getItem("PhoneNumber"))
             }))
         }
         const openModal = ()=>{
@@ -57,7 +53,17 @@ class CompanyKassa extends Component {
             this.setState({openPrePassword: !this.state.openPrePassword})
         }
 
-        const {companyInfo} = this.props;
+        const {companyInfo, search, dispatch ,size, page} = this.props;
+
+
+        const paginate = (number) => {
+            dispatch({
+                type: "updateState",
+                payload: {
+                    page: number
+                }
+            })
+        }
 
 
 
@@ -93,7 +99,6 @@ class CompanyKassa extends Component {
         }
 
         const deleteCompanyKassr = ()=>{
-            console.log(this.state.kassaId, "kassa id")
             this.setState({deleteModal: !this.state.deleteModal})
             this.props.dispatch(removeUser(this.state.kassaId));
             window.location.reload();
@@ -101,15 +106,47 @@ class CompanyKassa extends Component {
         }
 
 
+        //Search
+        const set = (item)=>{
+            const lowerCase = item.target.value.toLowerCase();
+            dispatch({
+                type:"updateState",
+                payload:{
+                    search:lowerCase
+                }
+            })
+        }
+
+        const filter = companyInfo.kassa.filter((el)=>{
+            if(search === ''){
+                return el;
+            }else {
+                return el.firstName.toLowerCase().includes(search)
+            }
+        })
+
+        const indexOfLasPost = page * size;
+        const indexOfFirstPosts = indexOfLasPost - size;
+        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+
+        const kassirName = [];
+        for (let i = 1; i <= Math.ceil(companyInfo.kassa.length / size); i++) {
+            kassirName.push(i);
+        }
 
 
 
 
         return (
-            <div>
+            <div id="cabKassa">
+                <Navbar/>
                 <CompanySidebar/>
-                <div className="container">
-                    <Button className="mt-5 compButton" onClick={()=>openModal()}><img src={add} /></Button>
+                <div className="searchKassa">
+                    <Input type="text" onChange={(item)=> set(item)} placeholder="Enter kassir name"/>
+                    <i className="pi pi-search searchIconcaKassa"/>
+                </div>
+                <div className="ms-5 me-5 mt-5 kassaTable">
+                    <Button className="mt-1 compButton" onClick={()=>openModal()}><img src={add} /></Button>
                 <Table>
                     <thead>
                     <tr>
@@ -123,8 +160,7 @@ class CompanyKassa extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {companyInfo.kassa &&
-                        companyInfo.kassa.map((item,i)=>
+                    {currentPosts.map((item,i)=>
                     <tr key={i}>
                         <td>{i + 1}</td>
                         <td>{item.firstName}</td>
@@ -139,6 +175,16 @@ class CompanyKassa extends Component {
                     </tbody>
                 </Table>
                 </div>
+
+                <nav>
+                    <ul className="pagination">
+                        {kassirName.map((number, i) =>
+                            <li key={i} className="page-item">
+                                <a onClick={() => paginate(number)} className="page-link">{number}</a>
+                            </li>
+                        )}
+                    </ul>
+                </nav>
 
                 <Modal isOpen={this.state.openModal}>
                     <ModalHeader>{this.state.kassaId ? "Edit Kassir" : "Add Kassir"}</ModalHeader>
@@ -155,7 +201,7 @@ class CompanyKassa extends Component {
                         <Input className="mb-2" style={{marginTop:"20px"}} type={this.state.openPrePassword ? "text" : "password"} id="prePassword" placeholder="Pre password" required/>
                         <li className="row icon2" onClick={()=> prePassword()}>
                             {this.state.openPrePassword ? <i className="pi pi-eye-slash" /> : <i className="pi pi-eye"/> }</li>
-                        {this.state.resRegex ? <p style={{color:"red",marginTop:"10px"}}>Password error 0-9 password length = 8</p> : ""}
+                        {this.state.resRegex ? <p style={{color:"red",marginTop:"10px"}}>Password error: </p> : ""}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="danger" onClick={openModal}>Close</Button>
@@ -179,6 +225,6 @@ class CompanyKassa extends Component {
 CompanyKassa.propTypes = {};
 
 export default connect(
-    ({app:{companyInfo}})=>
-        ({companyInfo}))
+    ({app:{companyInfo, search, dispatch ,size, page}})=>
+        ({companyInfo, search, dispatch ,size, page}))
 (CompanyKassa);

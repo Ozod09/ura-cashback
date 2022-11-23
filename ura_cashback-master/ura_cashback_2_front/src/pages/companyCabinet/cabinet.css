@@ -12,3 +12,104 @@
     margin-top: -35px;
     margin-left: 430px;
 }
+#cabOrder{
+    height: 657px;
+    background-color: rgba(231, 229, 229, 0.73);
+}
+.orderTable{
+    background-color: white;
+    border-radius: 10px;
+}
+.orderTable thead{
+    color: #787993;
+}
+#cabClient{
+    height: 657px;
+    background-color: rgba(231, 229, 229, 0.73);
+}
+.clientTable{
+    background-color: white;
+    border-radius: 10px;
+}
+#cabKassa{
+    height: 657px;
+    background-color: rgba(231, 229, 229, 0.73);
+}
+.kassaTable{
+    background-color: white;
+    border-radius: 10px;
+}
+.cabPassword{
+    margin-top: 150px;
+}
+.cabPassword Input{
+    margin-top: 20px;
+    margin-left: 500px;
+    width: 300px;
+}
+.cabPassword Button{
+    width: 300px;
+    margin-top: 20px;
+    margin-left: 500px;
+    background-color: #003bff;
+}
+.cabPassword Button:hover{
+    background-color: #39ac31;
+}
+.cabinetPassword{
+    background-color: rgba(231, 229, 229, 0.73);
+    height: 657px;
+}
+.searchOperation{
+    margin-left: 47px;
+    margin-top: 30px;
+    width: 200px;
+    border-radius: 10px;
+}
+.searchIconcaOperation {
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 175px;
+    color: #003bff;
+}
+.pagination{
+    margin-left: 50px;
+    margin-top: 50px;
+}
+.searchClient{
+    margin-left: 47px;
+    margin-top: 30px;
+    width: 200px;
+    border-radius: 10px;
+}
+.searchIconcaClient{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 175px;
+    color: #003bff;
+}
+.searchKassa{
+    margin-left: 47px;
+    margin-top: 30px;
+    width: 200px;
+    border-radius: 10px;
+}
+.searchIconcaKassa{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 175px;
+    color: #003bff;
+}
+.cabPassword li{
+    margin-left: 770px;
+    list-style-type: none;
+}
+.comOldPassword{
+    margin-top: -30px;
+}
+.comPassword{
+    margin-top: -28px;
+}
+.comPrePassword{
+    margin-top: -28px;
+}

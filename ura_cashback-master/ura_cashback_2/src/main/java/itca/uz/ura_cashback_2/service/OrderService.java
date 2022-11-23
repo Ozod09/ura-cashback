@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -65,15 +66,15 @@ public class OrderService {
         return new ApiResponse<>("successfully saved order", 200);
     }
 
-    public User login(ReqLogin reqLogin) {
-        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        if (companyUserRole != null || companyUserRole1 != null) {
-            return user;
-        }
-        return null;
-    }
+//    public User login(ReqLogin reqLogin) {
+//        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
+//        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+//        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", user)).getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+//        if (companyUserRole != null || companyUserRole1 != null) {
+//            return user;
+//        }
+//        return null;
+//    }
 
     public Order getOneOrder(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getOrder"));
@@ -120,8 +121,18 @@ public class OrderService {
         return orderRepository.findCreatedBy(userId);
     }
 
-    public List<Order> getOrderList() {
-        return orderRepository.findAll();
+    public List<OrderDto> getOrderList() {
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for(Order order : orderRepository.findAll()){
+            OrderDto orderDto = new OrderDto();
+            orderDto.setClient(authRepository.findById(order.getClient().getId()).get());
+            orderDto.setAdmin(authRepository.findById(order.getCreatedBy()).get());
+            orderDto.setCashback(order.getCash_price());
+            orderDto.setCash_price(order.getCash_price());
+            orderDto.setCompany(companyRepository.findById(order.getCompanyId()).get());
+            orderDtoList.add(orderDto);
+        }
+        return orderDtoList;
     }
 
     public ApiResponse<?> deleteOrder(Long orderId) {
@@ -131,10 +142,8 @@ public class OrderService {
 
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
-        if (!company.isPresent()) {
-            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
-            Timestamp andTime = Timestamp.valueOf(reqStatistic.getFinishDate());
-            List<Order> orderList = orderRepository.getOrder(reqStatistic.getCompanyId(), startTime, andTime);
+        if (company.isPresent()) {
+            List<Order> orderList = orderRepository.companyOrder(reqStatistic.getCompanyId());
             Set<Long> userCount = new HashSet<>();
             int allBalance = 0;
             int clientNaqtTulovComp = 0;
@@ -142,11 +151,14 @@ public class OrderService {
             int companyClientCash = 0;
             int clientCash = 0;
             for (Order order : orderList) {
-                userCount.add(order.getClient().getId());
-                allBalance+=order.getCash_price();
-                clientCompCash+=order.getClientCompCash();
-                companyClientCash+=order.getCompanyClientCash();
-                clientCash+=order.getClient().getSalary();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
+                if(simpleDateFormat.format(order.getCreatedAt()).equals(simpleDateFormat.format(reqStatistic.getFilterDate()))){
+                    userCount.add(order.getClient().getId());
+                    allBalance+=order.getCash_price();
+                    clientCompCash+=order.getClientCompCash();
+                    companyClientCash+=order.getCompanyClientCash();
+                    clientCash+=order.getClient().getSalary();
+                }
             }
             return ResStatistic.builder()
                     .jamiClient(userCount.size())
@@ -159,4 +171,5 @@ public class OrderService {
         }
         return null;
     }
+
 }

@@ -47,17 +47,14 @@ a{
     text-align: center;
 }
 .box1{
+    margin-left: -10%;
     font-size: 18px;
     padding: 170px 0;
     width: 500px;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     line-height: 28px;
     color: #001d38;
     display: block;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
-    box-sizing: border-box;
-    outline: 0;
     text-align: center;
 }
 .nav1{
@@ -119,7 +116,7 @@ a{
     float: left;
     /*width: 100px;*/
     top: -30px;
-    left: 600px;
+    left: 500px;
     margin-left: -1px;
     position: relative;
     overflow: hidden;
@@ -134,7 +131,7 @@ a{
     color: #fff!important;
 }
 .bepulButton1{
-    left: -25%;
+    left: -40%;
     top: 450px;
     position: relative;
     overflow: hidden;
@@ -157,7 +154,6 @@ a{
     -moz-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
     margin: 0 auto;
@@ -167,15 +163,15 @@ a{
     transition: all .25s linear;
 }
 .kirishButton{
-    top: -90px;
-    left: 790px;
+    top: -80px;
+    left: 700px;
     margin-left: -1px;
     position: relative;
     overflow: hidden;
     font-size: 1.07vmax;
     outline: none;
     /*border: none;*/
-    padding: 0.6em 30px;
+    padding: 0.4em 30px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;

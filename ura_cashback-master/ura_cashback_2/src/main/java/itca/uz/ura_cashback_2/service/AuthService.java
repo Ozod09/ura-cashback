@@ -13,8 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -48,6 +51,8 @@ public class AuthService{
         companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), 4);
         return new ApiResponse<>("User saved", 200);
     }
+
+
 
     public Long addCompanyAdmin(AuthDto authDto){
         return addUser(authDto).getId();
@@ -107,8 +112,7 @@ public class AuthService{
     }
 
     public User getOneUser(Long id) {
-        User user = authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404, "dd", "aa", id));
-        return user;
+        return authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404, "dd", "aa", id));
     }
 
     public User findByPhoneNumber(String phoneNumber) {
@@ -139,6 +143,7 @@ public class AuthService{
             if (role.getRoleName().equals(RoleName.ROLE_ADMIN) || role.getRoleName().equals(RoleName.ROLE_KASSA)) {
                 companyMapper.fromCompany(company);
                 companyDto.setActive1(company.getActive()==1);
+                companyDto.setId(company.getId());
                 companyDto.setUser(user);
                 List<User> kassaList = new ArrayList<>();
                 List<User> clintList = new ArrayList<>();
@@ -146,7 +151,7 @@ public class AuthService{
                 List<OrderDto> orderList = new ArrayList<>(kassaOrderList);
                 kassaList.add(user);
                 Role role1 = roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "Kassir", role));
-                for (CompanyUserRole companyUserRole1 : companyUserRoleRepository.findByCompanyIdEqualsAndRoleIdEquals(company.getId(), role1.getId())) {
+                for (CompanyUserRole companyUserRole1 : companyUserRoleRepository.companyIdAndRoleId(company.getId(), role1.getId())) {
                     User user1 = authRepository.findById(companyUserRole1.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole1));
                     List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(user1);
                     orderList.addAll(kassaOrAdminOrder);
@@ -154,23 +159,49 @@ public class AuthService{
                 }
 
                 Role role2 = roleRepository.findRoleName(RoleName.ROLE_USER).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "User", role));
-                for (CompanyUserRole companyUserRole2 : companyUserRoleRepository.findByCompanyIdEqualsAndRoleIdEquals(company.getId(), role2.getId())) {
+                for (CompanyUserRole companyUserRole2 : companyUserRoleRepository.companyIdAndRoleId(company.getId(), role2.getId())) {
                     User user1 = authRepository.findById(companyUserRole2.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole2));
                     clintList.add(user1);
                 }
                 companyDto.setKassa(kassaList);
                 companyDto.setClint(clintList);
                 companyDto.setOrders(orderList);
+                companyDto.setResStatistic(getCompanyStatistic(company.getId()));
                 return companyDto;
             }
         }
         return null;
     }
 
+    public ResStatistic getCompanyStatistic(Long companyId){
+        Set<Long> countClient = new HashSet<>();
+        int allBalance = 0;
+        int clientNaqtTulovComp = 0;
+        int clientCompCash = 0;
+        int companyClientCash = 0;
+        int clientCash = 0;
+        for (Order order : orderRepository.companyOrder(companyId)) {
+            countClient.add(order.getClient().getId());
+            allBalance += order.getCash_price();
+            clientCompCash += order.getClientCompCash();
+            companyClientCash += order.getCompanyClientCash();
+            clientCash += order.getClient().getSalary();
+        }
+        ResStatistic resStatistic = new ResStatistic();
+        resStatistic.setJamiClient(countClient.size());
+        resStatistic.setAllBalance(allBalance);
+        resStatistic.setClientCompCash(clientCompCash);
+        resStatistic.setCompanyClientCash(companyClientCash);
+        resStatistic.setClientCash(clientCash);
+        return resStatistic;
+    }
+
     public List<OrderDto> getKassaOrAdminOrder(User user){
         List<OrderDto> orderDtoList = new ArrayList<>();
-        for (Order kassaOrder : orderRepository.findCreatedBy(user.getId())) {
+        for (Order kassaOrder : orderRepository.companyOrder(user.getId())) {
             OrderDto orderDto = new OrderDto();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            orderDto.setDate(simpleDateFormat.format(kassaOrder.getCreatedAt()));
             orderDto.setId(kassaOrder.getId());
             orderDto.setCreatedBy(kassaOrder.getCreatedBy());
             orderDto.setAdmin(authRepository.findById(kassaOrder.getCreatedBy()).orElseThrow(() -> new ResourceAccessException("GetKassir")));
@@ -197,17 +228,17 @@ public class AuthService{
     public AuthDto addUser(AuthDto authDto) {
         try {
             if (!authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail()).isPresent()){
-                System.out.println("salom");
+                if (authDto.getPassword().equals(authDto.getPrePassword())) {
+                    User user = mapper.fromDto(authDto);
+                    User save = authRepository.save(user);
+                    AuthDto authDto1 = mapper.fromUser(save);
+                    authDto1.setCompanyId(authDto.getCompanyId());
+                    return authDto1;
+                }
             }
 
         }catch (Exception e){
-            if (authDto.getPassword().equals(authDto.getPrePassword())) {
-                User user = mapper.fromDto(authDto);
-                User save = authRepository.save(user);
-                AuthDto authDto1 = mapper.fromUser(save);
-                authDto1.setCompanyId(authDto.getCompanyId());
-                return authDto1;
-            }
+            e.printStackTrace();
         }
         return null;
     }
@@ -223,5 +254,8 @@ public class AuthService{
 //        }
 //        return new ApiResponse<>("Super admin not found", 401);
 //    }
+
+
+
 
 }

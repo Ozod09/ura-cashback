@@ -57,9 +57,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.deleteOrder(id));
     }
 
-    @PutMapping("/login")
-    public HttpEntity<?> isLogin(@RequestBody ReqLogin loginDto) {
-        return ResponseEntity.ok(orderService.login(loginDto));
-    }
+//    @PutMapping("/login")
+//    public HttpEntity<?> isLogin(@RequestBody ReqLogin loginDto) {
+//        return ResponseEntity.ok(orderService.login(loginDto));
+//    }
 
 }

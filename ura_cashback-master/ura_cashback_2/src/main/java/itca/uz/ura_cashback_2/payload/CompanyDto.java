@@ -23,7 +23,7 @@ public class CompanyDto {
 
     private String description;
 
-    private int clintPercentage;
+    private int clientPercentage;
 
     private Attachment attachment;
     private Long attachmentId;
@@ -36,6 +36,8 @@ public class CompanyDto {
     private List<User> kassa;
 
     private List<User> clint;
+
+    private ResStatistic resStatistic;
 
     private boolean active1;
 

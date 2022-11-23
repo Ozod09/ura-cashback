@@ -1,12 +1,12 @@
 package itca.uz.ura_cashback_2.payload;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResStatistic {
     //company dagi client size
     private Integer jamiClient;

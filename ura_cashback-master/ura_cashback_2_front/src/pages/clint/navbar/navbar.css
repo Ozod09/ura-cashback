@@ -1,0 +1,24 @@
+#navbar{
+    background-color: white;
+    padding: 15px;
+}
+#navbar img{
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    margin-left: 1200px;
+    margin-top: -35px;
+}
+#navbar h5{
+    margin-bottom: -5px;
+    color: #928f8f;
+}
+.signOut{
+    list-style-type: none;
+    margin-left: 1150px;
+    margin-top: -30px;
+}
+.signOut i{
+    width: 100px;
+    color: #003bff;
+}

@@ -1,8 +1,6 @@
 import * as types from "../actionTypes/AppActionTypes";
 import {createReducer} from "../../utils/StoreUtils";
 
-// const companyMalumot1 = localStorage.getItem('company malumot')
-// const companyMalumot = JSON.parse(companyMalumot1)
 
 
 const initState = {
@@ -20,6 +18,7 @@ const initState = {
     orders: [],
     company: [],
     companyInfo: [],
+    companyStat: {},
     oneOrder: {},
     imgId: {},
     active: true,

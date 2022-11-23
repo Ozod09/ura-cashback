@@ -9,18 +9,16 @@ import java.util.Optional;
 
 public interface CompanyUserRoleRepository extends JpaRepository<CompanyUserRole, Long> {
 
-//    @Query("select cur from CompanyUserRole cur where cur.userId=: userId and cur.roleId=:roleId")
-//    Optional<CompanyUserRole> findByUserAndRole(Long userId, Integer roleId);
 
-    @Query("select cur from CompanyUserRole cur where cur.userId=: userId")
+    @Query("select cur from CompanyUserRole cur where cur.userId = ?1")
     Optional<CompanyUserRole> findId(Long userId);
 
-//    @Query(value = "select cur.userId from CompanyUserRole cur where cur.companyId=:companyId and cur.roleId=: roleId")
-    List<CompanyUserRole> findByCompanyIdEqualsAndRoleIdEquals(Long companyId, Integer roleId);
+    @Query(value = "select cur from CompanyUserRole cur where cur.companyId = ?1 and cur.roleId = ?2")
+    List<CompanyUserRole> companyIdAndRoleId(Long companyId, Integer roleId);
 
-    @Query("select cur.userId from CompanyUserRole cur where cur.companyId =: companyId and cur.roleId=: adminRole or cur.roleId =: superAdminRole or cur.roleId =: kasserRole")
+    @Query("select cur.userId from CompanyUserRole cur where cur.companyId = ?1 and cur.roleId = ?2 or cur.roleId = ?3 or cur.roleId = ?4")
     List<Long> getCompanyRole(Long companyId, Integer adminRole, Integer superAdminRole, Integer kasserRole);
 
-    @Query("select c from CompanyUserRole  c where c.userId=:userId and c.roleId=:roleId")
+    @Query("select c from CompanyUserRole  c where c.userId = ?1 and c.roleId = ?2")
     Optional<CompanyUserRole> getKassir(Long userId, Integer roleId);
 }

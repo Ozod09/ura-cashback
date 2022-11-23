@@ -9,7 +9,7 @@ import {
     addOrder,
     deleteOrder,
     editCompany,
-    editCompanyKassa,
+    editCompanyKassa, editCompanyPassword,
     editOrder,
     findByPhoneNumber,
     findByUser,
@@ -19,7 +19,7 @@ import {
     getOrders,
     getUsers,
     loginOrder, loginSuperAdmin,
-    removeUsers
+    removeUsers, statisticCompany
 } from "../../api/AppApi";
 import * as types from "../actionTypes/AppActionTypes";
 import {toast} from "react-toastify";
@@ -47,7 +47,6 @@ export const loginCompany = (payload) => (dispatch) =>{
         data: payload
     }).then(res =>{
         if(res !== undefined) {
-            console.log(res.payload, "AppAction")
             dispatch({
                 type: 'updateState',
                 payload: {
@@ -57,6 +56,46 @@ export const loginCompany = (payload) => (dispatch) =>{
             })
         }else {
             toast.error("Company not Active")
+        }
+    })
+}
+
+export const editCompanyAdminPassword = (payload) => (dispatch)=>{
+    dispatch({
+        api: editCompanyPassword,
+        types:[
+            types.REQUEST_START,
+            types.REQUEST_SUCCESS,
+            types.REQUEST_ERROR
+        ],
+        data: payload
+    }).then(res=>{
+        if(res.success){
+            toast.success("Successfully edit password")
+        }else {
+            toast.error("Password not found")
+        }
+    })
+}
+
+export const companyStatistic = (payload) => (dispatch)=>{
+    dispatch({
+        api: statisticCompany,
+        types:[
+            types.REQUEST_START,
+            types.REQUEST_SUCCESS,
+            types.REQUEST_ERROR
+        ],
+        data: payload
+    }).then(res =>{
+        console.log(res.payload ,' com stat')
+        if(res){
+            dispatch({
+                type: 'updateState',
+                payload:{
+                    companyStat: res.payload
+                }
+            })
         }
     })
 }
@@ -186,19 +225,6 @@ export const saveCompanyKassa = (payload) => (dispatch) =>{
         data : payload
     }).then(res =>{
         if(res !== undefined){
-            if(payload.id !== null){
-                const kassa = JSON.parse(localStorage.getItem("kassa"));
-                const filter = kassa.filter(item => item.id !== payload.id);
-                const newKassa = JSON.stringify(...[filter, res]);
-                localStorage.setItem("kassa",newKassa);
-                console.log(localStorage.getItem("kassa"), " edit kassa")
-            }
-            console.log(res.payload, " company kassa")
-            const kassa = JSON.parse(localStorage.getItem("kassa"))
-            const newKassa = JSON.stringify([...kassa,res.payload])
-            localStorage.setItem('kassa',newKassa)
-            console.log(JSON.parse(localStorage.getItem('kassa')), ' save kassa')
-            toast.success("Successfully save")
             dispatch({
                 type: 'updateState',
                 payload:{
@@ -223,11 +249,7 @@ export const removeUser = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
-        console.log(res)
-        const kassa = JSON.parse(localStorage.getItem("kassa"))
-        const filter = kassa.filter(item => item.id !== res.data);
-        localStorage.setItem("kassa",JSON.stringify(filter))
-        toast.success(res);
+        toast.success(res.success);
     })
 }
 
@@ -253,7 +275,7 @@ export const saveCompany = (payload) => (dispatch) => {
             types.REQUEST_ERROR
         ],
         data: payload
-    }).then(res => {
+    }).then(() => {
         toast.success("Company saved successfully!")
         dispatch({
                 type: 'updateState',

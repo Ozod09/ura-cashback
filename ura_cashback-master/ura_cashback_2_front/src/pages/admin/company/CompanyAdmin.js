@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {activeCompany, getCompany,} from "../../../redux/actions/AppAction";
 import {Button, Input, Label, Row, Table} from "reactstrap";
 import {api} from "../../../api/api";
-import '../style.scss';
 import Sidebar from "../../clint/navbar/Sidebar";
+import './company.css'
 
 class CompanyAdmin extends Component {
 
@@ -56,6 +56,7 @@ class CompanyAdmin extends Component {
             })
         }
 
+        console.log(company)
 
         const changeActive = () => {
             dispatch({
@@ -70,23 +71,18 @@ class CompanyAdmin extends Component {
         }
 
         return (
-            <div>
+            <div className="superAdminCompany">
                 <Sidebar/>
-                <div className="ms-5 me-5 comp">
-                    <div className="wrapper">
-                        <div className="search-wrapper">
-                            <label htmlFor="search-form">
-                                <Input type="search" name="search-form" placeholder="Search name"
-                                       onChange={(item)=> set(item)}/>
-                                <Button><i className="pi pi-search"/></Button>
-                            </label>
-                        </div>
-                    </div>
+                <div className="searchSuperAdminCompany">
+                    <Input type="text" onChange={(item)=> set(item)}  placeholder="Enter company name"/>
+                    <i className="pi pi-search searchIconcaClient"/>
+                </div>
+                <div className="me-5 ms-5 superAdminCompanyTable">
                     <Table>
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Attachment</th>
+                            {/*<th>Attachment</th>*/}
                             <th>Name</th>
                             <th>Bio</th>
                             <th>Description</th>
@@ -98,8 +94,8 @@ class CompanyAdmin extends Component {
                                 <tbody key={i}>
                                 <tr>
                                     <td>{i + 1}</td>
-                                    <td><img className="company-img" src={api.getAttachment + item.attachment.id}
-                                             alt="not"/></td>
+                                    {/*<td><img className="company-img" src={api.getAttachment + item.attachment.id}*/}
+                                    {/*         alt="not"/></td>*/}
                                     <td>{item.name}</td>
                                     <td>{item.bio}</td>
                                     <td>{item.description}</td>
@@ -108,7 +104,7 @@ class CompanyAdmin extends Component {
                                         <Row>
                                             <Label check for="active">
                                                 <div className="form-check form-switch">
-                                                    <Input type="checkbox" defaultChecked={item.active}
+                                                    <Input type="checkbox" defaultChecked={item.active1}
                                                            onChange={() => {changeActive();changeActiveCompany(item.id)}}/>
                                                 </div>
                                             </Label>
@@ -119,6 +115,8 @@ class CompanyAdmin extends Component {
                             )}
                     </Table>
                 </div>
+
+
                 <div className='comPagination'>
                     <nav>
                         <ul className="pagination">
@@ -130,6 +128,7 @@ class CompanyAdmin extends Component {
                         </ul>
                     </nav>
                 </div>
+
             </div>
         );
     }

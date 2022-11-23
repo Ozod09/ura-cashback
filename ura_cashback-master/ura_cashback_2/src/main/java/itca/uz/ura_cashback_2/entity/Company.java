@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 public class Company extends AbsEntity {
+
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -20,7 +21,6 @@ public class Company extends AbsEntity {
     private String description;
 
     private int clientPercentage;
-
 
     @OneToOne
     private Attachment attachment;

@@ -13,11 +13,13 @@ import calculator from './img/calculator .png'
 import parol from './img/parol.png'
 
 
+
 function Sidebar(props) {
 
     const {currentUser} = props;
 
     const images = [
+        {img:calculator,name:'operation', url: '/company/operation'},
         {img: order, name: "cashback", url: "/cabinetOrder"},
         {img: clients, name: "Mijozlar", url: "/cabinetClient"},
         {img: programm, name: "Xodimlar", url: "/company/kassa"},
