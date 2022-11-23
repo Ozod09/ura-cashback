@@ -2,20 +2,27 @@ package itca.uz.ura_cashback_2.controller;
 
 import itca.uz.ura_cashback_2.entity.Order;
 import itca.uz.ura_cashback_2.payload.*;
+import itca.uz.ura_cashback_2.repository.OrderRepository;
 import itca.uz.ura_cashback_2.service.OrderService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/order")
 public class OrderController {
     final OrderService orderService;
+    final OrderRepository repository;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService,OrderRepository repository) {
         this.orderService = orderService;
+        this.repository = repository;
     }
 
 
@@ -37,6 +44,9 @@ public class OrderController {
 
     @PostMapping("/statistic")
     public HttpEntity<?> getStatistic( @RequestBody ReqStatistic reqStatistic){
+
+
+
         return ResponseEntity.ok(orderService.getStatistic(reqStatistic));
     }
 

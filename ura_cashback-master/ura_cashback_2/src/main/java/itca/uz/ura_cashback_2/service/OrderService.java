@@ -133,23 +133,22 @@ public class OrderService {
         if (company.isPresent()) {
             Company company1 = company.orElseThrow(() -> new ResourceNotFoundException(404, "company", "id", company));
             Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
-            Timestamp andTime = Timestamp.valueOf(reqStatistic.getFinishDate());
-            List<Optional<Order>> orderList = orderRepository.getOrder(company1.getId(), startTime, andTime);
+            Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishDate());
+            System.out.println(company1.getId());
+            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
             Set<Long> userCount = new HashSet<>();
             int allBalance = 0;
             int clientNaqtTulovComp = 0;
             int clientCompCash = 0;
             int companyClientCash = 0;
             int clientCash = 0;
-            for (Optional<Order> order : orderList) {
-                final Order order1 = order.orElseThrow(() -> new ResourceNotFoundException(403, "order", "id", order));
+            for (Order order1 : orderList) {
                 userCount.add(order1.getClient().getId());
                 allBalance+=order1.getCash_price();
                 clientCompCash+=order1.getClientCompCash();
                 companyClientCash+=order1.getCompanyClientCash();
                 clientCash+=order1.getClient().getSalary();
             }
-
             return ResStatistic.builder()
                     .jamiClient(userCount.size())
                     .allBalance(allBalance)
