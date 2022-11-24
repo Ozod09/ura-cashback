@@ -23,8 +23,9 @@ function CabinetHome(props) {
     }
 
     const filterDate = ()=>{
-        const filterDate = document.getElementById("filterDate").value;
-        props.dispatch(companyStatistic({filterDate,companyId: companyInfo.id}));
+        const startTime = document.getElementById("startTime").value;
+        const finishTime = document.getElementById('finishTime').value;
+        props.dispatch(companyStatistic({startTime,finishTime,companyId: companyInfo.id}));
         setRes(true);
         setOpen(false);
     }
@@ -86,7 +87,10 @@ function CabinetHome(props) {
                     <h3>Filter date</h3>
                 </ModalHeader>
                 <ModalBody>
-                    <Input type="date" className="mt-3" id="filterDate"/>
+                    <label className="mt-3" style={{color:'blue'}}>Start Filter</label>
+                    <Input type="datetime-local"  id="startTime"/>
+                    <label className="mt-3" style={{color:'blue'}}>Finish Filter</label>
+                    <Input type="datetime-local"  id="finishTime"/>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="info" onClick={()=> openModal()}>Consel</Button>

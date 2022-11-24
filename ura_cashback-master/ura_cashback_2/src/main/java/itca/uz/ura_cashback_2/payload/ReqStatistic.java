@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -12,6 +13,8 @@ public class ReqStatistic {
 
     private Long companyId;
 
-    private Date filterDate;
+    private LocalDateTime startTime;
+
+    private LocalDateTime finishTime;
 
 }

@@ -142,10 +142,10 @@ public class OrderService {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
         if (company.isPresent()) {
             Company company1 = company.orElseThrow(() -> new ResourceNotFoundException(404, "company", "id", company));
-            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
-            Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishDate());
+            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartTime());
+            Timestamp finishTime = Timestamp.valueOf(reqStatistic.getFinishTime());
             System.out.println(company1.getId());
-            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
+            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,finishTime);
             Set<Long> userCount = new HashSet<>();
             int allBalance = 0;
             int clientNaqtTulovComp = 0;

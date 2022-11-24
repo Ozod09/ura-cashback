@@ -180,7 +180,7 @@ public class AuthService{
         int clientCompCash = 0;
         int companyClientCash = 0;
         int clientCash = 0;
-        for (Order order : orderRepository.companyOrder(companyId)) {
+        for (Order order : orderRepository.findCreatedBy(companyId)) {
             countClient.add(order.getClient().getId());
             allBalance += order.getCash_price();
             clientCompCash += order.getClientCompCash();
@@ -198,7 +198,7 @@ public class AuthService{
 
     public List<OrderDto> getKassaOrAdminOrder(User user){
         List<OrderDto> orderDtoList = new ArrayList<>();
-        for (Order kassaOrder : orderRepository.companyOrder(user.getId())) {
+        for (Order kassaOrder : orderRepository.findCreatedBy(user.getId())) {
             OrderDto orderDto = new OrderDto();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
             orderDto.setDate(simpleDateFormat.format(kassaOrder.getCreatedAt()));
