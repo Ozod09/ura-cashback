@@ -119,18 +119,8 @@ public class OrderService {
         return orderRepository.findCreatedBy(userId);
     }
 
-    public List<OrderDto> getOrderList() {
-        List<OrderDto> orderDtoList = new ArrayList<>();
-        for(Order order : orderRepository.findAll()){
-            OrderDto orderDto = new OrderDto();
-            orderDto.setClient(authRepository.findById(order.getClient().getId()).get());
-            orderDto.setAdmin(authRepository.findById(order.getCreatedBy()).get());
-            orderDto.setCashback(order.getCash_price());
-            orderDto.setCash_price(order.getCash_price());
-            orderDto.setCompany(companyRepository.findById(order.getCompanyId()).get());
-            orderDtoList.add(orderDto);
-        }
-        return orderDtoList;
+    public List<Order> getOrderList() {
+        return orderRepository.findAll();
     }
 
     public ApiResponse<?> deleteOrder(Long orderId) {
@@ -141,31 +131,26 @@ public class OrderService {
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
         if (company.isPresent()) {
-            Company company1 = company.orElseThrow(() -> new ResourceNotFoundException(404, "company", "id", company));
-            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartTime());
-            Timestamp finishTime = Timestamp.valueOf(reqStatistic.getFinishTime());
-            System.out.println(company1.getId());
-            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,finishTime);
-            Set<Long> userCount = new HashSet<>();
+            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
+            Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishDate());
+            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
+            Set<Long> jamiClient = new HashSet<>();
             int allBalance = 0;
-            int clientNaqtTulovComp = 0;
-            int clientCompCash = 0;
             int companyClientCash = 0;
             int clientCash = 0;
             for (Order order1 : orderList) {
-                userCount.add(order1.getClient().getId());
+                jamiClient.add(order1.getClient().getId());
                 allBalance+=order1.getCash_price();
-                clientCompCash+=order1.getClientCompCash();
                 companyClientCash+=order1.getCompanyClientCash();
                 clientCash+=order1.getClient().getSalary();
             }
+            int urtachaCheck = allBalance/ jamiClient.size();
             return ResStatistic.builder()
-                    .jamiClient(userCount.size())
+                    .jamiClient(jamiClient.size())
                     .allBalance(allBalance)
-                    .clientNaqtTulovComp(clientNaqtTulovComp)
-                    .clientCompCash(clientCompCash)
                     .companyClientCash(companyClientCash)
                     .clientCash(clientCash)
+                    .urtachaCheck(urtachaCheck)
                     .build();
         }
         return null;
