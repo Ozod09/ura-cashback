@@ -17,6 +17,12 @@ class CompanyRegister extends Component {
         const sendPhoto = (item) => {
             let obj = new FormData();
             obj.append("request", item.target.files[0]);
+            // axios.post("http://localhost/api/attachment", obj.get("request"), config)
+            //     .then(() => {
+            //         alert("success")
+            //     }).catch(() => {
+            //     alert("catch")
+            // })
             this.props.dispatch(addAttachmentAction(obj));
         }
 
@@ -27,7 +33,7 @@ class CompanyRegister extends Component {
                 "Content-Type": 'multipart/form-data'
             }
         }
-        console.log(attachmentId.payload)
+        console.log(attachmentId)
 
         const addCompany = () => {
             let name = document.getElementById("name").value;
@@ -61,7 +67,8 @@ class CompanyRegister extends Component {
                     <img className="oval"
                          data-aos-duration="1000"
                          data-aos-easing="ease-in-back" src={done} alt="Loading..."/>
-                    <Input className="companyImg" type="file" src={"http://localhost/api/attachment/getFile"  } multiple
+                    <Input className="companyImg" type="file"
+                           src={"http://localhost/api/attachment/getFile" + attachmentId} multiple
                            onChange={(item) => sendPhoto(item)}
                            required accept="image/*"/>
                     <img className="compLogo" data-aos-duration="1000"

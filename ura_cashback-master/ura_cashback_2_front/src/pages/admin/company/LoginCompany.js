@@ -27,6 +27,7 @@ class LoginCompany extends Component {
             // if(password.match(regex) !== null){
             let phoneNumber = document.getElementById("phoneNumber").value;
             let obj = {phoneNumber, password};
+            console.log(obj);
             this.props.dispatch(loginCompany(obj));
             // }else {
             //             //     this.setState({resRegex: !this.state.resRegex})

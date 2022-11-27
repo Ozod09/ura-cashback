@@ -12,7 +12,7 @@ AuthRepository extends JpaRepository<User, Long> {
     @Query("select u from users u where u.phoneNumber=: phoneNumber and u.email=: email")
     Optional<User> equalsUser(String phoneNumber, String email);
 
-    @Query("select u from users u where u.phoneNumber=: phoneNumber and u.password=: password")
+    @Query("select u from users u where u.phoneNumber=:phoneNumber and u.password=:password")
     Optional<User> findPhoneAndPassword(String phoneNumber, String password);
 
 //    @Query("select u from users u where u.phoneNumber=:phoneNumber")

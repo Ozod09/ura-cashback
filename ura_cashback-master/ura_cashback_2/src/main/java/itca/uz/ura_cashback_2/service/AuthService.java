@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 
-public class AuthService{
+public class AuthService {
 
     private final CompanyMapper companyMapper;
     private final AuthRepository authRepository;
@@ -49,7 +49,7 @@ public class AuthService{
         return new ApiResponse<>("User saved", 200);
     }
 
-    public Long addCompanyAdmin(AuthDto authDto){
+    public Long addCompanyAdmin(AuthDto authDto) {
         return addUser(authDto).getId();
     }
 
@@ -59,7 +59,7 @@ public class AuthService{
         return save;
     }
 
-    public Long editCompanyAdmin(AuthDto authDto, User user){
+    public Long editCompanyAdmin(AuthDto authDto, User user) {
         return editUser(authDto, user).getId();
     }
 
@@ -78,11 +78,11 @@ public class AuthService{
     }
 
 
-    public ApiResponse<?> activeUser(Long id){
+    public ApiResponse<?> activeUser(Long id) {
         User user = authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser"));
-        if (user.getActive()==1){
+        if (user.getActive() == 1) {
             user.setActive((byte) 0);
-        }else{
+        } else {
             user.setActive((byte) 1);
         }
         authRepository.save(user);
@@ -116,10 +116,10 @@ public class AuthService{
     }
 
 
-    public ApiResponse<?> editPassword(ReqPassword reqPassword){
+    public ApiResponse<?> editPassword(ReqPassword reqPassword) {
         User user = authRepository.findById(reqPassword.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqPassword));
-        if (user.getPassword().equals(reqPassword.getJoriyPassword())){
-            if (reqPassword.getPassword().equals(reqPassword.getPrePassword())){
+        if (user.getPassword().equals(reqPassword.getJoriyPassword())) {
+            if (reqPassword.getPassword().equals(reqPassword.getPrePassword())) {
                 user.setPassword(reqPassword.getPassword());
                 authRepository.save(user);
                 return new ApiResponse<>("SuccessFully", 200);
@@ -129,16 +129,16 @@ public class AuthService{
         return new ApiResponse<>("Password not found", 401);
     }
 
-    public CompanyDto loginCompany(ReqLogin reqLogin){
+    public CompanyDto loginCompany(ReqLogin reqLogin) {
         CompanyDto companyDto = new CompanyDto();
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "phoneNumber and password", reqLogin));
         CompanyUserRole companyUserRole = companyUserRoleRepository.findId(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         Role role = roleRepository.findId(companyUserRole.getRoleId()).orElseThrow(() -> new ResourceNotFoundException(403, "Role ", "Admin", companyUserRole.getRoleId()));
-        Company company = companyRepository.findById(companyUserRole.getCompanyId()).orElseThrow(()-> new ResourceAccessException("GetCompany"));
-        if(company.getActive()==1) {
+        Company company = companyRepository.findById(companyUserRole.getCompanyId()).orElseThrow(() -> new ResourceAccessException("GetCompany"));
+        if (company.getActive() == 1) {
             if (role.getRoleName().equals(RoleName.ROLE_ADMIN) || role.getRoleName().equals(RoleName.ROLE_KASSA)) {
                 companyMapper.fromCompany(company);
-                companyDto.setActive1(company.getActive()==1);
+                companyDto.setActive1(company.getActive() == 1);
                 companyDto.setUser(user);
                 List<User> kassaList = new ArrayList<>();
                 List<User> clintList = new ArrayList<>();
@@ -167,7 +167,7 @@ public class AuthService{
         return null;
     }
 
-    public List<OrderDto> getKassaOrAdminOrder(User user){
+    public List<OrderDto> getKassaOrAdminOrder(User user) {
         List<OrderDto> orderDtoList = new ArrayList<>();
         for (Order kassaOrder : orderRepository.findCreatedBy(user.getId())) {
             OrderDto orderDto = new OrderDto();
@@ -182,7 +182,7 @@ public class AuthService{
         return orderDtoList;
     }
 
-    public AuthDto editUser(AuthDto authDto, User user){
+    public AuthDto editUser(AuthDto authDto, User user) {
         if (authDto.getPassword().equals(authDto.getPrePassword())) {
             User user1 = mapper.fromDto(authDto);
             user1.setId(user.getId());
@@ -196,11 +196,11 @@ public class AuthService{
 
     public AuthDto addUser(AuthDto authDto) {
         try {
-            if (!authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail()).isPresent()){
+            if (!authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail()).isPresent()) {
                 System.out.println("salom");
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             if (authDto.getPassword().equals(authDto.getPrePassword())) {
                 User user = mapper.fromDto(authDto);
                 User save = authRepository.save(user);
@@ -211,7 +211,6 @@ public class AuthService{
         }
         return null;
     }
-
 
 
 //    public ApiResponse<?> loginSuperAdmin(ReqLogin reqLogin){

@@ -34,7 +34,7 @@ public class OrderService {
         this.companyUserRoleRepository = companyUserRoleRepository;
     }
 
-    public ApiResponse<?> addOrder(Order order, OrderDto orderDto) {
+    public ApiResponse<?> addOrder(OrderDto orderDto) {
         int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price(), companyClientCash;
         User getClient = authService.getOneUser(orderDto.getClientId());
         User getAdmin = authService.getOneUser(orderDto.getAdminId());
@@ -53,7 +53,7 @@ public class OrderService {
         } else {
             return new ApiResponse<>("There are not enough funds in your Cashback account", 401);
         }
-        order = Order.builder()
+        Order order = Order.builder()
                 .client(getClient)
                 .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())
                 .clientCompCash(cashback)

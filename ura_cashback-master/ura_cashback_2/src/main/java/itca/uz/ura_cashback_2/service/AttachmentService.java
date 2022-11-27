@@ -22,7 +22,7 @@ public class AttachmentService {
     AttachmentRepository attachmentRepository;
     final
     AttachmentContentRepository attachmentContentRepository;
-    public static final Path root = Paths.get("D:\\UraCashback save attachment");
+    public static final Path root = Paths.get("D:\\test");
 
     public AttachmentService(AttachmentRepository attachmentRepository, AttachmentContentRepository attachmentContentRepository) {
         this.attachmentRepository = attachmentRepository;
@@ -31,9 +31,10 @@ public class AttachmentService {
 
     public Long upload(MultipartFile request) {
         try {
-//            Files.deleteIfExists(Path.of(root+"\\"+ request.getOriginalFilename()));
+//             Files.deleteIfExists(Path.of(root+"\\"+ request.getOriginalFilename()));
              Files.copy(request.getInputStream(), root.resolve(Objects.requireNonNull(request.getOriginalFilename())));
-             Attachment save = attachmentRepository.save(Attachment.builder()
+             Attachment save = attachmentRepository.save(
+                     Attachment.builder()
                     .contentType(request.getContentType())
                     .name(request.getOriginalFilename())
                     .size(request.getSize())

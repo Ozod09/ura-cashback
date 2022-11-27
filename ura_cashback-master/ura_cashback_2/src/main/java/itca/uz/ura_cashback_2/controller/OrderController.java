@@ -1,6 +1,5 @@
 package itca.uz.ura_cashback_2.controller;
 
-import itca.uz.ura_cashback_2.entity.Order;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.OrderRepository;
 import itca.uz.ura_cashback_2.service.OrderService;
@@ -49,7 +48,7 @@ public class OrderController {
 
     @PostMapping
     public HttpEntity<?> addOrder(@RequestBody OrderDto orderDto) {
-        ApiResponse<?> apiResponse = orderService.addOrder(new Order(), orderDto);
+        ApiResponse<?> apiResponse = orderService.addOrder(orderDto);
         return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
     }
 
