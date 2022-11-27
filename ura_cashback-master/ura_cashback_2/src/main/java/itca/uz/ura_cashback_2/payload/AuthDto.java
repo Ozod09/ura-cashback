@@ -21,10 +21,8 @@ public class AuthDto {
 
     private String lastName;
 
-
     @Pattern(regexp = "^+?([9]{2}[8])?[0-9]{9}$",message = "Phone number error",groups = Error.class)
     private String phoneNumber;
-
 
     private String email;
 
@@ -39,7 +37,4 @@ public class AuthDto {
     private Long companyId;
 
     private List<Role> roles;
-
-
-
 }

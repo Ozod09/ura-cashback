@@ -39,8 +39,6 @@ public class AuthService{
         return new ApiResponse<>("User saved", 200);
     }
 
-
-
     public Long addCompanyAdmin(AuthDto authDto){
         return addUser(authDto).getId();
     }
@@ -120,41 +118,44 @@ public class AuthService{
         return new ApiResponse<>("Password not found", 401);
     }
 
+    public List<OrderDto> companyOrder(Long id){
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        List<CompanyUserRole> companyUserRoleAdmin = companyUserRoleRepository.companyIdAndRoleId(id, 2);
+        for (CompanyUserRole companyUserRole : companyUserRoleAdmin) {
+            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId())));
+            orderDtoList.addAll(kassaOrAdminOrder);
+        }
+        List<CompanyUserRole> companyUserRolesKasser = companyUserRoleRepository.companyIdAndRoleId(id, 3);
+        for (CompanyUserRole companyUserRole : companyUserRolesKasser) {
+            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId())));
+            orderDtoList.addAll(kassaOrAdminOrder);
+        }
+        return orderDtoList;
+    }
+
+    public List<User> companyKassaOrClient(Long id, Integer roleId){
+        List<User> users = new ArrayList<>();
+        List<CompanyUserRole> companyUserRoles = companyUserRoleRepository.companyIdAndRoleId(id, roleId);
+        for (CompanyUserRole companyUserRole : companyUserRoles) {
+            User user = authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId()));
+            users.add(user);
+        }
+        return users;
+    }
+
     public CompanyDto loginCompany(ReqLogin reqLogin){
-        CompanyDto companyDto = new CompanyDto();
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "phoneNumber and password", reqLogin));
         CompanyUserRole companyUserRole = companyUserRoleRepository.findId(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         Role role = roleRepository.findId(companyUserRole.getRoleId()).orElseThrow(() -> new ResourceNotFoundException(403, "Role ", "Admin", companyUserRole.getRoleId()));
         Company company = companyRepository.findById(companyUserRole.getCompanyId()).orElseThrow(()-> new ResourceAccessException("GetCompany"));
         if(company.getActive()==1) {
-            if (role.getRoleName().equals(RoleName.ROLE_ADMIN) || role.getRoleName().equals(RoleName.ROLE_KASSA)) {
-                companyMapper.fromCompany(company);
-                companyDto.setActive1(company.getActive()==1);
-                companyDto.setId(company.getId());
-                companyDto.setUser(user);
-                List<User> kassaList = new ArrayList<>();
-                List<User> clintList = new ArrayList<>();
-                List<OrderDto> kassaOrderList = getKassaOrAdminOrder(user);
-                List<OrderDto> orderList = new ArrayList<>(kassaOrderList);
-                kassaList.add(user);
-                Role role1 = roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "Kassir", role));
-                for (CompanyUserRole companyUserRole1 : companyUserRoleRepository.companyIdAndRoleId(company.getId(), role1.getId())) {
-                    User user1 = authRepository.findById(companyUserRole1.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole1));
-                    List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(user1);
-                    orderList.addAll(kassaOrAdminOrder);
-                    kassaList.add(user1);
-                }
-
-                Role role2 = roleRepository.findRoleName(RoleName.ROLE_USER).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "User", role));
-                for (CompanyUserRole companyUserRole2 : companyUserRoleRepository.companyIdAndRoleId(company.getId(), role2.getId())) {
-                    User user1 = authRepository.findById(companyUserRole2.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole2));
-                    clintList.add(user1);
-                }
-                companyDto.setKassa(kassaList);
-                companyDto.setClint(clintList);
-                companyDto.setOrders(orderList);
-                companyDto.setResStatistic(getCompanyStatistic(company.getId()));
-                return companyDto;
+            if (role.getRoleName().equals(RoleName.ROLE_ADMIN)) {
+                CompanyDto companyDto1 = companyMapper.fromCompany(company);
+                companyDto1.setActive1(company.getActive()==1);
+                companyDto1.setId(company.getId());
+                companyDto1.setUser(user);
+                companyDto1.setResStatistic(getCompanyStatistic(company.getId()));
+                return companyDto1;
             }
         }
         return null;
@@ -230,27 +231,6 @@ public class AuthService{
             e.printStackTrace();
         }
         return null;
-    }
-
-
-
-//    public ApiResponse<?> loginSuperAdmin(ReqLogin reqLogin){
-//        User superAdmin = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-//        CompanyUserRole companyUserRole = companyUserRoleRepository.findByUserAndRole(superAdmin.getId(), roleRepository.findRoleName(RoleName.ROLE_SUPER_ADMIN).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "roleName", superAdmin)).getId());
-//        Role role = roleRepository.findId(companyUserRole.getRoleId()).orElseThrow(() -> new ResourceNotFoundException(403, "Role", "id", companyUserRole.getRoleId()));
-//        if (role.getRoleName().equals(RoleName.ROLE_SUPER_ADMIN)){
-//            return new ApiResponse<>("success", 200);
-//        }
-//        return new ApiResponse<>("Super admin not found", 401);
-//    }
-
-
-    public Optional<User> getUserTest(ReqTest reqTest){
-        return authRepository.getUser(reqTest.getName());
-    }
-
-    public int getSalary(ReqTest reqTest){
-        return authRepository.allSalary(reqTest.getCompanyId());
     }
 
 }

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/api/auth")
@@ -38,12 +40,6 @@ public class AuthController {
             return ResponseEntity.ok(authService.addKassa(authDto));
     }
 
-    //ishlamayopti
-    @PostMapping("/company/login")
-    public HttpEntity<?> loginCompany(@RequestBody ReqLogin reqLogin){
-        return ResponseEntity.ok( authService.loginCompany(reqLogin));
-    }
-
     @PostMapping("/admin/password")
     public HttpEntity<?> passwordEdit(@RequestBody ReqPassword reqPassword){
         return ResponseEntity.ok(authService.editPassword(reqPassword));
@@ -62,7 +58,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.editKassa(authDto, user));
     }
 
-    //ishlamayopti
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteAuth(@PathVariable Long id){
         return ResponseEntity.ok(authService.deleteClient(id));
@@ -89,20 +84,26 @@ public class AuthController {
     }
 
 
-    //ishlamayopti
     @GetMapping("/order/{phoneNumber}")
     public HttpEntity<?> findByPhoneNumber(@PathVariable String phoneNumber) {
         return ResponseEntity.ok(authService.findByPhoneNumber(phoneNumber));
     }
 
-    //    @PostMapping("/superAdmin/login")
-//    public HttpEntity<?> loginSuperAdmin(@RequestBody ReqLogin reqLogin){
-//        return ResponseEntity.ok(authService.loginSuperAdmin(reqLogin));
-//    }
-
-    @PostMapping("/test")
-    public HttpEntity<?> test(@RequestBody ReqTest reqTest){
-        return ResponseEntity.ok(authService.getSalary(reqTest));
+    @PostMapping("/company/login")
+    public HttpEntity<?> loginCompany(@RequestBody ReqLogin reqLogin){
+        return ResponseEntity.ok( authService.loginCompany(reqLogin));
     }
 
+    @PostMapping("/company/order/{id}")
+    public List<OrderDto> companyOrder(@PathVariable Long id){
+       return authService.companyOrder(id);
+    }
+    @PostMapping("/company/kassa/{id}")
+    public List<User> companyKassa(@PathVariable Long id){
+        return authService.companyKassaOrClient(id, 3);
+    }
+    @PostMapping("/company/client/{id}")
+    public List<User> companyClient(@PathVariable Long id){
+        return authService.companyKassaOrClient(id, 4);
+    }
 }

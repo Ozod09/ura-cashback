@@ -40,5 +40,4 @@ public class CompanyDto {
     private ResStatistic resStatistic;
 
     private boolean active1;
-
 }
