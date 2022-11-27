@@ -18,7 +18,7 @@
 .register{
     background-color: white;
     padding-top: 2%;
-    border-radius: 30px;
+    border-radius: 10px;
     height: 656px;
 }
 .register Input{
@@ -30,7 +30,7 @@
     border-bottom-style: groove;
     border-radius: 0;
 }
-.register Button{
+.superAdminAuthUserCompanyButton{
     margin-top: 7%;
     margin-left: 40%;
     padding-left: 7%;
@@ -42,61 +42,58 @@
 }
 .iconca1{
     margin-top: 35px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
 .iconca2{
     margin-top: 50px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
 .iconca3{
     margin-top: 45px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
 .iconca4{
     margin-top: 45px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
 .iconca7{
-    margin-top: 45px;
-    margin-left: -50px;
+    margin-top: 93px;
+    margin-left: -75px;
 }
 .iconca8{
     margin-top: 45px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
 .iconca5{
-    margin-top: 110px;
-    margin-left: -50px;
+    margin-top: 50px;
+    margin-left: -75px;
 }
 .iconca6{
     margin-top: 45px;
-    margin-left: -50px;
+    margin-left: -75px;
 }
+
 .register2{
     padding-right: 0;
 }
-.wrapper{
-    margin-left: 10px;
-    margin-top: -38px;
+
+.superAdminClient{
+    position: absolute;
+    width: 1314px;
+    height: 657px;
+    background-color: rgba(231, 229, 229, 0.73);
 }
-.wrapper Button{
-    margin-left: 166px;
-    margin-top: -68px;
-    background-color: #3D56F0;
+.superAdminClientTable{
+    background-color: white;
+    margin-top: 50px;
+    border-radius: 20px;
 }
-.wrapper Input{
-    border: #3D56F0 solid 2px;
+.searchSuperAdminClient{
+    width: 250px;
+    margin-left: 50px;
+    margin-top: 50px;
 }
-.wrapper Button:hover{
-    background-color: #3D56F0;
-}
-.register ul{
-    padding-left: 0;
-}
-.select{
-    width: 550px;
-    padding: 10px;
-    border-top-style: inherit;
-    border-left-style: inherit;
-    border-right-style: inherit;
+.superAdminClientButton{
+    width: 30px;
+
 }

@@ -9,13 +9,13 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 
-    @Query( "select com from Company  com where com.name=: name")
+    @Query( "select com from Company  com where com.name = ?1")
     Optional<Company> existsName(String name);
 
-    @Query("select com from Company com where com.attachment.id=: attachment_id")
+    @Query("select com from Company com where com.attachment.id = ?1")
     Company existsAttachment(Long attachment_id);
 
-    @Query("select c from Company  c where  c.active =:true and c.id=:id")
+    @Query("select c from Company  c where  c.active = 1 and c.id = ?1")
     Company comActive(Long id);
 
 }

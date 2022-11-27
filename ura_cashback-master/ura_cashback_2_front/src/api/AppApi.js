@@ -39,6 +39,9 @@ export const userPage = (data) => {
 export const findByPhoneNumber = (data) => {
     return HttpClient.doGet(api.orderUser + data)
 }
+export const editCompanyPassword = (data) =>{
+    return HttpClient.doPost(api.users + "/admin/password",data)
+}
 //*****************************************************************=> Order
 export const getOrders = () => {
     return HttpClient.doGet(api.order + "/list");
@@ -57,6 +60,9 @@ export const loginOrder = (data) => {
 }
 export const findByUser = (data) => {
     return HttpClient.doGet(api.order + "/" + data);
+}
+export const statisticCompany = (data) =>{
+    return HttpClient.doPost(api.order + "/statistic" , data)
 }
 //*****************************************************************=> Company
 export const getCompanies = () => {

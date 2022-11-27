@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import cashbackLogo from '../order/loginPage/image/logo.png';
 import registerFoto from '../userAdmin/registerFoto.png';
 import {Button, Input} from "reactstrap";
-import './auth.css';
+import '../userAdmin/auth.css'
 import {saveCompanyAdmin} from "../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import CompanyClint from "../company/CompanyClint";
@@ -82,14 +82,14 @@ class AuthUserCompany extends Component {
                                         <li className="row iconca2"><i className="pi pi-user"/></li>
                                         <li className="row iconca3"><i className="pi pi-phone"/></li>
                                         <li className="row iconca4"><i className="pi pi-at"/></li>
-                                        <li className="row iconca7" onClick={()=> password()}>
+                                        <li className="row iconca5" onClick={()=> password()}>
                                             {this.state.openPassword ? <i className="pi pi-eye-slash"/> : <i className="pi pi-eye"/>}</li>
-                                        <li className="row iconca8" onClick={()=> prePassword()}>
+                                        <li className="row iconca6" onClick={()=> prePassword()}>
                                             {this.state.openPrePassword ? <i className="pi pi-eye-slash" /> : <i className="pi pi-eye"/> }</li>
                                     </ul>
                                 </div>
                             </div>
-                            <Button color="info" type="submit" onClick={registerUserCompany} outline>Next</Button>
+                            <Button className="superAdminAuthUserCompanyButton" color="info" type="submit" onClick={registerUserCompany} outline>Next</Button>
                         </div>
                     </div>
                 }

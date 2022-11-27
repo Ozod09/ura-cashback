@@ -14,9 +14,6 @@ function HomeNavbar() {
                     <NavLink className='navlinkHref'  href="">Onlayn savdo</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink className='navlinkHref'  href="">Yangiliklar</NavLink>
-                </NavItem>
-                <NavItem>
                     <NavLink className='navlinkHref'  href="">Tariflar</NavLink>
                 </NavItem>
                 <NavItem>
@@ -24,8 +21,8 @@ function HomeNavbar() {
                 </NavItem>
             </Nav>
             <div >
-                <Button className="bepulButton" color='primary'><a color="white" href="/authUserCompany/register">Bepul urinib kuring. </a></Button>
-                <Button className="bepulButton1" color='primary'><a color="white" href="/authUserCompany/register">Bepul urinib kuring. </a></Button>
+                <Button className="bepulButton" color='primary'><a color="white" href="/authUserCompany/register">Register company. </a></Button>
+                <Button className="bepulButton1" color='primary'><a color="white" href="/register/client">Register client. </a></Button>
                 <Button className="kirishButton" outline color='primary'><Link to="/company/login" className="link-button">Kirish</Link></Button>
 
             </div>

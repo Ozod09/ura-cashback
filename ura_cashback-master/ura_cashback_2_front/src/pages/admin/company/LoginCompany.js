@@ -4,8 +4,8 @@ import registerFoto from "../userAdmin/registerFoto.png";
 import {Button, Input} from "reactstrap";
 import {loginCompany} from "../../../redux/actions/AppAction";
 import {connect} from "react-redux";
-import CabinetOperation from "../../companyCabinet/CabinetOperation";
-
+import './company.css'
+import CabinetHome from "../../companyCabinet/CabinetHome";
 
 class LoginCompany extends Component {
 
@@ -41,9 +41,9 @@ class LoginCompany extends Component {
         }
 
         return (
-            <>
+            <div>
                 {openLogin ?
-                    <CabinetOperation/> :
+                    <CabinetHome/> :
                     <div className="row home">
                         <div className='col-6'>
                             <div className="row-cols-6 ">
@@ -64,8 +64,7 @@ class LoginCompany extends Component {
                                            id="password" name="password" placeholder="Password"
                                            required/>
                                     {this.state.resRegex ?
-                                        <p style={{color: "red"}}>Password error 0-9 password length =
-                                            8</p> : ""}
+                                        <p style={{color: "red"}}>Password error 0-9 password length = 8</p> : ""}
                                 </div>
                                 <div className="col-2">
                                     <ul>
@@ -76,11 +75,11 @@ class LoginCompany extends Component {
                                     </ul>
                                 </div>
                             </div>
-                            <Button color="info" type="submit" outline onClick={() => login()}>Kirish</Button>
+                            <Button color="info" type="submit" outline onClick={() => login()}>Next</Button>
                         </div>
                     </div>
                 }
-            </>
+            </div>
         );
     }
 }

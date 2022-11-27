@@ -179,11 +179,12 @@ body{
     margin-left: -70px;
 }
 .home{
+    height: 657px;
     background: rgba(193, 199, 208, 0.388767)
 }
 .loginCom{
     background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 .loginCom Input{
     margin-top: 15px;
@@ -208,15 +209,20 @@ body{
     border-radius: 20px;
     color: #111111;
 }
-.iconca3{
-    margin-top: 40px;
-    margin-left: -50px;
+
+.superAdminCompany{
+    position: absolute;
+    width: 1315px;
+    background-color: rgba(231, 229, 229, 0.73);
+    height: 657px;
 }
-.iconca5{
-    margin-top: 45px;
-    margin-left: -50px;
-}
-.comPagination{
+.searchSuperAdminCompany{
+    width: 250px;
     margin-left: 50px;
-    margin-top: 200px;
+    margin-top: 100px;
+}
+.superAdminCompanyTable{
+    margin-top: 50px;
+    border-radius: 10px;
+    background-color: white;
 }

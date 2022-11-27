@@ -1,26 +1,57 @@
-import React, {Component} from 'react';
-import CompanySettings from "./CompanySettings";
+import React, {useState} from 'react';
+import {Button, Input} from "reactstrap";
+import Navbar from "../clint/navbar/Navbar";
 import CompanySidebar from "./CompanySidebar";
-import {Input} from "reactstrap";
-import './settings.css';
+import './cabinet.css'
+import {connect} from "react-redux";
+import {editCompanyAdminPassword} from "../../redux/actions/AppAction";
 
-class CompanyPassword extends Component {
-    render() {
-        return (
-            <div style={{backgroundColor: ""}}>
-                <CompanySidebar/>
-                <div className="container">
-                    <div className="inputs">
-                        <Input className='mb-2 joriyPassword' name="joriyPassword" id="joriyPassword" type='text' placeholder='Enter company joriyPassword' required/>
-                        <Input className='mb-2' name="password" id="password" type='text' placeholder='Enter company password' required/>
-                        <Input className='mb-2' name="prePassword" id="prePassword" type='text' placeholder='Enter company prePassword' required/>
-                    </div>
-                </div>
-            </div>
-        );
+function CompanyPassword(props) {
+
+    const {dispatch, companyInfo} = props;
+
+    const [oldPassword, setOldPassword] = useState(false);
+    const [password, setPassword] = useState(false);
+    const [prePassword, setPrePassword] = useState(false);
+
+    const oldPasswordClick = ()=>{
+        setOldPassword(!oldPassword);
     }
+    const passwordClick = () =>{
+        setPassword(!password);
+    }
+    const prePasswordClick = ()=>{
+        setPrePassword(!prePassword)
+    }
+
+
+    const editPassword = ()=>{
+        const oldPassword = document.getElementById('oldPassword').value;
+        const password = document.getElementById("password").value;
+        const prePassword = document.getElementById('prePassword').value;
+        dispatch(editCompanyAdminPassword({joriyPassword: oldPassword, prePassword,password,userId:companyInfo.user.id}));
+    }
+
+
+    return (
+        <div className="cabinetPassword">
+            <Navbar/>
+            <CompanySidebar/>
+            <div className="cabPassword">
+                <Input type={oldPassword ? "text" : "password"} id="oldPassword" placeholder="Enter old password"/>
+                <li className="comOldPassword" onClick={()=> oldPasswordClick()}>{oldPassword ? <i className=" pi pi-eye-slash"/> :<i className="pi pi-eye"/>}</li>
+                <Input type={password ? "text" : "password"} id="password" placeholder="Enter new password"/>
+                <li className="comPassword" onClick={()=> passwordClick()}>{password ? <i className=" pi pi-eye-slash"/> :<i className="pi pi-eye"/>}</li>
+                <Input type={prePassword ? "text" : "password"} id="prePassword" placeholder="Enter new pre password"/>
+                <li className="comPrePassword" onClick={()=> prePasswordClick()}>{prePassword ? <i className=" pi pi-eye-slash"/> :<i className="pi pi-eye"/>}</li>
+
+                <Button type='submit' onClick={()=> editPassword()}>Save</Button>
+            </div>
+        </div>
+    );
 }
-
-CompanyPassword.propTypes = {};
-
-export default CompanyPassword;
+CompanyPassword.prototype = {};
+export default connect(
+    ({app:{dispatch,companyInfo}})=>
+        ({dispatch,companyInfo}))
+(CompanyPassword);

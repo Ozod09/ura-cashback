@@ -18,16 +18,11 @@ class AuthAdmin extends Component {
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "white"
 
-        const {user,page,size,search, dispatch, currentUser,deleteShowModal,activeUser} = this.props;
+        const {user,search, dispatch, currentUser,deleteShowModal,activeUser} = this.props;
 
 
         const paginate = (number) => {
-            dispatch({
-                type: "updateState",
-                payload: {
-                    page: number
-                }
-            })
+
         }
 
 
@@ -69,48 +64,27 @@ class AuthAdmin extends Component {
 
 
 
-        const set = (item)=>{
-            const lowerCase = item.target.value.toLowerCase();
-            dispatch({
-                type:"updateState",
-                payload:{
-                    search:lowerCase
-                }
-            })
-        }
-
         //Search
-        const filter = user.filter((el)=>{
-            if(search === ''){
-                return el;
-            }else {
-                return el.phoneNumber.toLowerCase().includes(search)
-            }
-        })
+        const set = (item)=>{
+            console.log(item, "search name")
+        }
+        console.log(user, "user page")
 
-        const indexOfLasPost = page * size;
-        const indexOfFirstPosts = indexOfLasPost - size;
-        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(user.length / size); i++) {
-            pageNumbers.push(i);
-        }
+        pageNumbers.push(user.totalPages);
+
+
 
         return (
-            <div className="ms-5 me-5">
+            <div className="superAdminClient">
                 <Sidebar/>
-                <div className="mt-5">
-                    <div className="wrapper">
-                        <div className="search-wrapper">
-                            <label htmlFor="search-form">
-                                <Input type="search" name="search-form" placeholder="Search phone"
-                                       onChange={(item)=> set(item)}/>
-                                <Button><i className="pi pi-search"/></Button>
-                            </label>
-                        </div>
-                    </div>
-
+                <div className="searchSuperAdminClient">
+                    <Input type="text"  placeholder="Enter phone number"/>
+                    <Button type="button" className="superAdminClientButton" onClick={(item)=> set(item)} ><i className="pi pi-search searchIconcaSuperAdmin"/></Button>
+                </div>
+                <div className="ms-5 me-5 superAdminClientTable">
                     <Table>
                         <thead>
                         <tr>
@@ -124,7 +98,7 @@ class AuthAdmin extends Component {
                             <th colSpan="2">Action</th>
                         </tr>
                         </thead>
-                        {currentPosts.map((item, i) =>
+                        {user.object.map((item, i) =>
                             <tbody key={i}>
                             <tr>
                                 <td>{i + 1}</td>
@@ -177,7 +151,7 @@ class AuthAdmin extends Component {
 AuthAdmin.propTypes = {};
 
 export default connect(
-    ({app:{user,page,size,search, dispatch,currentUser,deleteShowModal,activeUser,pages}})=>
-    ({user,page, size, search,dispatch,currentUser, deleteShowModal,activeUser,pages}))
+    ({app:{user,search, dispatch,currentUser,deleteShowModal,activeUser,pages}})=>
+    ({user, search,dispatch,currentUser, deleteShowModal,activeUser,pages}))
 (AuthAdmin);
 

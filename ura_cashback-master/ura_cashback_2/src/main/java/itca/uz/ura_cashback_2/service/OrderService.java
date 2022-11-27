@@ -7,6 +7,7 @@ import itca.uz.ura_cashback_2.entity.User;
 import itca.uz.ura_cashback_2.exception.ResourceNotFoundException;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -14,25 +15,17 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    final OrderRepository orderRepository;
-    final AuthRepository authRepository;
-    final CompanyRepository companyRepository;
-    final CompanyUserRoleService companyUserRoleService;
-    final RoleRepository roleRepository;
-    final AuthService authService;
-    final CompanyUserRoleRepository companyUserRoleRepository;
+    private final OrderRepository orderRepository;
+    private final AuthRepository authRepository;
+    private final CompanyRepository companyRepository;
+    private final CompanyUserRoleService companyUserRoleService;
+    private final RoleRepository roleRepository;
+    private final AuthService authService;
+    private final CompanyUserRoleRepository companyUserRoleRepository;
 
-    public OrderService(OrderRepository orderRepository, AuthRepository authRepository, CompanyRepository companyRepository,
-                        CompanyUserRoleService companyUserRoleService, RoleRepository roleRepository, AuthService authService, CompanyUserRoleRepository companyUserRoleRepository) {
-        this.orderRepository = orderRepository;
-        this.authRepository = authRepository;
-        this.companyRepository = companyRepository;
-        this.companyUserRoleService = companyUserRoleService;
-        this.roleRepository = roleRepository;
-        this.authService = authService;
-        this.companyUserRoleRepository = companyUserRoleRepository;
-    }
+
 
     public ApiResponse<?> addOrder(OrderDto orderDto) {
         int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price(), companyClientCash;
@@ -55,7 +48,7 @@ public class OrderService {
         }
         Order order = Order.builder()
                 .client(getClient)
-                .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())
+                .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())
                 .clientCompCash(cashback)
                 .cash_price(cash_price).build();
         order.setCreatedBy(getAdmin.getId());
@@ -66,9 +59,8 @@ public class OrderService {
 
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(user.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        CompanyUserRole companyUserRole1 = companyUserRoleRepository.getKassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        if (companyUserRole != null || companyUserRole1 != null) {
+        CompanyUserRole companyUserRole = companyUserRoleRepository.kassir(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        if (companyUserRole != null ) {
             return user;
         }
         return null;
@@ -131,22 +123,24 @@ public class OrderService {
     public ResStatistic getStatistic(ReqStatistic reqStatistic) {
         Optional<Company> company = companyRepository.findById(reqStatistic.getCompanyId());
         if (company.isPresent()) {
-            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartDate());
-            Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishDate());
+            Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartTime());
+            Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishTime());
             List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
-            Set<Long> jamiClient = new HashSet<>();
+            Set<Long> allClient = new HashSet<>();
             int allBalance = 0;
             int companyClientCash = 0;
-            int clientCash = 0;
+            int clientCash  = 0;
             for (Order order1 : orderList) {
-                jamiClient.add(order1.getClient().getId());
                 allBalance+=order1.getCash_price();
                 companyClientCash+=order1.getCompanyClientCash();
-                clientCash+=order1.getClient().getSalary();
+                allClient.add(order1.getClient().getId());
             }
-            int urtachaCheck = allBalance/ jamiClient.size();
+            for(Long id : allClient){
+                clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404,"User","id",id)).getSalary();
+            }
+            int urtachaCheck = allBalance/ allClient.size();
             return ResStatistic.builder()
-                    .jamiClient(jamiClient.size())
+                    .jamiClient(allClient.size())
                     .allBalance(allBalance)
                     .companyClientCash(companyClientCash)
                     .clientCash(clientCash)

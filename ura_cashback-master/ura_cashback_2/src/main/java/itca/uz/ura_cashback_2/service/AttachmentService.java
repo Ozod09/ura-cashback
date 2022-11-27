@@ -33,8 +33,7 @@ public class AttachmentService {
         try {
 //             Files.deleteIfExists(Path.of(root+"\\"+ request.getOriginalFilename()));
              Files.copy(request.getInputStream(), root.resolve(Objects.requireNonNull(request.getOriginalFilename())));
-             Attachment save = attachmentRepository.save(
-                     Attachment.builder()
+             Attachment save = attachmentRepository.save(Attachment.builder()
                     .contentType(request.getContentType())
                     .name(request.getOriginalFilename())
                     .size(request.getSize())
@@ -55,10 +54,5 @@ public class AttachmentService {
         attachmentResDto.setResource(resource);
         return attachmentResDto;
     }
-
-
-
-
-
 
 }

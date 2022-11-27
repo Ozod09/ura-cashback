@@ -51,9 +51,8 @@ public class CompanyService {
     }
 
     public List<CompanyDto> getCompanyList(){
-        List<Company> all = companyRepository.findAll();
         List<CompanyDto> companyDtoList = new ArrayList<>();
-        for (Company company : all) {
+        for (Company company : companyRepository.findAll()) {
             CompanyDto companyDto = companyMapper.fromCompany(company);
             companyDto.setActive1(company.getActive() == 1);
             companyDtoList.add(companyDto);

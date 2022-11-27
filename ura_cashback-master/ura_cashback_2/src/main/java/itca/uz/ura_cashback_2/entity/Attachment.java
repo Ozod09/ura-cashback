@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 public class Attachment extends AbsEntity {
 
 
-    @Column(nullable = false)
+    @Column(nullable =false)
     private String name;
 
     @Column(nullable = false)

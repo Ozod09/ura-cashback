@@ -11,9 +11,12 @@ import java.util.Optional;
 @CrossOrigin
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    @Query("select role from roles role where role.roleName=: roleUser")
+    @Query("select role from roles role where role.roleName = ?1")
     Optional<Role> findRoleName(RoleName roleUser);
 
-    @Query("select role from roles role where role.id=: id")
+
+    @Query("select role from roles role where role.id = ?1")
     Optional<Role> findId(Integer id);
+
+
 }

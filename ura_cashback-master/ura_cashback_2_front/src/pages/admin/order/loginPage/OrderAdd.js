@@ -10,6 +10,8 @@ import Kassa from "./Kassa";
 function OrderAdd(props) {
     const {dispatch, currentUser, currentAdmin, modal} = props;
 
+    console.log(currentAdmin,'admin')
+    console.log(currentUser ,'user')
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
@@ -67,7 +69,7 @@ function OrderAdd(props) {
                                 <img src={image} alt="Icon"/>
                             </div>
                             <p>Name: {currentUser.firstName} {currentUser.lastName}</p>
-                            <p>userCashback: {currentUser.salary}</p>
+                            <p>Mijozning cashbacki: {currentUser.salary}</p>
                             <Input type="number" placeholder="cash_price" id="cash_price"
                                    className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1"/>
                             {open ? <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback"

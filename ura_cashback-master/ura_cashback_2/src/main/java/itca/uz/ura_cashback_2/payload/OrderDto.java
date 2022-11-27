@@ -1,10 +1,8 @@
 package itca.uz.ura_cashback_2.payload;
 
+import itca.uz.ura_cashback_2.entity.Company;
 import itca.uz.ura_cashback_2.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,5 +17,7 @@ public class OrderDto {
     private User client;
     private int cash_price;
     private int cashback;
+    private String date;
+    private Company company;
 
 }

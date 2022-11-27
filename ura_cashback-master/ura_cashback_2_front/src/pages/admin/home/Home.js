@@ -7,7 +7,7 @@ import HomeNavbar from "./HomeNavbar";
 class Home extends Component {
     render() {
         return (
-            <div id="salom" className="main-div">
+            <div id="salom" className="main-div" style={{marginBottom:0}}>
                 <HomeNavbar/>
                 <img className="uraStile"
                      data-aos-duration="1000"

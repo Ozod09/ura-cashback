@@ -27,3 +27,25 @@
     height: 10px;
     background: #FF974A;
 }
+.superAdminCashback{
+    position: absolute;
+    width: 1314px;
+    background-color: rgba(231, 229, 229, 0.73);
+    height: 657px;
+}
+.superAdminTable{
+    margin-top: 50px;
+    background-color: white;
+    border-radius: 20px;
+}
+.searchSuperAdminCashback{
+    width: 250px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+.searchIconcaSuperAdmin{
+    position: absolute;
+    color: #003bff;
+    margin-left: 205px;
+    margin-top: -25px;
+}

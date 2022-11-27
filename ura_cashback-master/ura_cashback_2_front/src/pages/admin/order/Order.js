@@ -1,19 +1,7 @@
 import React, {Component} from 'react';
 import "./orderC.css"
-import {
-    Button,
-    Col,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-    Offcanvas,
-    OffcanvasBody,
-    OffcanvasHeader,
-    Row,
-    Table
-} from "reactstrap";
-import {delOrder, getOneUser, getOrder, saveOrder} from "../../../redux/actions/AppAction";
+import {Input, Table} from "reactstrap";
+import {getOrder} from "../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import Sidebar from "../../clint/navbar/Sidebar";
 
@@ -24,7 +12,6 @@ class Order extends Component {
 
 
     state = {
-        infoModal: false,
         currentUserOrder: {},
     }
 
@@ -32,123 +19,96 @@ class Order extends Component {
 
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "white"
-        const {orders, deleteModal, currentItem, dispatch, currentUser} = this.props;
 
-        const infoModal = (user, admin) => {
-            this.setState({currentUserOrder: user});
-            this.props.dispatch(getOneUser(admin));
-            openInfoModal();
-        }
+        const {orders, dispatch,size, page ,search } = this.props;
 
-        const openInfoModal = () => {
-            this.setState({infoModal: !this.state.infoModal});
-        }
 
-        const openDeleteModal = (item) => {
+        console.log(orders)
+
+        const paginate = (number) => {
             dispatch({
-                type: 'updateState',
+                type: "updateState",
                 payload: {
-                    deleteModal: !deleteModal,
-                    currentItem: item
+                    page: number
                 }
-            });
-        };
-
-        const deleteOrders = () => {
-            this.props.dispatch(delOrder(currentItem));
-            openDeleteModal("");
+            })
         }
 
-        const saveOrders = () => {
-            let comment = document.getElementById("comment").value;
-            let cash_price = document.getElementById("cash_price").value;
-            let cashback = document.getElementById("cashback").value;
-            let id = currentItem.id ? currentItem.id : null;
-            let obj = currentItem.id ?{id, comment, cash_price, cashback} : {comment, cash_price, cashback};
-            this.props.dispatch(saveOrder(obj))
+        //Search
+        const set = (item)=>{
+            const lowerCase = item.target.value.toLowerCase();
+            dispatch({
+                type:"updateState",
+                payload:{
+                    search:lowerCase
+                }
+            })
         }
+
+        const filter = orders.filter((el)=>{
+            if(search === ''){
+                return el;
+            }else {
+                return el.company.name.toLowerCase().includes(search)
+            }
+        })
+
+        const indexOfLasPost = page * size;
+        const indexOfFirstPosts = indexOfLasPost - size;
+        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+
+        const companyName = [];
+        for (let i = 1; i <= Math.ceil(orders.length / size); i++) {
+            companyName.push(i);
+        }
+
 
         return (
-            <div>
+            <div className="superAdminCashback">
                 <Sidebar/>
-                <div className="ms-5 me-5 mt-5">
-                    {/*<Button color="info" outline onClick={openModal}>Add Order</Button>*/}
+                <div className="searchSuperAdminCashback">
+                    <Input type="text" onChange={(item)=> set(item)}  placeholder="Enter company name"/>
+                    <i className="pi pi-search searchIconcaSuperAdmin"/>
+                </div>
+                <div className="me-5 ms-5 superAdminTable">
                     <Table>
                         <thead>
                         <tr>
-                            <th>Status</th>
+                            <th>Comapny</th>
+                            <th>Kassir</th>
                             <th>Cash price</th>
                             <th>Cashback</th>
-                            <th colSpan="2">Action</th>
+                            <th>Client</th>
                         </tr>
                         </thead>
-                        {orders.length != null &&
-                            orders.map((item, i) =>
+                        {currentPosts.map((item, i) =>
                                 <tbody key={i}>
                                 <tr>
-                                    <td>Accepted</td>
+                                    <td>{item.company.name}</td>
+                                    <td>{item.admin.firstName} {item.admin.lastName}</td>
                                     <td>{item.cash_price}</td>
                                     <td>{item.cashback}</td>
-                                    <td><Button color="primary" outline
-                                                onClick={() => infoModal(item.client, item.createdBy)}>full
-                                        info</Button></td>
-                                    <td><Button color="danger" outline
-                                                onClick={() => openDeleteModal(item)}>Delete</Button></td>
+                                    <td>{item.client.firstName} {item.client.lastName}</td>
                                 </tr>
                                 </tbody>
                             )
                         }
                     </Table>
-
-                    <Offcanvas
-                        isOpen={this.state.infoModal}
-                        direction="end" style={{width: "40%"}}
-                        toggle={openInfoModal}
-                    >
-                        <OffcanvasHeader className="d-block">
-                            <h3 className="text-center">Full info</h3>
-                            <hr/>
-                        </OffcanvasHeader>
-                        <OffcanvasBody>
-                            <div>
-                                <Row>
-                                    <Col className="border-end">
-                                        {currentUser.id &&
-                                            <div className="ms-3">
-                                                <h4 className="text-center mb-3">Admin</h4>
-                                                <h5>firstName: {currentUser.firstName}</h5>
-                                                <h5>lastName: {currentUser.lastName}</h5>
-                                                <h5>p-Number: {currentUser.phoneNumber}</h5>
-                                                <h5>email: {currentUser.email}</h5>
-                                            </div>
-                                        }
-                                    </Col>
-                                    <Col>
-                                        {this.state.currentUserOrder.id &&
-                                            <div className="ms-3">
-                                                <h4 className="text-center mb-3">Client</h4>
-                                                <h5>firstName: {this.state.currentUserOrder.firstName}</h5>
-                                                <h5>lastName: {this.state.currentUserOrder.lastName}</h5>
-                                                <h5>p-Number: {this.state.currentUserOrder.phoneNumber}</h5>
-                                                <h5>email: {this.state.currentUserOrder.email}</h5>
-                                                <h5>cashback: {this.state.currentUserOrder.salary}</h5>
-                                            </div>
-                                        }
-                                    </Col>
-                                </Row>
-                            </div>
-                        </OffcanvasBody>
-                    </Offcanvas>
-
-                    <Modal isOpen={deleteModal} toggle={() => openDeleteModal("")}>
-                        <ModalHeader toggle={() => openDeleteModal("")}> </ModalHeader>
-                        <ModalBody><h5>siz haqiqatdanham ushbu orderni uchirmoqchimisiz?</h5></ModalBody>
-                        <ModalFooter>
-                            <Button color="success" outline onClick={() => openDeleteModal("")}>Cancel</Button>
-                            <Button color="danger" outline onClick={deleteOrders}>Delete</Button>
-                        </ModalFooter>
-                    </Modal>
                 </div>
+
+
+
+                <nav>
+                    <ul className="pagination">
+                        {companyName.map((number, i) =>
+                            <li key={i} className="page-item">
+                                <a onClick={() => paginate(number)} className="page-link">{number}</a>
+                            </li>
+                        )}
+                    </ul>
+                </nav>
+
+
             </div>
         );
     }
@@ -157,6 +117,6 @@ class Order extends Component {
 Order.propTypes = {};
 
 export default connect(
-    ({app: {orders, showModal, deleteModal, currentItem, currentUser}}) =>
-        ({orders, showModal, deleteModal, currentItem, currentUser}))
+    ({app: {orders,dispatch,size, page ,search}}) =>
+        ({orders,dispatch,size, page ,search}))
 (Order);

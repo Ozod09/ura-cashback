@@ -1,8 +1,6 @@
 import * as types from "../actionTypes/AppActionTypes";
 import {createReducer} from "../../utils/StoreUtils";
 
-// const companyMalumot1 = localStorage.getItem('company malumot')
-// const companyMalumot = JSON.parse(companyMalumot1)
 
 
 const initState = {
@@ -20,6 +18,7 @@ const initState = {
     orders: [],
     company: [],
     companyInfo: [],
+    companyStat: {},
     oneOrder: {},
     imgId: {},
     active: true,
@@ -43,7 +42,7 @@ const reducers = {
         state.orders = payload.payload
     },
     [types.GET_USER_LIST](state, payload) {
-        state.user = payload.payload.object
+        state.user = payload.payload
     },
     [types.REQUEST_SUCCESS](state) {
         state.showModal = false
