@@ -42,7 +42,7 @@ const reducers = {
         state.orders = payload.payload
     },
     [types.GET_USER_LIST](state, payload) {
-        state.user = payload.payload.object
+        state.user = payload.payload
     },
     [types.REQUEST_SUCCESS](state) {
         state.showModal = false

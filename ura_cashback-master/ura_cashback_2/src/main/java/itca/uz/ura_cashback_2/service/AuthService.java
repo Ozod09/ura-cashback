@@ -9,19 +9,17 @@ import itca.uz.ura_cashback_2.mappers.UserMapper;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.*;
 import itca.uz.ura_cashback_2.utils.CommonUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
-
+@RequiredArgsConstructor
 public class AuthService{
 
     private final CompanyMapper companyMapper;
@@ -34,17 +32,6 @@ public class AuthService{
     private final UserMapper mapper;
 
 
-    public AuthService(CompanyMapper companyMapper, AuthRepository authRepository, UserMapper mapper,
-                       CompanyRepository companyRepository, RoleRepository roleRepository, CompanyUserRoleRepository companyUserRoleRepository, OrderRepository orderRepository, CompanyUserRoleService companyUserRoleService) {
-        this.companyMapper = companyMapper;
-        this.authRepository = authRepository;
-        this.companyRepository = companyRepository;
-        this.roleRepository = roleRepository;
-        this.companyUserRoleRepository = companyUserRoleRepository;
-        this.orderRepository = orderRepository;
-        this.companyUserRoleService = companyUserRoleService;
-        this.mapper = mapper;
-    }
 
     public ApiResponse<?> addRegisterClient(AuthDto authDto) {
         AuthDto save = addUser(authDto);
@@ -101,9 +88,9 @@ public class AuthService{
 
 
     public ResPageable getUserList(int page, int size) throws Exception {
-        Page<User> allUser = authRepository.findAll(CommonUtils.getPageable(page, size));
+        Page<User> allUser = authRepository.findAll(CommonUtils.getPageable(page * size, size));
         return new ResPageable(
-                page,
+                page * size,
                 size,
                 allUser.getTotalElements(),
                 allUser.getTotalPages(),
@@ -174,25 +161,28 @@ public class AuthService{
     }
 
     public ResStatistic getCompanyStatistic(Long companyId){
-        Set<Long> countClient = new HashSet<>();
+        Set<Long> allClient = new HashSet<>();
         int allBalance = 0;
-        int clientNaqtTulovComp = 0;
-        int clientCompCash = 0;
         int companyClientCash = 0;
+        int urtachaCheck = 0;
         int clientCash = 0;
         for (Order order : orderRepository.findCreatedBy(companyId)) {
-            countClient.add(order.getClient().getId());
             allBalance += order.getCash_price();
-            clientCompCash += order.getClientCompCash();
             companyClientCash += order.getCompanyClientCash();
-            clientCash += order.getClient().getSalary();
+            allClient.add(order.getClient().getId());
+        }
+        if(allBalance != 0) {
+            urtachaCheck = allBalance / allClient.size();
+        }
+        for(Long id : allClient){
+            clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404,"User","id",id)).getSalary();
         }
         ResStatistic resStatistic = new ResStatistic();
-        resStatistic.setJamiClient(countClient.size());
+        resStatistic.setJamiClient(allClient.size());
         resStatistic.setAllBalance(allBalance);
-        resStatistic.setClientCompCash(clientCompCash);
         resStatistic.setCompanyClientCash(companyClientCash);
         resStatistic.setClientCash(clientCash);
+        resStatistic.setUrtachaCheck(urtachaCheck);
         return resStatistic;
     }
 
@@ -236,7 +226,6 @@ public class AuthService{
                     return authDto1;
                 }
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -256,6 +245,12 @@ public class AuthService{
 //    }
 
 
+    public Optional<User> getUserTest(ReqTest reqTest){
+        return authRepository.getUser(reqTest.getName());
+    }
 
+    public int getSalary(ReqTest reqTest){
+        return authRepository.allSalary(reqTest.getCompanyId());
+    }
 
 }

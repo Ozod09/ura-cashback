@@ -22,7 +22,7 @@ class ClientRegister extends Component {
 
     render() {
 
-        const {res,dispatch,company} = this.props;
+        const {showModal,dispatch,company} = this.props;
 
         const flag = /^(?=.*[0-9]).{8,}$/;
         const regex = new RegExp(flag);
@@ -56,7 +56,7 @@ class ClientRegister extends Component {
 
         return (
             <>
-                {res ?
+                {showModal ?
                     <ResultClient/>  :
                     <div className="row home">
                         <div className='col-6'>
@@ -100,7 +100,7 @@ class ClientRegister extends Component {
                                     </ul>
                                 </div>
                             </div>
-                            <Button color="info" type="submit" onClick={registerClient} outline>Register</Button>
+                            <Button className="superAdminAuthUserCompanyButton" color="info" type="submit" onClick={registerClient} outline>Register</Button>
                         </div>
                     </div>
                 }
@@ -111,6 +111,6 @@ class ClientRegister extends Component {
 
 ClientRegister.propTypes = {};
 
-export default connect(({app:{res,dispatch,company}})=>
-    ({res,dispatch,company}))
+export default connect(({app:{showModal,dispatch,company}})=>
+    ({showModal,dispatch,company}))
 (ClientRegister);

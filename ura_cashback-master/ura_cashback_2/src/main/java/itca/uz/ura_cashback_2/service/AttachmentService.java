@@ -33,12 +33,11 @@ public class AttachmentService {
         try {
 //            Files.deleteIfExists(Path.of(root+"\\"+ request.getOriginalFilename()));
              Files.copy(request.getInputStream(), root.resolve(Objects.requireNonNull(request.getOriginalFilename())));
-             Attachment save = attachmentRepository.save(Attachment.builder()
+             return attachmentRepository.save(Attachment.builder()
                     .contentType(request.getContentType())
                     .name(request.getOriginalFilename())
                     .size(request.getSize())
-                    .build());
-             return save.getId();
+                    .build()).getId();
         }catch (Exception e){
             return null;
         }

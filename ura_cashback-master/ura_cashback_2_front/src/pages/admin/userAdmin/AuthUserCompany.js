@@ -89,7 +89,7 @@ class AuthUserCompany extends Component {
                                     </ul>
                                 </div>
                             </div>
-                            <Button color="info" type="submit" onClick={registerUserCompany} outline>Next</Button>
+                            <Button className="superAdminAuthUserCompanyButton" color="info" type="submit" onClick={registerUserCompany} outline>Next</Button>
                         </div>
                     </div>
                 }

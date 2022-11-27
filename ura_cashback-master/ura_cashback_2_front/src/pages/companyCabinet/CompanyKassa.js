@@ -211,7 +211,7 @@ class CompanyKassa extends Component {
 
 
                 <Modal isOpen={this.state.deleteModal}>
-                    <ModalHeader>Kassirni uchirish</ModalHeader>
+                    <ModalHeader>Kassirni o'chirish</ModalHeader>
                     <ModalFooter>
                         <Button color="secondary" onClick={deleteModal}>Close</Button>
                         <Button color="danger" onClick={deleteCompanyKassr}>Delete</Button>

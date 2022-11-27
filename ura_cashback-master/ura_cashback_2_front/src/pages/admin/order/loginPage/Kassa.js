@@ -20,6 +20,8 @@ function Kassa(props) {
         setIsOrder(true);
     }
 
+    console.log(orders, 'admin order')
+
 
     return (
         <>
@@ -48,7 +50,8 @@ function Kassa(props) {
                                             <tr>
                                                 <td>{item.client.firstName}</td>
                                                 <td>{item.cash_price}</td>
-                                                <td>{item.cashback}</td>
+                                                <td>{item.companyClientCash
+                                                }</td>
                                             </tr>
                                             </tbody>
                                         )

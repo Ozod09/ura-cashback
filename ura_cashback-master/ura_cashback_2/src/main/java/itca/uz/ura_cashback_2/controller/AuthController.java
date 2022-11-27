@@ -1,13 +1,11 @@
 package itca.uz.ura_cashback_2.controller;
 
 import itca.uz.ura_cashback_2.entity.User;
-import itca.uz.ura_cashback_2.payload.ApiResponse;
-import itca.uz.ura_cashback_2.payload.AuthDto;
-import itca.uz.ura_cashback_2.payload.ReqLogin;
-import itca.uz.ura_cashback_2.payload.ReqPassword;
+import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.AuthRepository;
 import itca.uz.ura_cashback_2.service.AuthService;
 import itca.uz.ura_cashback_2.utils.AppConstant;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +15,12 @@ import org.springframework.web.client.ResourceAccessException;
 @RestController
 @RequestMapping(path = "/api/auth")
 @CrossOrigin
+@RequiredArgsConstructor
 public class AuthController {
 
-    final AuthService authService;
-    final AuthRepository authRepository;
+    private final AuthService authService;
+    private final AuthRepository authRepository;
 
-
-    public AuthController(AuthService authService, AuthRepository authRepository) {
-        this.authService = authService;
-        this.authRepository = authRepository;
-    }
 
     @PostMapping
     public HttpEntity<?> addAuth(@RequestBody AuthDto authDto){
@@ -106,5 +100,9 @@ public class AuthController {
 //        return ResponseEntity.ok(authService.loginSuperAdmin(reqLogin));
 //    }
 
+    @PostMapping("/test")
+    public HttpEntity<?> test(@RequestBody ReqTest reqTest){
+        return ResponseEntity.ok(authService.getSalary(reqTest));
+    }
 
 }

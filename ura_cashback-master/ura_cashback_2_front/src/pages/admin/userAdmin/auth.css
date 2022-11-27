@@ -30,7 +30,7 @@
     border-bottom-style: groove;
     border-radius: 0;
 }
-.register Button{
+.superAdminAuthUserCompanyButton{
     margin-top: 7%;
     margin-left: 40%;
     padding-left: 7%;
@@ -92,4 +92,8 @@
     width: 250px;
     margin-left: 50px;
     margin-top: 50px;
+}
+.superAdminClientButton{
+    width: 30px;
+
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.sql.Timestamp;
 import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
     @Query("select ord from orders ord where ord.createdBy= ?1")
     List<Order> findCreatedBy(Long createdBy);
 

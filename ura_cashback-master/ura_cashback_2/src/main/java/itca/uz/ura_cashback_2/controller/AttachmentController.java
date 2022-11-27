@@ -2,6 +2,7 @@ package itca.uz.ura_cashback_2.controller;
 
 import itca.uz.ura_cashback_2.payload.AttachmentResDto;
 import itca.uz.ura_cashback_2.service.AttachmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,13 +13,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @RestController
 @RequestMapping("/api/attachment")
+@RequiredArgsConstructor
 public class AttachmentController {
-    final
-    AttachmentService attachmentService;
 
-    public AttachmentController(AttachmentService attachmentService) {
-        this.attachmentService = attachmentService;
-    }
+   private final AttachmentService attachmentService;
 
     @PostMapping
     public HttpEntity<?> upload(@RequestParam MultipartFile request) {

@@ -19,4 +19,11 @@ AuthRepository extends JpaRepository<User, Long> {
 
     @Query("select u from users u where u.phoneNumber = ?1")
     Optional<User> findByPhoneNumber(String phoneNumber);
+
+    @Query(value = "select sum(u.salary) from users u where u.id = " +
+            "(select c.userId from CompanyUserRole c where c.companyId =: companyId and c.roleId = 4)")
+    int allSalary(@Param("companyId") Long companyId);
+
+    @Query("select u from users  u where u.phoneNumber like (concat('%',:phoneNumber,'%') )")
+    Optional<User> getUser(String phoneNumber);
 }
