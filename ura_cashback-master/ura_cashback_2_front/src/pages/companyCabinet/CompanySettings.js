@@ -27,6 +27,7 @@ class CompanySettings extends Component {
         const sendPhoto = (item) => {
             let obj = new FormData();
             obj.append("file", item.target.files[0]);
+            console.log(obj);
             this.props.dispatch(addAttachmentAction(obj));
         }
 
@@ -40,7 +41,7 @@ class CompanySettings extends Component {
                 bio,
                 description,
                 clintPercentage,
-                attachmentId: attachmentId,
+                attachmentId,
                 userId: currentUser,
                 active
             };

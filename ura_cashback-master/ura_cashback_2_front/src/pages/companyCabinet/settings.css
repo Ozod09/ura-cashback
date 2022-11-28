@@ -1,70 +1,85 @@
-.main-div1{
+.main-div1 {
     background-color: white;
     margin-top: 90px;
     height: 400px;
 }
 
-.companyImg{
-   margin-left: 90px;
-    margin-top: 90px;
+.companyImg {
+    /*margin-left: 1%;*/
+    /*margin-top: 1%;   */
 }
-.compLogo1{
+
+.compLogo1 {
     margin-top: 90px;
     margin-left: 400px;
     position: absolute;
 }
-.company-name1{
+
+.company-name1 {
     margin-left: 30px;
     width: 300px;
 }
-.company-bio1{
+
+.company-bio1 {
     margin-left: 30px;
     width: 300px;
 }
-.company-description1{
+
+.company-description1 {
     margin-left: 30px;
     width: 300px;
 }
-.company-cPercentage1{
+
+.company-cPercentage1 {
     margin-left: 30px;
     width: 300px;
 }
-.registerComp1{
+
+.registerComp1 {
     margin-left: 30px;
 }
-#cabSettings{
+
+#cabSettings {
     margin-right: 0;
     height: 640px;
     background-color: rgba(231, 229, 229, 0.73);
 }
+
 .compImg21 {
     margin-top: 90px;
     background-color: white;
 }
-.compImg21 img{
+
+.compImg21 img {
     margin-left: 120px;
 }
-.cabOperation{
+
+.cabOperation {
     height: 657px;
     background-color: rgba(231, 229, 229, 0.73);
 }
-.operationTable{
-    width: 280px;
+
+.operationTable {
+    /*width: 25%;*/
     height: 100px;
-    margin-left: 65px;
+    margin-left: 6%;
+    margin-bottom: 2%;
     border-radius: 10px;
     background-color: white;
 }
-.operationTable h3{
+
+.operationTable h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable h5{
+
+.operationTable h5 {
     color: #928f8f;
     margin-left: 80px;
 }
-.operationTable2{
+
+.operationTable2 {
     width: 280px;
     height: 100px;
     margin-left: 30px;
@@ -72,48 +87,57 @@
     background-color: white;
 
 }
-.operationTable2 h3{
+
+.operationTable2 h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable2 h5{
+
+.operationTable2 h5 {
     color: #928f8f;
     margin-left: 80px;
 }
-.operationTable3{
+
+.operationTable3 {
     width: 280px;
     height: 100px;
     margin-left: 30px;
     border-radius: 10px;
     background-color: white;
 }
-.operationTable3 h3{
+
+.operationTable3 h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable3 h5{
+
+.operationTable3 h5 {
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable4{
+
+.operationTable4 {
     width: 280px;
     height: 100px;
     margin-left: 30px;
     border-radius: 10px;
     background-color: white;
 }
-.operationTable4 h3{
+
+.operationTable4 h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable4 h5{
+
+.operationTable4 h5 {
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable5{
+
+.operationTable5 {
     width: 280px;
     height: 100px;
     margin-left: 65px;
@@ -121,16 +145,19 @@
     margin-top: 20px;
     background-color: white;
 }
-.operationTable5 h3{
+
+.operationTable5 h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable5 h5{
+
+.operationTable5 h5 {
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable6{
+
+.operationTable6 {
     width: 280px;
     height: 100px;
     margin-left: 30px;
@@ -139,29 +166,33 @@
     background-color: white;
 }
 
-.operationTable6 h3{
+.operationTable6 h3 {
     margin-top: -120px;
     margin-left: 80px;
     color: #928f8f;
 }
-.operationTable6 h5{
+
+.operationTable6 h5 {
     margin-left: 80px;
     color: #928f8f;
 }
 
-.shape{
+.shape {
     margin-top: -40px;
     margin-left: 10px;
 }
-.copy{
+
+.copy {
     margin-top: -50px;
     margin-left: -95px;
 }
-.strelka{
+
+.strelka {
     margin-top: -20px;
     margin-left: -102px;
 }
-.cabOperation Button{
+
+.cabOperation Button {
     margin-top: 50px;
     width: 150px;
     height: 50px;

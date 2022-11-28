@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Input, Table} from "reactstrap";
+import {Input, Table} from "reactstrap";
 import {connect} from "react-redux";
 import CompanySidebar from "./CompanySidebar";
 import {loginCompany} from "../../redux/actions/AppAction";
@@ -12,16 +12,16 @@ class CabinetOperation extends Component {
         this.props.dispatch(loginCompany({
             password: sessionStorage.getItem("Password"),
             phoneNumber: sessionStorage.getItem("PhoneNumber")
-        }))
+        }));
     }
 
 
     render() {
 
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "white";
+            document.body.style.backgroundColor = "rgb(232, 231, 231)";
 
-        const {companyInfo, search, dispatch ,size, page} = this.props;
+        const {companyInfo, search, dispatch, size, page} = this.props;
 
 
         const paginate = (number) => {
@@ -34,43 +34,42 @@ class CabinetOperation extends Component {
         }
 
         //Search
-        const set = (item)=>{
+        const set = (item) => {
             const lowerCase = item.target.value.toLowerCase();
             dispatch({
-                type:"updateState",
-                payload:{
-                    search:lowerCase
-                }
+                type: "updateState",
+                payload: {search: lowerCase}
             })
         }
 
-        const filter = companyInfo.orders.filter((el)=>{
-            if(search === ''){
+        console.log(companyInfo)
+        const filter = companyInfo.orders && companyInfo.orders.filter((el) => {
+            if (search === '') {
                 return el;
-            }else {
+            } else {
                 return el.admin.firstName.toLowerCase().includes(search)
             }
         })
 
         const indexOfLasPost = page * size;
         const indexOfFirstPosts = indexOfLasPost - size;
-        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+        const currentPosts = filter && filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const kassirName = [];
-        for (let i = 1; i <= Math.ceil(companyInfo.orders.length / size); i++) {
+        for (let i = 1; i <= Math.ceil(companyInfo.orders && companyInfo.orders.length / size); i++) {
             kassirName.push(i);
         }
 
 
         return (
-            <div id="cabOrder" >
+            <div id="cabOrder">
                 <Navbar/>
-               <CompanySidebar/>
+                <CompanySidebar/>
                 <div className="searchOperation">
-                    <Input type="text" onChange={(item)=> set(item)} placeholder="Enter kassir name"/>
+                    <Input type="text" onChange={(item) => set(item)} placeholder="Enter kassir name"/>
                     <i className="pi pi-search searchIconcaOperation"/>
                 </div>
-                <div  className="ms-5 me-5 mt-5 orderTable">
+                <div className="ms-5 me-5 mt-5 orderTable">
                     <Table>
                         <thead>
                         <tr>
@@ -81,7 +80,8 @@ class CabinetOperation extends Component {
                             <th>Cashback</th>
                         </tr>
                         </thead>
-                        {currentPosts.map((item, i) =>
+                        {currentPosts &&
+                            currentPosts.map((item, i) =>
                                 <tbody key={i}>
                                 <tr>
                                     <td>{item.admin.firstName} {item.admin.lastName}</td>
@@ -117,6 +117,6 @@ class CabinetOperation extends Component {
 CabinetOperation.propTypes = {};
 
 export default connect(
-    ({app: {companyInfo, search, dispatch,page, size}}) =>
+    ({app: {companyInfo, search, dispatch, page, size}}) =>
         ({companyInfo, search, dispatch, page, size}))
 (CabinetOperation);

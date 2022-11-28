@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {activeCompany, getCompany,} from "../../../redux/actions/AppAction";
-import {Button, Input, Label, Row, Table} from "reactstrap";
-import {api} from "../../../api/api";
+import {Button, Input, InputGroup, Label, Row, Table} from "reactstrap";
 import Sidebar from "../../clint/navbar/Sidebar";
 import './company.css'
 
@@ -16,23 +15,22 @@ class CompanyAdmin extends Component {
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "white";
 
-        const {company,search, page, size, dispatch, active} = this.props;
+        const {company, search, page, size, dispatch, active} = this.props;
 
-        const set = (item)=>{
-            const lowerCase = item.target.value.toLowerCase();
+        const set = (item) => {
             dispatch({
-                type:"updateState",
-                payload:{
-                    search:lowerCase
+                type: "updateState",
+                payload: {
+                    search: item.target.value.toLowerCase()
                 }
             })
         }
 
         //Search
-        const filter = company.filter((el)=>{
-            if(search === ''){
+        const filter = company.filter((el) => {
+            if (search === '') {
                 return el;
-            }else {
+            } else {
                 return el.name.toLowerCase().includes(search)
             }
         })
@@ -56,8 +54,6 @@ class CompanyAdmin extends Component {
             })
         }
 
-        console.log(company)
-
         const changeActive = () => {
             dispatch({
                 type: 'updateState',
@@ -74,8 +70,11 @@ class CompanyAdmin extends Component {
             <div className="superAdminCompany">
                 <Sidebar/>
                 <div className="searchSuperAdminCompany">
-                    <Input type="text" onChange={(item)=> set(item)}  placeholder="Enter company name"/>
-                    <i className="pi pi-search searchIconcaClient"/>
+                    <InputGroup>
+                        <Input type="text" onChange={(item) => set(item)} placeholder="Enter company name"/>
+                        <Button color="primary" type="button"><i
+                            className="pi pi-search searchIconcaSuperAdmin"/></Button>
+                    </InputGroup>
                 </div>
                 <div className="me-5 ms-5 superAdminCompanyTable">
                     <Table>
@@ -91,28 +90,31 @@ class CompanyAdmin extends Component {
                         </tr>
                         </thead>
                         {currentPosts.map((item, i) =>
-                                <tbody key={i}>
-                                <tr>
-                                    <td>{i + 1}</td>
-                                    {/*<td><img className="company-img" src={api.getAttachment + item.attachment.id}*/}
-                                    {/*         alt="not"/></td>*/}
-                                    <td>{item.name}</td>
-                                    <td>{item.bio}</td>
-                                    <td>{item.description}</td>
-                                    <td>{item.clientPercentage}</td>
-                                    <td>
-                                        <Row>
-                                            <Label check for="active">
-                                                <div className="form-check form-switch">
-                                                    <Input type="checkbox" defaultChecked={item.active1}
-                                                           onChange={() => {changeActive();changeActiveCompany(item.id)}}/>
-                                                </div>
-                                            </Label>
-                                        </Row>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            )}
+                            <tbody key={i}>
+                            <tr>
+                                <td>{i + 1}</td>
+                                {/*<td><img className="company-img" src={api.getAttachment + item.attachment.id}*/}
+                                {/*         alt="not"/></td>*/}
+                                <td>{item.name}</td>
+                                <td>{item.bio}</td>
+                                <td>{item.description}</td>
+                                <td>{item.clientPercentage}</td>
+                                <td>
+                                    <Row>
+                                        <Label check for="active">
+                                            <div className="form-check form-switch">
+                                                <Input type="checkbox" defaultChecked={item.active1}
+                                                       onChange={() => {
+                                                           changeActive();
+                                                           changeActiveCompany(item.id)
+                                                       }}/>
+                                            </div>
+                                        </Label>
+                                    </Row>
+                                </td>
+                            </tr>
+                            </tbody>
+                        )}
                     </Table>
                 </div>
 
@@ -122,7 +124,7 @@ class CompanyAdmin extends Component {
                         <ul className="pagination">
                             {pageNumbers.map((number, i) =>
                                 <li key={i} className="page-item">
-                                 <a onClick={() => paginate(number)} className="page-link">{number}</a>
+                                    <a onClick={() => paginate(number)} className="page-link">{number}</a>
                                 </li>
                             )}
                         </ul>
@@ -133,10 +135,11 @@ class CompanyAdmin extends Component {
         );
     }
 }
+
 CompanyAdmin.propTypes = {};
 
 export default connect(
-    ({app: {company,search, page, size, active}}) =>
-        ({company,search, page, size, active}))
+    ({app: {company, search, page, size, active}}) =>
+        ({company, search, page, size, active}))
 (CompanyAdmin);
 

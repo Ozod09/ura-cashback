@@ -10,33 +10,30 @@ import CabinetHome from "../../companyCabinet/CabinetHome";
 class LoginCompany extends Component {
 
 
-    state={
+    state = {
         openPassword: false,
-        resRegex:false
+        resRegex: false
     }
 
     render() {
-
-        const {dispatch,openLogin} = this.props;
+        document.body.style.marginLeft = "3.7%";
+        document.body.style.backgroundColor = "rgb(231,230,230)";
+        const {dispatch, openLogin} = this.props;
 
         const flag = /^(?=.*[0-9]).{8,}$/;
         const regex = new RegExp(flag);
 
-        const login = ()=> {
+        const login = () => {
             let password = document.getElementById("password").value;
-            // if(password.match(regex) !== null){
             let phoneNumber = document.getElementById("phoneNumber").value;
             let obj = {phoneNumber, password};
             console.log(obj);
             this.props.dispatch(loginCompany(obj));
-            // }else {
-            //             //     this.setState({resRegex: !this.state.resRegex})
-            //             // }
             sessionStorage.setItem('PhoneNumber', phoneNumber)
             sessionStorage.setItem('Password', password)
         }
 
-        const password = ()=>{
+        const password = () => {
             this.setState({openPassword: !this.state.openPassword})
         }
 
@@ -58,7 +55,8 @@ class LoginCompany extends Component {
                             <div className="row loginCompany">
                                 <h2>Kirish</h2>
                                 <div className="col-10 pe-0">
-                                    <Input className="mb-5" type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone number"
+                                    <Input className="mb-5" type="text" id="phoneNumber" name="phoneNumber"
+                                           placeholder="Phone number"
                                            required/>
                                     <Input className="mb-5" type={this.state.openPassword ? "text" : "password"}
                                            id="password" name="password" placeholder="Password"
@@ -87,6 +85,6 @@ class LoginCompany extends Component {
 LoginCompany.propTypes = {};
 
 export default connect(
-    ({app:{dispatch, openLogin}}) =>
-        ({dispatch,openLogin}))
+    ({app: {dispatch, openLogin}}) =>
+        ({dispatch, openLogin}))
 (LoginCompany);

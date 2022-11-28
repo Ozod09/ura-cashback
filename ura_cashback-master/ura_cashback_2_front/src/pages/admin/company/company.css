@@ -38,10 +38,10 @@ body{
 /*}*/
 .companyImg{
     position: absolute;
-    width: 106px;
-    height: 115px;
-    left: 356px;
-    top: 140px;
+    width: 7%;
+    height: 16%;
+    left: 29%;
+    top: 26%;
 
     background: #E2E2EA;
     border-radius: 5px;
@@ -80,10 +80,10 @@ body{
 }
 .compLogo{
     position: absolute;
-    width: 70px;
-    height: 68px;
-    left: 373px;
-    top: 180px;
+    width: 6.3%;
+    height: 9%;
+    left: 23.5%;
+    top: 22.5%;
 }
 .compImg2{
     /*width: 30%;*/

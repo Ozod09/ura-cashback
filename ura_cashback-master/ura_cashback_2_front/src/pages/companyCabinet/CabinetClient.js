@@ -20,7 +20,7 @@ class CabinetClient extends Component {
         const {companyInfo, search, dispatch ,size, page} = this.props;
 
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "white";
+        document.body.style.backgroundColor = "rgb(232, 231, 231)";
 
         const paginate = (number) => {
             dispatch({
@@ -43,7 +43,7 @@ class CabinetClient extends Component {
             })
         }
 
-        const filter = companyInfo.clint.filter((el)=>{
+        const filter = companyInfo.clint && companyInfo.clint.filter((el)=>{
             if(search === ''){
                 return el;
             }else {
@@ -53,10 +53,10 @@ class CabinetClient extends Component {
 
         const indexOfLasPost = page * size;
         const indexOfFirstPosts = indexOfLasPost - size;
-        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+        const currentPosts = filter && filter.slice(indexOfFirstPosts,indexOfLasPost);
 
         const clientName = [];
-        for (let i = 1; i <= Math.ceil(companyInfo.clint.length / size); i++) {
+        for (let i = 1; i <= Math.ceil(companyInfo.clint && companyInfo.clint.length / size); i++) {
             clientName.push(i);
         }
 
@@ -82,7 +82,8 @@ class CabinetClient extends Component {
                             <th>Password</th>
                         </tr>
                         </thead>
-                        {currentPosts.map((item, i) =>
+                        {currentPosts &&
+                            currentPosts.map((item, i) =>
                                 <tbody key={i}>
                                 <tr>
                                     <td>{i + 1}</td>

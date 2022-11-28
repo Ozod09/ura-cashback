@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Input, Modal, ModalFooter, ModalHeader, Table} from "reactstrap";
+import {Button, Input, InputGroup, Modal, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {connect} from "react-redux";
 import {getUser, isActiveUser, removeUser} from "../../../redux/actions/AppAction";
 import Sidebar from "../../clint/navbar/Sidebar";
 import './auth.css';
-
 
 class AuthAdmin extends Component {
 
@@ -12,19 +11,16 @@ class AuthAdmin extends Component {
         this.props.dispatch(getUser());
     }
 
-
     render() {
 
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "white"
+        document.body.style.backgroundColor = "rgba(231, 229, 229, 0.73)"
 
-        const {user,search, dispatch, currentUser,deleteShowModal,activeUser} = this.props;
-
+        const {user, search, dispatch, currentUser, deleteShowModal, activeUser} = this.props;
 
         const paginate = (number) => {
 
         }
-
 
         const deleteModal = (item) => {
             dispatch({
@@ -62,27 +58,22 @@ class AuthAdmin extends Component {
             });
         }
 
-
-
-        //Search
-        const set = (item)=>{
-            console.log(item, "search name")
+        const clickSearch = () => {
+            console.log(document.getElementById("search").value)
         }
-        console.log(user, "user page")
-
-
 
         const pageNumbers = [];
         pageNumbers.push(user.totalPages);
 
-
-
         return (
-            <div className="superAdminClient">
+            <div className="">
                 <Sidebar/>
                 <div className="searchSuperAdminClient">
-                    <Input type="text"  placeholder="Enter phone number"/>
-                    <Button type="button" className="superAdminClientButton" onClick={(item)=> set(item)} ><i className="pi pi-search searchIconcaSuperAdmin"/></Button>
+                    <InputGroup>
+                        <Input type="text" id="search" placeholder="Enter phone number"/>
+                        <Button color="primary" type="button" onClick={clickSearch}><i
+                            className="pi pi-search searchIconcaSuperAdmin"/></Button>
+                    </InputGroup>
                 </div>
                 <div className="ms-5 me-5 superAdminClientTable">
                     <Table>
@@ -98,29 +89,31 @@ class AuthAdmin extends Component {
                             <th colSpan="2">Action</th>
                         </tr>
                         </thead>
-                        {user.object.map((item, i) =>
-                            <tbody key={i}>
-                            <tr>
-                                <td>{i + 1}</td>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.email}</td>
-                                <td>{item.phoneNumber}</td>
-                                <td>{item.password}</td>
-                                <td>{item.active ?
-                                    <Input type="checkbox" checked={item.active} onClick={() => changeActiveUser(item)}
-                                           onChange={changeActive}/> :
-                                    <Input type="checkbox" checked={item.active} onClick={() => changeActiveUser(item)}
-                                           onChange={changeActive}/>}
-                                </td>
-                                <td><Button color="danger" outline onClick={() => deleteModal(item)}>Delete</Button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        )}
+                        {user.object &&
+                            user.object.map((item, i) =>
+                                <tbody key={i}>
+                                <tr>
+                                    <td>{i + 1}</td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.phoneNumber}</td>
+                                    <td>{item.password}</td>
+                                    <td>{item.active ?
+                                        <Input type="checkbox" checked={item.active}
+                                               onClick={() => changeActiveUser(item)}
+                                               onChange={changeActive}/> :
+                                        <Input type="checkbox" checked={item.active}
+                                               onClick={() => changeActiveUser(item)}
+                                               onChange={changeActive}/>}
+                                    </td>
+                                    <td><Button color="danger" outline onClick={() => deleteModal(item)}>Delete</Button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            )}
                     </Table>
                 </div>
-
 
                 <nav>
                     <ul className="pagination">
@@ -132,9 +125,6 @@ class AuthAdmin extends Component {
                     </ul>
                 </nav>
 
-
-
-
                 <Modal isOpen={deleteShowModal}>
                     <ModalHeader>Delete User</ModalHeader>
                     <ModalFooter>
@@ -142,7 +132,6 @@ class AuthAdmin extends Component {
                         <Button color="danger" outline onClick={deleteUser}>Delete</Button>
                     </ModalFooter>
                 </Modal>
-
             </div>
         );
     }
@@ -151,7 +140,7 @@ class AuthAdmin extends Component {
 AuthAdmin.propTypes = {};
 
 export default connect(
-    ({app:{user,search, dispatch,currentUser,deleteShowModal,activeUser,pages}})=>
-    ({user, search,dispatch,currentUser, deleteShowModal,activeUser,pages}))
+    ({app: {user, search, dispatch, currentUser, deleteShowModal, activeUser, pages}}) =>
+        ({user, search, dispatch, currentUser, deleteShowModal, activeUser, pages}))
 (AuthAdmin);
 

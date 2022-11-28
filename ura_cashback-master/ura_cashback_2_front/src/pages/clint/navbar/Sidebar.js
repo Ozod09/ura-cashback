@@ -1,5 +1,5 @@
 import React from 'react';
-import ura from './sidebarImg/ura.png';
+import cashback from './sidebarImg/cashback.jpg';
 import company from './sidebarImg/company (1).png';
 import order from './sidebarImg/order.png';
 import user from './sidebarImg/user.png';
@@ -25,12 +25,12 @@ function Sidebar(props) {
         <div>
             <div className="sidebar">
                 <div className="offcanvas offcanvas-start show">
-                    <div className="offcanvas-header">
-                        <h5 className="offcanvas-title">
-                            <img className="mt-3 mb-5" src={ura} alt="Ura!"/>
-                        </h5>
-                    </div>
-                    <div className="offcanvas-body">
+                    {/*<div className="offcanvas-header">*/}
+                    {/*    <h5 className="offcanvas-title">*/}
+                    {/*        <img className="mt-3 mb-5 cashback_img" src={cashback} alt="Ura!"/>*/}
+                    {/*    </h5>*/}
+                    {/*</div>*/}
+                    <div className="offcanvas-body mt-5">
                         {currentUser === 0 ?
                             <div>
                                 <img src={api.getAttachment + currentUser.attachment.id} alt="user"/>

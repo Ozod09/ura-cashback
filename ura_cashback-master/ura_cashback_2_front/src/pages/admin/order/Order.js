@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import "./orderC.css"
-import {Input, Table} from "reactstrap";
+import {Button, Input, InputGroup, Table} from "reactstrap";
 import {getOrder} from "../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import Sidebar from "../../clint/navbar/Sidebar";
@@ -10,7 +10,6 @@ class Order extends Component {
         this.props.dispatch(getOrder())
     }
 
-
     state = {
         currentUserOrder: {},
     }
@@ -18,12 +17,9 @@ class Order extends Component {
     render() {
 
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "white"
+        document.body.style.backgroundColor = "rgba(231, 229, 229, 0.73)"
 
-        const {orders, dispatch,size, page ,search } = this.props;
-
-
-        console.log(orders)
+        const {orders, dispatch, size, page, search} = this.props;
 
         const paginate = (number) => {
             dispatch({
@@ -35,40 +31,41 @@ class Order extends Component {
         }
 
         //Search
-        const set = (item)=>{
-            const lowerCase = item.target.value.toLowerCase();
+        const clickSearch = () => {
             dispatch({
-                type:"updateState",
-                payload:{
-                    search:lowerCase
+                type: "updateState",
+                payload: {
+                    search: document.getElementById("search").value.toLowerCase()
                 }
             })
         }
 
-        const filter = orders.filter((el)=>{
-            if(search === ''){
+        const filter = orders.filter((el) => {
+            if (search === '') {
                 return el;
-            }else {
+            } else {
                 return el.company.name.toLowerCase().includes(search)
             }
         })
 
         const indexOfLasPost = page * size;
         const indexOfFirstPosts = indexOfLasPost - size;
-        const currentPosts = filter.slice(indexOfFirstPosts,indexOfLasPost);
+        const currentPosts = filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const companyName = [];
         for (let i = 1; i <= Math.ceil(orders.length / size); i++) {
             companyName.push(i);
         }
 
-
         return (
             <div className="superAdminCashback">
                 <Sidebar/>
                 <div className="searchSuperAdminCashback">
-                    <Input type="text" onChange={(item)=> set(item)}  placeholder="Enter company name"/>
-                    <i className="pi pi-search searchIconcaSuperAdmin"/>
+                    <InputGroup>
+                        <Input type="text" id="search" placeholder="Enter company name"/>
+                        <Button color="primary" type="button"><i
+                            className="pi pi-search searchIconcaSuperAdmin" onClick={clickSearch}/></Button>
+                    </InputGroup>
                 </div>
                 <div className="me-5 ms-5 superAdminTable">
                     <Table>
@@ -82,20 +79,19 @@ class Order extends Component {
                         </tr>
                         </thead>
                         {currentPosts.map((item, i) =>
-                                <tbody key={i}>
-                                <tr>
-                                    <td>{item.company.name}</td>
-                                    <td>{item.admin.firstName} {item.admin.lastName}</td>
-                                    <td>{item.cash_price}</td>
-                                    <td>{item.cashback}</td>
-                                    <td>{item.client.firstName} {item.client.lastName}</td>
-                                </tr>
-                                </tbody>
-                            )
+                            <tbody key={i}>
+                            <tr>
+                                <td>{item.company && item.company.name}</td>
+                                <td>{item.admin && item.admin.firstName} {item.admin && item.admin.lastName}</td>
+                                <td>{item.cash_price}</td>
+                                <td>{item.cashback}</td>
+                                <td>{item.client && item.client.firstName} {item.client && item.client.lastName}</td>
+                            </tr>
+                            </tbody>
+                        )
                         }
                     </Table>
                 </div>
-
 
 
                 <nav>
@@ -117,6 +113,6 @@ class Order extends Component {
 Order.propTypes = {};
 
 export default connect(
-    ({app: {orders,dispatch,size, page ,search}}) =>
-        ({orders,dispatch,size, page ,search}))
+    ({app: {orders, dispatch, size, page, search}}) =>
+        ({orders, dispatch, size, page, search}))
 (Order);

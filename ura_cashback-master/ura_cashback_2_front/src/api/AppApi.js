@@ -79,7 +79,6 @@ export const activeCompany12 = (data) => {
 }
 //*****************************************************************=> Attachment
 export const addAttachment = (data) => {
-    console.log(data)
     return HttpClient.doPost(api.attachment, data);
 }
 //*****************************************************************=> Role
