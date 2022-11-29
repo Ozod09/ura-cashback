@@ -24,6 +24,8 @@ import {
 import * as types from "../actionTypes/AppActionTypes";
 import {toast} from "react-toastify";
 
+export const byId = id => document.getElementById(id).value;
+
 export const getUser = () => (dispatch) => {
     dispatch({
         api: getUsers,
@@ -53,9 +55,7 @@ export const loginCompany = (payload) => (dispatch) => {
                     openLogin: true
                 }
             })
-        } else {
-            toast.error("Company not Active")
-        }
+        } else toast.error("Company not Active");
     })
 }
 
@@ -71,9 +71,7 @@ export const editCompanyAdminPassword = (payload) => (dispatch) => {
     }).then(res => {
         if (res.success) {
             toast.success("Successfully edit password")
-        } else {
-            toast.error("Password not found")
-        }
+        } else toast.error("Password not found");
     })
 }
 
@@ -206,9 +204,7 @@ export const saveCompanyUser = (payload) => (dispatch) => {
                     currentUser: res.payload.payload
                 }
             })
-        } else {
-            toast.error("Error")
-        }
+        } else toast.error("Error");
     })
 }
 
@@ -231,9 +227,7 @@ export const saveCompanyKassa = (payload) => (dispatch) => {
                     currentUser: res.payload
                 }
             })
-        } else {
-            toast.error("Error")
-        }
+        } else toast.error("Error");
     })
 }
 
@@ -326,9 +320,7 @@ export const saveOrder = (payload) => (dispatch) => {
         if (res.success) {
             dispatch(getOrder());
             toast.success("Saqlandi");
-        } else {
-            toast.error("Error")
-        }
+        } else toast.error("Error");
     })
 }
 

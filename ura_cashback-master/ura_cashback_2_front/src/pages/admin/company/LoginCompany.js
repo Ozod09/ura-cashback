@@ -17,7 +17,8 @@ class LoginCompany extends Component {
 
     render() {
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "rgb(231,230,230)";
+        // document.body.style.backgroundColor = "rgb(231,230,230)";
+        document.body.style.backgroundColor = "white";
         const {dispatch, openLogin} = this.props;
 
         const flag = /^(?=.*[0-9]).{8,}$/;
@@ -41,15 +42,15 @@ class LoginCompany extends Component {
             <div>
                 {openLogin ?
                     <CabinetHome/> :
-                    <div className="row home">
+                    <div className="row home m-0">
                         <div className='col-6'>
-                            <div className="row-cols-6 ">
+                            <div className="m-0">
                                 <img className="img1" src={cashbackLogo} alt="not"/>
                                 <a className="regCom" href="/#">Register</a>
                             </div>
                             <img className="img2" src={registerFoto} alt="not"/>
-                            <h3>Savdolaringizni istalgan vaqtda kuzatib boring,</h3>
-                            <h3>Avvalgidan ko'ra osonroq va samaraliroq</h3>
+                            <h3 className="mt-5">Savdolaringizni istalgan vaqtda kuzatib boring,</h3>
+                            <h3 className="mb-5">Avvalgidan ko'ra osonroq va samaraliroq</h3>
                         </div>
                         <div className="col-6 loginCom">
                             <div className="row loginCompany">
