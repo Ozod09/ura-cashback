@@ -40,9 +40,8 @@ body{
     position: absolute;
     width: 7%;
     height: 16%;
-    left: 29%;
-    top: 26%;
-
+    left: 23.1%;
+    top: 17%;
     background: #E2E2EA;
     border-radius: 5px;
 }
@@ -179,7 +178,6 @@ body{
     margin-left: -70px;
 }
 .home{
-    height: 657px;
     background: rgba(193, 199, 208, 0.388767)
 }
 .loginCom{

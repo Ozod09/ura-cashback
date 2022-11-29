@@ -24,7 +24,6 @@ import {
 import * as types from "../actionTypes/AppActionTypes";
 import {toast} from "react-toastify";
 
-
 export const getUser = () => (dispatch) => {
     dispatch({
         api: getUsers,
@@ -36,7 +35,7 @@ export const getUser = () => (dispatch) => {
     })
 }
 
-export const loginCompany = (payload) => (dispatch) =>{
+export const loginCompany = (payload) => (dispatch) => {
     dispatch({
         api: getCabinetCompany,
         types: [
@@ -45,8 +44,8 @@ export const loginCompany = (payload) => (dispatch) =>{
             types.REQUEST_ERROR,
         ],
         data: payload
-    }).then(res =>{
-        if(res !== undefined) {
+    }).then(res => {
+        if (res !== undefined) {
             dispatch({
                 type: 'updateState',
                 payload: {
@@ -54,44 +53,44 @@ export const loginCompany = (payload) => (dispatch) =>{
                     openLogin: true
                 }
             })
-        }else {
+        } else {
             toast.error("Company not Active")
         }
     })
 }
 
-export const editCompanyAdminPassword = (payload) => (dispatch)=>{
+export const editCompanyAdminPassword = (payload) => (dispatch) => {
     dispatch({
         api: editCompanyPassword,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
         data: payload
-    }).then(res=>{
-        if(res.success){
+    }).then(res => {
+        if (res.success) {
             toast.success("Successfully edit password")
-        }else {
+        } else {
             toast.error("Password not found")
         }
     })
 }
 
-export const companyStatistic = (payload) => (dispatch)=>{
+export const companyStatistic = (payload) => (dispatch) => {
     dispatch({
         api: statisticCompany,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
         data: payload
-    }).then(res =>{
-        if(res){
+    }).then(res => {
+        if (res) {
             dispatch({
                 type: 'updateState',
-                payload:{
+                payload: {
                     companyStat: res.payload
                 }
             })
@@ -132,22 +131,22 @@ export const getOneUser = (payload) => (dispatch) => {
         data: payload
     });
 }
-export const superAdminLogin = (payload) => (dispatch) =>{
+export const superAdminLogin = (payload) => (dispatch) => {
     dispatch({
         api: loginSuperAdmin,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
         data: payload
-    }).then(res=>{
-        if(res.success){
+    }).then(res => {
+        if (res.success) {
             toast.success(res.message)
             dispatch({
                 type: 'updateState',
-                payload:{
-                    openLogin : true
+                payload: {
+                    openLogin: true
                 }
             })
         }
@@ -167,72 +166,72 @@ export const getCompany = () => (dispatch) => {
     })
 }
 
-export const saveCompanyAdmin = (payload) => (dispatch) =>{
+export const saveCompanyAdmin = (payload) => (dispatch) => {
     dispatch({
         api: addCompanyAdmin,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
-        data : payload
-    }).then(res =>{
-            dispatch({
-                type: 'updateState',
-                payload:{
-                    showModal: true,
-                    currentUser: res && res.payload
-                }
-            })
-            toast.success("Successfully save")
+        data: payload
+    }).then(res => {
+        dispatch({
+            type: 'updateState',
+            payload: {
+                showModal: true,
+                currentUser: res && res.payload
+            }
+        })
+        toast.success("Successfully save")
     })
 }
 
-export const saveCompanyUser = (payload) => (dispatch) =>{
+export const saveCompanyUser = (payload) => (dispatch) => {
     dispatch({
         api: addCompanyUser,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
-        data : payload
-    }).then(res =>{
-        if(res !== undefined){
+        data: payload
+    }).then(res => {
+        if (res !== undefined) {
             toast.success("Successfully save")
             dispatch({
                 type: 'updateState',
-                payload:{
+                payload: {
                     showModal: true,
                     currentUser: res.payload.payload
                 }
             })
-        }else {
+        } else {
             toast.error("Error")
         }
     })
 }
 
-export const saveCompanyKassa = (payload) => (dispatch) =>{
+export const saveCompanyKassa = (payload) => (dispatch) => {
     dispatch({
         api: payload.id ? editCompanyKassa : addCompanyKassa,
-        types:[
+        types: [
             types.REQUEST_START,
             types.REQUEST_SUCCESS,
             types.REQUEST_ERROR
         ],
-        data : payload
-    }).then(res =>{
-        if(res !== undefined){
+        data: payload
+    }).then(res => {
+        if (res !== undefined) {
             dispatch({
                 type: 'updateState',
-                payload:{
+                payload: {
                     showModal: true,
                     openModal: true,
                     currentUser: res.payload
                 }
             })
-        }else {
+        } else {
             toast.error("Error")
         }
     })
@@ -277,11 +276,11 @@ export const saveCompany = (payload) => (dispatch) => {
     }).then(() => {
         toast.success("Company saved successfully!")
         dispatch({
-                type: 'updateState',
-                payload:{
-                    openLogin: true
-                }
-            })
+            type: 'updateState',
+            payload: {
+                openLogin: true
+            }
+        })
     }).catch(() => {
         toast.error("Error saving company!");
     })
@@ -327,7 +326,7 @@ export const saveOrder = (payload) => (dispatch) => {
         if (res.success) {
             dispatch(getOrder());
             toast.success("Saqlandi");
-        }else {
+        } else {
             toast.error("Error")
         }
     })

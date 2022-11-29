@@ -53,23 +53,23 @@ class AuthUserCompany extends Component {
                 {showModal ?
                     <CompanyClint/>  :
 
-                    <div className="row home">
+                    <div className="row home m-0">
                         <div className='col-6'>
                             <img className="row img1" src={cashbackLogo} alt="not"/>
-                            <img className="img2" src={registerFoto} alt="not"/>
-                            <h3>Savdolaringizni istalgan vaqtda kuzatib boring,</h3>
-                            <h3>Avvalgidan ko'ra osonroq va samaraliroq</h3>
+                            <img className="img2 mt-5" src={registerFoto} alt="not"/>
+                            <h3 className="mt-5">Savdolaringizni istalgan vaqtda kuzatib boring,</h3>
+                            <h3 className="mb-5">Avvalgidan ko'ra osonroq va samaraliroq</h3>
                         </div>
                         <div className="col-6 register">
                             <h2>Hisob ochish</h2>
                             <div className="row">
                                 <div className="col-10 pe-0">
-                                    <Input className="mb-2" type="text" id="firstName" placeholder="First name"
+                                    <Input className="mb-3" type="text" id="firstName" placeholder="First name"
                                            required/>
-                                    <Input className="mb-2" type="text" id="lastName" placeholder="Last name" required/>
-                                    <Input className="mb-2" type="text" id="phoneNumber" placeholder="Phone number"
+                                    <Input className="mb-3" type="text" id="lastName" placeholder="Last name" required/>
+                                    <Input className="mb-3" type="text" id="phoneNumber" placeholder="Phone number"
                                            required/>
-                                    <Input className="mb-2" type="email" id="email" placeholder="Email" required/>
+                                    <Input className="mb-3" type="email" id="email" placeholder="Email" required/>
                                     <Input className="mb-2" type={this.state.openPassword ? "text" : "password"} id="password" placeholder="Password"
                                            required/>
                                     <Input className="mb-2" type={this.state.openPrePassword ? "text" : "password"} id="prePassword" placeholder="Pre password"
@@ -81,10 +81,10 @@ class AuthUserCompany extends Component {
                                         <li className="row iconca1"><i className="pi pi-user"/></li>
                                         <li className="row iconca2"><i className="pi pi-user"/></li>
                                         <li className="row iconca3"><i className="pi pi-phone"/></li>
-                                        <li className="row iconca4"><i className="pi pi-at"/></li>
-                                        <li className="row iconca5" onClick={()=> password()}>
+                                        <li className="row iconca3"><i className="pi pi-at"/></li>
+                                        <li className="row iconca3" onClick={()=> password()}>
                                             {this.state.openPassword ? <i className="pi pi-eye-slash"/> : <i className="pi pi-eye"/>}</li>
-                                        <li className="row iconca6" onClick={()=> prePassword()}>
+                                        <li className="row iconca3" onClick={()=> prePassword()}>
                                             {this.state.openPrePassword ? <i className="pi pi-eye-slash" /> : <i className="pi pi-eye"/> }</li>
                                     </ul>
                                 </div>

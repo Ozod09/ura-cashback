@@ -34,7 +34,7 @@ public class AuthService {
 
     public ApiResponse<?> addRegisterClient(AuthDto authDto) {
         AuthDto save = addUser(authDto);
-        companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), 4);
+        companyUserRoleService.addCompanyUserRole(save.getId(), authDto.getCompanyId(), 4);
         return new ApiResponse<>("User saved", 200);
     }
 
@@ -44,7 +44,7 @@ public class AuthService {
 
     public AuthDto addKassa(AuthDto authDto) {
         AuthDto save = addUser(authDto);
-        companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), 3);
+        companyUserRoleService.addCompanyUserRole(save.getId(), authDto.getCompanyId(), 3);
         return save;
     }
 
@@ -55,7 +55,7 @@ public class AuthService {
     public AuthDto editKassa(AuthDto authDto, User user) {
         AuthDto save = editUser(authDto, user);
         CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(authDto.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", save));
-        companyUserRoleService.addCompanyUserRole(companyUserRole, companyUserRole.getUserId(), companyUserRole.getCompanyId(), companyUserRole.getRoleId());
+        companyUserRoleService.addCompanyUserRole(companyUserRole.getUserId(), companyUserRole.getCompanyId(), companyUserRole.getRoleId());
         return save;
     }
 

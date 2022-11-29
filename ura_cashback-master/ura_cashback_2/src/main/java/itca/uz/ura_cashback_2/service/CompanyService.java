@@ -1,14 +1,12 @@
 package itca.uz.ura_cashback_2.service;
 
 import itca.uz.ura_cashback_2.entity.Company;
-import itca.uz.ura_cashback_2.entity.CompanyUserRole;
 import itca.uz.ura_cashback_2.mappers.CompanyMapper;
 import itca.uz.ura_cashback_2.payload.ApiResponse;
 import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -31,7 +29,7 @@ public class CompanyService {
         company.setAttachment(attachmentRepository.findById(companyDto.getAttachmentId())
                 .orElseThrow(() -> new ResourceAccessException("GetAttachment")));
         final Company save = companyRepository.save(company);
-        companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), companyDto.getUserId(), save.getId(), 2);
+        companyUserRoleService.addCompanyUserRole(companyDto.getUserId(), save.getId(), 2);
         return new ApiResponse<>("Successfully saved company", 200);
     }
 

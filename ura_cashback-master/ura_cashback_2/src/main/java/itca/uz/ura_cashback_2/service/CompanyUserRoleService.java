@@ -19,8 +19,8 @@ public class CompanyUserRoleService {
         this.companyService = companyService;
     }
 
-    public void addCompanyUserRole(CompanyUserRole companyUserRole, Long userId, Long companyId, Integer roleId) {
-        companyUserRole = CompanyUserRole.builder()
+    public void addCompanyUserRole(Long userId, Long companyId, Integer roleId) {
+        CompanyUserRole companyUserRole = CompanyUserRole.builder()
                 .companyId(companyId)
                 .roleId(roleId)
                 .userId(userId).build();

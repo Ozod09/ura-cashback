@@ -8,8 +8,6 @@ import logoCash from "../company/img/Left.png"
 import registerCom1 from "../company/img/Rectangle.png"
 import done from "../company/img/photo_2022-10-20_11-19-28.jpg"
 import {api} from "../../../api/api";
-import {toast} from "react-toastify";
-import axios from "axios";
 
 class CompanyRegister extends Component {
     render() {
@@ -17,21 +15,7 @@ class CompanyRegister extends Component {
         const sendPhoto = (item) => {
             let obj = new FormData();
             obj.append("request", item.target.files[0]);
-            // axios.post("http://localhost/api/attachment", obj.get("request"), config)
-            //     .then(() => {
-            //         alert("success")
-            //     }).catch(() => {
-            //     alert("catch")
-            // })
             this.props.dispatch(addAttachmentAction(obj));
-        }
-
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                'Accept': 'application/json',
-                "Content-Type": 'multipart/form-data'
-            }
         }
 
         const addCompany = () => {
