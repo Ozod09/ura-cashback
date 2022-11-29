@@ -32,19 +32,20 @@ public class AttachmentService {
     public Long upload(MultipartFile request) {
         try {
 //             Files.deleteIfExists(Path.of(root+"\\"+ request.getOriginalFilename()));
-             Files.copy(request.getInputStream(), root.resolve(Objects.requireNonNull(request.getOriginalFilename())));
-             Attachment save = attachmentRepository.save(Attachment.builder()
+            Files.copy(request.getInputStream(), root.resolve(Objects.requireNonNull(request.getOriginalFilename())));
+            Attachment save = attachmentRepository.save(Attachment.builder()
                     .contentType(request.getContentType())
                     .name(request.getOriginalFilename())
                     .size(request.getSize())
                     .build());
-             return save.getId();
-        }catch (Exception e){
-                return null;
+            return save.getId();
+        } catch (Exception e) {
+            return null;
         }
     }
+
     @SneakyThrows
-    public AttachmentResDto getFile(Long id){
+    public AttachmentResDto getFile(Long id) {
         Attachment attachment = attachmentRepository.findById(id).orElseThrow(() -> new ResourceAccessException("GetAttachment"));
         Path file = root.resolve(attachment.getName());
         Resource resource = new UrlResource(file.toUri());

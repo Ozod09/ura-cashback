@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @RequiredArgsConstructor
 public class AttachmentController {
 
-   private final AttachmentService attachmentService;
+    private final AttachmentService attachmentService;
 
     @PostMapping
     public HttpEntity<?> upload(@RequestParam MultipartFile request) {
@@ -24,8 +24,8 @@ public class AttachmentController {
     }
 
     @GetMapping("/getFile/{id}")
-    public HttpEntity<?> download(@PathVariable Long id){
-         AttachmentResDto attachmentResDto = attachmentService.getFile(id);
+    public HttpEntity<?> download(@PathVariable Long id) {
+        AttachmentResDto attachmentResDto = attachmentService.getFile(id);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(attachmentResDto.getAttachment().getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + attachmentResDto.getAttachment().getName())
