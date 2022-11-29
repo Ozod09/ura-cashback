@@ -7,6 +7,7 @@ import itca.uz.ura_cashback_2.payload.ApiResponse;
 import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -16,19 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final AttachmentRepository attachmentRepository;
     private final CompanyMapper companyMapper;
     private final CompanyUserRoleService companyUserRoleService;
-
-    public CompanyService(CompanyRepository companyRepository, AttachmentRepository attachmentRepository, CompanyMapper companyMapper, @Lazy CompanyUserRoleService companyUserRoleService) {
-        this.companyRepository = companyRepository;
-        this.attachmentRepository = attachmentRepository;
-        this.companyMapper = companyMapper;
-        this.companyUserRoleService = companyUserRoleService;
-    }
 
     public ApiResponse<?> addCompany(CompanyDto companyDto) {
         Company company = companyMapper.fromDto(companyDto);
@@ -50,7 +45,7 @@ public class CompanyService {
         return new ApiResponse<>("Successfully saved company", 200);
     }
 
-    public List<CompanyDto> getCompanyList(){
+    public List<CompanyDto> getCompanyList() {
         List<CompanyDto> companyDtoList = new ArrayList<>();
         for (Company company : companyRepository.findAll()) {
             CompanyDto companyDto = companyMapper.fromCompany(company);
@@ -68,11 +63,11 @@ public class CompanyService {
         Optional<Company> byId = companyRepository.findById(id);
         if (byId.isPresent()) {
             Company company = byId.orElseThrow(() -> new ResourceAccessException("GetCompany"));
-            if (company.getActive()==1){
+            if (company.getActive() == 1) {
                 company.setActive((byte) 0);
                 companyRepository.save(company);
                 return new ApiResponse<>("Company inactive", 200);
-            }else{
+            } else {
                 company.setActive((byte) 1);
                 companyRepository.save(company);
                 return new ApiResponse<>("Company active", 200);

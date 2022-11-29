@@ -5,7 +5,7 @@ import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.AuthRepository;
 import itca.uz.ura_cashback_2.service.AuthService;
 import itca.uz.ura_cashback_2.utils.AppConstant;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,15 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/auth")
 @CrossOrigin
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
     private final AuthRepository authRepository;
+
+    public AuthController(@Lazy AuthService authService, AuthRepository authRepository) {
+        this.authService = authService;
+        this.authRepository = authRepository;
+    }
 
 
     @PostMapping

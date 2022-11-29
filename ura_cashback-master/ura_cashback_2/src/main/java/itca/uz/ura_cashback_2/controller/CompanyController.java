@@ -5,6 +5,7 @@ import itca.uz.ura_cashback_2.payload.ApiResponse;
 import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
 import itca.uz.ura_cashback_2.service.CompanyService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CompanyController {
 
     final CompanyService companyService;
     final CompanyRepository companyRepository;
-    public CompanyController(CompanyService companyService, CompanyRepository companyRepository) {
+    public CompanyController(@Lazy CompanyService companyService, CompanyRepository companyRepository) {
         this.companyService = companyService;
         this.companyRepository = companyRepository;
     }

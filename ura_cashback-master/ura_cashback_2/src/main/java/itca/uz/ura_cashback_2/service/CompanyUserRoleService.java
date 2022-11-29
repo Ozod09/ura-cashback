@@ -4,6 +4,7 @@ import itca.uz.ura_cashback_2.entity.Company;
 import itca.uz.ura_cashback_2.entity.CompanyUserRole;
 import itca.uz.ura_cashback_2.exception.ResourceNotFoundException;
 import itca.uz.ura_cashback_2.repository.CompanyUserRoleRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 
@@ -13,7 +14,7 @@ public class CompanyUserRoleService {
     final CompanyUserRoleRepository companyUserRoleRepository;
     final CompanyService companyService;
 
-    public CompanyUserRoleService(CompanyUserRoleRepository companyUserRoleRepository, CompanyService companyService) {
+    public CompanyUserRoleService(CompanyUserRoleRepository companyUserRoleRepository, @Lazy CompanyService companyService) {
         this.companyUserRoleRepository = companyUserRoleRepository;
         this.companyService = companyService;
     }

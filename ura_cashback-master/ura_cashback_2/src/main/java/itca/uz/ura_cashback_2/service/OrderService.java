@@ -28,14 +28,13 @@ public class OrderService {
     private final CompanyUserRoleRepository companyUserRoleRepository;
 
 
-
     public ApiResponse<?> addOrder(OrderDto orderDto) {
         int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price(), companyClientCash;
         User getClient = authService.getOneUser(orderDto.getClientId());
         User getAdmin = authService.getOneUser(orderDto.getAdminId());
         Company getCompany;
         try {
-            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(),2);
+            getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), 2);
         } catch (Exception e) {
             getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), 3);
         }
@@ -62,7 +61,7 @@ public class OrderService {
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
         CompanyUserRole companyUserRole = companyUserRoleRepository.kassir(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        if (companyUserRole != null ) {
+        if (companyUserRole != null) {
             return user;
         }
         return null;
@@ -71,43 +70,6 @@ public class OrderService {
     public Order getOneOrder(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getOrder"));
     }
-
-//    public List<Statistic> getStatisticList(Long companyId) {
-//        List<Statistic> statisticList = new ArrayList<>();
-//        List<Long> userIdList = getAdminId(companyId);
-//        return getOrder(userIdList, statisticList);
-//    }
-
-//    public List<Statistic> getOrder(List<Long> userIdList, List<Statistic> statisticList) {
-//        for (Long adminId : userIdList) {
-//            List<Order> orderList = orderRepository.findCreatedBy(adminId);
-//            getStatistic(orderList, statisticList);
-//        }
-//        return statisticList;
-//    }
-
-//    public void getStatistic(List<Order> order, List<Statistic> statisticList) {
-//        for (Order onrOrder : order) {
-//            Statistic statistic = Statistic.builder()
-//                    .admin(authService.getOneUser(onrOrder.getCreatedBy()))
-//                    .id(onrOrder.getId())
-//                    .cash_price(onrOrder.getCash_price())
-//                    .cashback(onrOrder.getCompanyClientCash())
-//                    .user(onrOrder.getClient())
-//                    .build();
-//            statisticList.add(statistic);
-//        }
-//    }
-
-//    public List<Long> getAdminId(Long companyId) {
-//        return companyUserRoleRepository.getCompanyRole
-//                (companyId, roleRepository.findRoleName(RoleName.ROLE_ADMIN).orElseThrow(() ->
-//                                new ResourceNotFoundException(403, "Role", "role Admin", companyId)).getId(),
-//                        roleRepository.findRoleName(RoleName.ROLE_SUPER_ADMIN).orElseThrow(() ->
-//                                new ResourceNotFoundException(403, "Role", "role Super Admin", companyId)).getId(),
-//                        roleRepository.findRoleName(RoleName.ROLE_KASSA).orElseThrow(() ->
-//                                new ResourceNotFoundException(403, "Role", "role Kasseer", companyId)).getId());
-//    }
 
     public List<Order> getFindByUser(Long userId) {
         return orderRepository.findCreatedBy(userId);
@@ -127,20 +89,20 @@ public class OrderService {
         if (company.isPresent()) {
             Timestamp startTime = Timestamp.valueOf(reqStatistic.getStartTime());
             Timestamp endTime = Timestamp.valueOf(reqStatistic.getFinishTime());
-            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(),startTime,endTime);
+            List<Order> orderList = orderRepository.findByCompanyIdAndCreatedAt(reqStatistic.getCompanyId(), startTime, endTime);
             Set<Long> allClient = new HashSet<>();
             int allBalance = 0;
             int companyClientCash = 0;
-            int clientCash  = 0;
+            int clientCash = 0;
             for (Order order1 : orderList) {
-                allBalance+=order1.getCash_price();
-                companyClientCash+=order1.getCompanyClientCash();
+                allBalance += order1.getCash_price();
+                companyClientCash += order1.getCompanyClientCash();
                 allClient.add(order1.getClient().getId());
             }
-            for(Long id : allClient){
-                clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404,"User","id",id)).getSalary();
+            for (Long id : allClient) {
+                clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", id)).getSalary();
             }
-            int urtachaCheck = allBalance/ allClient.size();
+            int urtachaCheck = allBalance / allClient.size();
             return ResStatistic.builder()
                     .jamiClient(allClient.size())
                     .allBalance(allBalance)
