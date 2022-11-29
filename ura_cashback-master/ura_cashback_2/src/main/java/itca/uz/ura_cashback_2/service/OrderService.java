@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,6 @@ public class OrderService {
     private final AuthRepository authRepository;
     private final CompanyRepository companyRepository;
     private final CompanyUserRoleService companyUserRoleService;
-    private final RoleRepository roleRepository;
     private final AuthService authService;
     private final CompanyUserRoleRepository companyUserRoleRepository;
 

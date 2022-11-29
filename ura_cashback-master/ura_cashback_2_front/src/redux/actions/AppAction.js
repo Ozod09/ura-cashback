@@ -88,7 +88,6 @@ export const companyStatistic = (payload) => (dispatch)=>{
         ],
         data: payload
     }).then(res =>{
-        console.log(res.payload ,' com stat')
         if(res){
             dispatch({
                 type: 'updateState',
@@ -182,7 +181,7 @@ export const saveCompanyAdmin = (payload) => (dispatch) =>{
                 type: 'updateState',
                 payload:{
                     showModal: true,
-                    currentUser: res.payload
+                    currentUser: res && res.payload
                 }
             })
             toast.success("Successfully save")

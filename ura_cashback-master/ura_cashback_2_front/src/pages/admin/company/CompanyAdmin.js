@@ -13,7 +13,7 @@ class CompanyAdmin extends Component {
 
     render() {
         document.body.style.marginLeft = "3.7%";
-        document.body.style.backgroundColor = "white";
+        document.body.style.backgroundColor = "rgba(231, 229, 229, 0.73)";
 
         const {company, search, page, size, dispatch, active} = this.props;
 
@@ -62,12 +62,13 @@ class CompanyAdmin extends Component {
                 }
             });
         }
+
         const changeActiveCompany = (item) => {
             this.props.dispatch(activeCompany(item));
         }
 
         return (
-            <div className="superAdminCompany">
+            <div>
                 <Sidebar/>
                 <div className="searchSuperAdminCompany">
                     <InputGroup>

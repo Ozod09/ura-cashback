@@ -209,13 +209,6 @@ body{
     border-radius: 20px;
     color: #111111;
 }
-
-.superAdminCompany{
-    position: absolute;
-    width: 1315px;
-    background-color: rgba(231, 229, 229, 0.73);
-    height: 657px;
-}
 .searchSuperAdminCompany{
     width: 250px;
     margin-left: 50px;

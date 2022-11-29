@@ -20,7 +20,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService{
+public class AuthService {
 
     private final CompanyMapper companyMapper;
     private final AuthRepository authRepository;
@@ -32,14 +32,13 @@ public class AuthService{
     private final UserMapper mapper;
 
 
-
     public ApiResponse<?> addRegisterClient(AuthDto authDto) {
         AuthDto save = addUser(authDto);
         companyUserRoleService.addCompanyUserRole(new CompanyUserRole(), save.getId(), authDto.getCompanyId(), 4);
         return new ApiResponse<>("User saved", 200);
     }
 
-    public Long addCompanyAdmin(AuthDto authDto){
+    public Long addCompanyAdmin(AuthDto authDto) {
         return addUser(authDto).getId();
     }
 
@@ -49,7 +48,7 @@ public class AuthService{
         return save;
     }
 
-    public Long editCompanyAdmin(AuthDto authDto, User user){
+    public Long editCompanyAdmin(AuthDto authDto, User user) {
         return editUser(authDto, user).getId();
     }
 
@@ -68,7 +67,7 @@ public class AuthService{
     }
 
 
-    public ApiResponse<?> activeUser(Long id){
+    public ApiResponse<?> activeUser(Long id) {
         User user = authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser"));
         if (user.getActive() == 1) {
             user.setActive((byte) 0);
@@ -105,10 +104,10 @@ public class AuthService{
     }
 
 
-    public ApiResponse<?> editPassword(ReqPassword reqPassword){
+    public ApiResponse<?> editPassword(ReqPassword reqPassword) {
         User user = authRepository.findById(reqPassword.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqPassword));
-        if (user.getPassword().equals(reqPassword.getJoriyPassword())){
-            if (reqPassword.getPassword().equals(reqPassword.getPrePassword())){
+        if (user.getPassword().equals(reqPassword.getJoriyPassword())) {
+            if (reqPassword.getPassword().equals(reqPassword.getPrePassword())) {
                 user.setPassword(reqPassword.getPassword());
                 authRepository.save(user);
                 return new ApiResponse<>("SuccessFully", 200);
@@ -118,40 +117,40 @@ public class AuthService{
         return new ApiResponse<>("Password not found", 401);
     }
 
-    public List<OrderDto> companyOrder(Long id){
+    public List<OrderDto> companyOrder(Long id) {
         List<OrderDto> orderDtoList = new ArrayList<>();
         List<CompanyUserRole> companyUserRoleAdmin = companyUserRoleRepository.companyIdAndRoleId(id, 2);
         for (CompanyUserRole companyUserRole : companyUserRoleAdmin) {
-            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId())));
+            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(409, "User", "id", companyUserRole.getUserId())));
             orderDtoList.addAll(kassaOrAdminOrder);
         }
         List<CompanyUserRole> companyUserRolesKasser = companyUserRoleRepository.companyIdAndRoleId(id, 3);
         for (CompanyUserRole companyUserRole : companyUserRolesKasser) {
-            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId())));
+            List<OrderDto> kassaOrAdminOrder = getKassaOrAdminOrder(authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(409, "User", "id", companyUserRole.getUserId())));
             orderDtoList.addAll(kassaOrAdminOrder);
         }
         return orderDtoList;
     }
 
-    public List<User> companyKassaOrClient(Long id, Integer roleId){
+    public List<User> companyKassaOrClient(Long id, Integer roleId) {
         List<User> users = new ArrayList<>();
         List<CompanyUserRole> companyUserRoles = companyUserRoleRepository.companyIdAndRoleId(id, roleId);
         for (CompanyUserRole companyUserRole : companyUserRoles) {
-            User user = authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", companyUserRole.getUserId()));
+            User user = authRepository.findById(companyUserRole.getUserId()).orElseThrow(() -> new ResourceNotFoundException(409, "User", "id", companyUserRole.getUserId()));
             users.add(user);
         }
         return users;
     }
 
-    public CompanyDto loginCompany(ReqLogin reqLogin){
-        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "phoneNumber and password", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.findId(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
-        Role role = roleRepository.findId(companyUserRole.getRoleId()).orElseThrow(() -> new ResourceNotFoundException(403, "Role ", "Admin", companyUserRole.getRoleId()));
-        Company company = companyRepository.findById(companyUserRole.getCompanyId()).orElseThrow(()-> new ResourceAccessException("GetCompany"));
-        if(company.getActive()==1) {
+    public CompanyDto loginCompany(ReqLogin reqLogin) {
+        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(409, "User", "phoneNumber and password", reqLogin));
+        CompanyUserRole companyUserRole = companyUserRoleRepository.findId(user.getId()).orElseThrow(() -> new ResourceNotFoundException(409, "companyUserRole", "id", reqLogin));
+        Role role = roleRepository.findId(companyUserRole.getRoleId()).orElseThrow(() -> new ResourceNotFoundException(409, "Role ", "Admin", companyUserRole.getRoleId()));
+        Company company = companyRepository.findById(companyUserRole.getCompanyId()).orElseThrow(() -> new ResourceAccessException("GetCompany"));
+        if (company.getActive() == 1) {
             if (role.getRoleName().equals(RoleName.ROLE_ADMIN)) {
                 CompanyDto companyDto1 = companyMapper.fromCompany(company);
-                companyDto1.setActive1(company.getActive()==1);
+                companyDto1.setActive1(company.getActive() == 1);
                 companyDto1.setId(company.getId());
                 companyDto1.setUser(user);
                 companyDto1.setResStatistic(getCompanyStatistic(company.getId()));
@@ -161,7 +160,7 @@ public class AuthService{
         return null;
     }
 
-    public ResStatistic getCompanyStatistic(Long companyId){
+    public ResStatistic getCompanyStatistic(Long companyId) {
         Set<Long> allClient = new HashSet<>();
         int allBalance = 0;
         int companyClientCash = 0;
@@ -172,11 +171,11 @@ public class AuthService{
             companyClientCash += order.getCompanyClientCash();
             allClient.add(order.getClient().getId());
         }
-        if(allBalance != 0) {
+        if (allBalance != 0) {
             urtachaCheck = allBalance / allClient.size();
         }
-        for(Long id : allClient){
-            clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404,"User","id",id)).getSalary();
+        for (Long id : allClient) {
+            clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(409, "User", "id", id)).getSalary();
         }
         ResStatistic resStatistic = new ResStatistic();
         resStatistic.setJamiClient(allClient.size());
@@ -187,7 +186,7 @@ public class AuthService{
         return resStatistic;
     }
 
-    public List<OrderDto> getKassaOrAdminOrder(User user){
+    public List<OrderDto> getKassaOrAdminOrder(User user) {
         List<OrderDto> orderDtoList = new ArrayList<>();
         for (Order kassaOrder : orderRepository.findCreatedBy(user.getId())) {
             OrderDto orderDto = new OrderDto();
@@ -204,7 +203,7 @@ public class AuthService{
         return orderDtoList;
     }
 
-    public AuthDto editUser(AuthDto authDto, User user){
+    public AuthDto editUser(AuthDto authDto, User user) {
         if (authDto.getPassword().equals(authDto.getPrePassword())) {
             User user1 = mapper.fromDto(authDto);
             user1.setId(user.getId());
@@ -218,7 +217,7 @@ public class AuthService{
 
     public AuthDto addUser(AuthDto authDto) {
         try {
-            if (!authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail()).isPresent()){
+            if (!authRepository.equalsUser(authDto.getPhoneNumber(), authDto.getEmail()).isPresent()) {
                 if (authDto.getPassword().equals(authDto.getPrePassword())) {
                     User user = mapper.fromDto(authDto);
                     User save = authRepository.save(user);
@@ -227,7 +226,7 @@ public class AuthService{
                     return authDto1;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -19,7 +19,7 @@ class CabinetOperation extends Component {
     render() {
 
         document.body.style.marginLeft = "3.7%";
-            document.body.style.backgroundColor = "rgb(232, 231, 231)";
+        document.body.style.backgroundColor = "rgb(232, 231, 231)";
 
         const {companyInfo, search, dispatch, size, page} = this.props;
 
@@ -42,7 +42,6 @@ class CabinetOperation extends Component {
             })
         }
 
-        console.log(companyInfo)
         const filter = companyInfo.orders && companyInfo.orders.filter((el) => {
             if (search === '') {
                 return el;
@@ -60,9 +59,11 @@ class CabinetOperation extends Component {
             kassirName.push(i);
         }
 
+        console.log(companyInfo)
+
 
         return (
-            <div id="cabOrder">
+            <div>
                 <Navbar/>
                 <CompanySidebar/>
                 <div className="searchOperation">

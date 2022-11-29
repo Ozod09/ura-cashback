@@ -10,8 +10,8 @@ import Kassa from "./Kassa";
 function OrderAdd(props) {
     const {dispatch, currentUser, currentAdmin, modal} = props;
 
-    console.log(currentAdmin,'admin')
-    console.log(currentUser ,'user')
+    console.log(currentAdmin, 'admin')
+    console.log(currentUser, 'user')
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
@@ -58,7 +58,8 @@ function OrderAdd(props) {
                             <div className="kassa-nav">
                                 <Link to="/">
                                     <i className="bi bi-arrow-left-circle-fill">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                             fill="currentColor"
                                              className="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16"
                                              onClick={setBackClick}>
                                             <path
@@ -75,7 +76,8 @@ function OrderAdd(props) {
                             {open ? <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback"
                                            defaultValue={currentUser.salary} id="cashback"
                                            className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/> :
-                                <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback" id="cashback"
+                                <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback"
+                                       id="cashback"
                                        className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/>}
                             <Button onClick={() => openModal()} className="orderButton">All</Button>
                             {res ? <small style={{color: "red"}}>kiritilgan cashback katta</small> : ""}

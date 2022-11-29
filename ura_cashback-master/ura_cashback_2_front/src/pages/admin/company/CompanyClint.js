@@ -33,18 +33,18 @@ class CompanyRegister extends Component {
                 "Content-Type": 'multipart/form-data'
             }
         }
-        console.log(attachmentId)
 
         const addCompany = () => {
             let name = document.getElementById("name").value;
             let bio = document.getElementById("bio").value;
             let description = document.getElementById("description").value;
-            let clintPercentage = document.getElementById("clintPercentage").value;
+            let clientPercentage = document.getElementById("clintPercentage").value;
+            console.log(clientPercentage);
             let obj = {
                 name,
                 bio,
                 description,
-                clintPercentage,
+                clientPercentage,
                 attachmentId: attachmentId,
                 userId: currentUser,
                 active

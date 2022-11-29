@@ -20,9 +20,6 @@ function Kassa(props) {
         setIsOrder(true);
     }
 
-    console.log(orders, 'admin order')
-
-
     return (
         <>
             {isOrder ?
