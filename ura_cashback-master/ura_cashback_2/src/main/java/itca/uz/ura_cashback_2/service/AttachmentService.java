@@ -22,7 +22,7 @@ public class AttachmentService {
     AttachmentRepository attachmentRepository;
     final
     AttachmentContentRepository attachmentContentRepository;
-    public static final Path root = Paths.get("D:\\test");
+    public static final Path root = Paths.get("D:\\UraCashback save attachment");
 
     public AttachmentService(AttachmentRepository attachmentRepository, AttachmentContentRepository attachmentContentRepository) {
         this.attachmentRepository = attachmentRepository;

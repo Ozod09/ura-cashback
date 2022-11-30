@@ -3,6 +3,7 @@ package itca.uz.ura_cashback_2.controller;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.OrderRepository;
 import itca.uz.ura_cashback_2.service.OrderService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class OrderController {
     final OrderService orderService;
     final OrderRepository repository;
 
-    public OrderController(OrderService orderService,OrderRepository repository) {
+    public OrderController(@Lazy OrderService orderService, OrderRepository repository) {
         this.orderService = orderService;
         this.repository = repository;
     }

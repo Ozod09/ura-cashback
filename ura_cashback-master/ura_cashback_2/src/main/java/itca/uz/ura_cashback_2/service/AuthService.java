@@ -10,12 +10,16 @@ import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.*;
 import itca.uz.ura_cashback_2.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -28,7 +32,7 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final CompanyUserRoleRepository companyUserRoleRepository;
     private final OrderRepository orderRepository;
-    private final CompanyUserRoleService companyUserRoleService;
+    @Lazy private final CompanyUserRoleService companyUserRoleService;
     private final UserMapper mapper;
 
 

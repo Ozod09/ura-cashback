@@ -7,6 +7,7 @@ import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 

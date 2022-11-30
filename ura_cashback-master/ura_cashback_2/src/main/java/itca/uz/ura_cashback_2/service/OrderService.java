@@ -8,6 +8,8 @@ import itca.uz.ura_cashback_2.exception.ResourceNotFoundException;
 import itca.uz.ura_cashback_2.payload.*;
 import itca.uz.ura_cashback_2.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -60,7 +62,12 @@ public class OrderService {
 
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.kassir(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole;
+        try {
+            companyUserRole  = companyUserRoleRepository.kassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));;
+        } catch (Exception e) {
+            companyUserRole = companyUserRoleRepository.kassir(user.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        }
         if (companyUserRole != null) {
             return user;
         }
