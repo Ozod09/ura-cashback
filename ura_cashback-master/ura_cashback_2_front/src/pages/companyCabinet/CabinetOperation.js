@@ -2,17 +2,16 @@ import React, {Component} from 'react';
 import {Input, Table} from "reactstrap";
 import {connect} from "react-redux";
 import CompanySidebar from "./CompanySidebar";
-import {loginCompany} from "../../redux/actions/AppAction";
+import {companyOrder} from "../../redux/actions/AppAction";
 import Navbar from "../clint/navbar/Navbar";
 import "./cabinet.css"
 
 class CabinetOperation extends Component {
 
     componentDidMount() {
-        this.props.dispatch(loginCompany({
-            password: sessionStorage.getItem("Password"),
-            phoneNumber: sessionStorage.getItem("PhoneNumber")
-        }));
+        this.props.dispatch(companyOrder(
+            sessionStorage.getItem("companyId")
+        ));
     }
 
 
@@ -21,7 +20,7 @@ class CabinetOperation extends Component {
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "rgb(232, 231, 231)";
 
-        const {companyInfo, search, dispatch, size, page} = this.props;
+        const {cabinetOrder, search, dispatch, size, page} = this.props;
 
 
         const paginate = (number) => {
@@ -42,7 +41,7 @@ class CabinetOperation extends Component {
             })
         }
 
-        const filter = companyInfo.orders && companyInfo.orders.filter((el) => {
+        const filter = cabinetOrder && cabinetOrder.filter((el) => {
             if (search === '') {
                 return el;
             } else {
@@ -55,11 +54,9 @@ class CabinetOperation extends Component {
         const currentPosts = filter && filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const kassirName = [];
-        for (let i = 1; i <= Math.ceil(companyInfo.orders && companyInfo.orders.length / size); i++) {
+        for (let i = 1; i <= Math.ceil(cabinetOrder && cabinetOrder.length / size); i++) {
             kassirName.push(i);
         }
-
-        console.log(companyInfo)
 
 
         return (
@@ -118,6 +115,6 @@ class CabinetOperation extends Component {
 CabinetOperation.propTypes = {};
 
 export default connect(
-    ({app: {companyInfo, search, dispatch, page, size}}) =>
-        ({companyInfo, search, dispatch, page, size}))
+    ({app: {companyInfo, cabinetOrder, search, dispatch, page, size}}) =>
+        ({companyInfo, cabinetOrder, search, dispatch, page, size}))
 (CabinetOperation);

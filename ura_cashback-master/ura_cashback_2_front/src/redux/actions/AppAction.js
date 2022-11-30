@@ -12,8 +12,8 @@ import {
     editCompanyKassa, editCompanyPassword,
     editOrder,
     findByPhoneNumber,
-    findByUser,
-    getCabinetCompany,
+    findByUser, getCabinetClient,
+    getCabinetCompany, getCabinetKassa, getCabinetOrder,
     getCompanies,
     getOneUsers,
     getOrders,
@@ -48,6 +48,7 @@ export const loginCompany = (payload) => (dispatch) => {
         data: payload
     }).then(res => {
         if (res !== undefined) {
+            sessionStorage.setItem("companyId", res.payload.id)
             dispatch({
                 type: 'updateState',
                 payload: {
@@ -56,6 +57,63 @@ export const loginCompany = (payload) => (dispatch) => {
                 }
             })
         } else toast.error("Company not Active");
+    })
+}
+
+export const companyClient = (payload) => (dispatch) => {
+    dispatch({
+        api: getCabinetClient,
+        types: [
+            types.REQUEST_START,
+            types.GET_USER_COMPANY,
+            types.REQUEST_ERROR,
+        ],
+        data: payload
+    }).then(res => {
+            dispatch({
+                type: 'updateState',
+                payload: {
+                    cabinetClient: res.payload
+                }
+            })
+    })
+}
+
+export const companyOrder = (payload) => (dispatch) => {
+    dispatch({
+        api: getCabinetOrder,
+        types: [
+            types.REQUEST_START,
+            types.GET_USER_COMPANY,
+            types.REQUEST_ERROR,
+        ],
+        data: payload
+    }).then(res => {
+        dispatch({
+            type: 'updateState',
+            payload: {
+                cabinetOrder: res.payload
+            }
+        })
+    })
+}
+
+export const companyKassa = (payload) => (dispatch) => {
+    dispatch({
+        api: getCabinetKassa,
+        types: [
+            types.REQUEST_START,
+            types.GET_USER_COMPANY,
+            types.REQUEST_ERROR,
+        ],
+        data: payload
+    }).then(res => {
+        dispatch({
+            type: 'updateState',
+            payload: {
+                cabinetKassa: res.payload
+            }
+        })
     })
 }
 

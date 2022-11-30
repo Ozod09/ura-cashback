@@ -62,7 +62,7 @@ public class OrderService {
     }
 
     public User login(ReqLogin reqLogin) {
-            User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
+        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
         CompanyUserRole companyUserRole;
         try {
             companyUserRole  = companyUserRoleRepository.kassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));;
