@@ -22,7 +22,7 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final AttachmentRepository attachmentRepository;
     private final CompanyMapper companyMapper;
-    private final CompanyUserRoleService companyUserRoleService;
+    private final @Lazy CompanyUserRoleService companyUserRoleService;
 
     public ApiResponse<?> addCompany(CompanyDto companyDto) {
         Company company = companyMapper.fromDto(companyDto);
