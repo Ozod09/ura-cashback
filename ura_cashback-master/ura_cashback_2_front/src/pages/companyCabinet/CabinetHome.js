@@ -6,53 +6,65 @@ import Navbar from "../clint/navbar/Navbar";
 import CompanySidebar from "./CompanySidebar";
 import {Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {connect} from "react-redux";
-import {companyStatistic} from "../../redux/actions/AppAction";
-
-
+import {byId, companyStatistic} from "../../redux/actions/AppAction";
 
 function CabinetHome(props) {
+
+    document.body.style.marginLeft = "3.7%";
+    document.body.style.backgroundColor = "rgb(231,230,230)";
+
     const {companyInfo, companyStat} = props;
-    const [open,setOpen] = useState(false);
+
+    const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
 
     const imgList = [
-        {cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.jamiClient, name: "Mijozlar soni"},
-        {cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.allBalance, name: "Jami savdo"},
-        {cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.companyClientCash, name: "To'langan cashback"},
-        {cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.clientCash, name: "Mijozlar cashback"},
-        {cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.urtachaCheck, name: "O'rtacha cheklar"}
+        {
+            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.jamiClient,
+            name: "Mijozlar soni"
+        },
+        {
+            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.allBalance,
+            name: "Jami savdo"
+        },
+        {
+            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.companyClientCash,
+            name: "To'langan cashback"
+        },
+        {
+            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.clientCash,
+            name: "Mijozlar cashback"
+        },
+        {
+            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.urtachaCheck,
+            name: "O'rtacha cheklar"
+        }
     ]
 
-    const openModal = ()=>{
-        setOpen(!open);
-    }
+    const openModal = () => setOpen(!open);
 
-    const filterDate = ()=>{
-        const startTime = document.getElementById("startTime").value;
-        const finishTime = document.getElementById('finishTime').value;
-        props.dispatch(companyStatistic({startTime,finishTime,companyId: companyInfo.id}));
+    const filterDate = () => {
+        props.dispatch(companyStatistic({startTime : byId("startTime"),
+            finishTime: byId("finishTime"), companyId: companyInfo.id}));
         setRes(true);
         setOpen(false);
     }
-
-    console.log(imgList)
 
     return (
         <div className="cabOperation">
             <Navbar/>
             <CompanySidebar/>
-            <Button onClick={()=> openModal()}>Filter</Button>
-            <div className="mt-5 row" style={{marginRight:'0'}}>
+            <Button onClick={() => openModal()}>Filter</Button>
+            <div className="mt-5 row" style={{marginRight: '0'}}>
                 {imgList.map((item, i) =>
                     <Col className="col-3 operationTable" key={i}>
-                    <img className="shape" src={shape} alt="loading.."/>
-                    <img className="copy" src={copy} alt="loading.."/>
-                    <img className="strelka" src={strelka} alt="loading.."/>
-                    <h3>{item.cleant}</h3>
-                    <h5>{item.name}</h5>
+                        <img className="shape" src={shape} alt="loading.."/>
+                        <img className="copy" src={copy} alt="loading.."/>
+                        <img className="strelka" src={strelka} alt="loading.."/>
+                        <h3>{item.cleant}</h3>
+                        <h5>{item.name}</h5>
                     </Col>
                 )}
-
             </div>
 
             <Modal isOpen={open}>
@@ -60,14 +72,14 @@ function CabinetHome(props) {
                     <h3>Filter date</h3>
                 </ModalHeader>
                 <ModalBody>
-                    <label className="mt-3" style={{color:'blue'}}>Start Filter</label>
-                    <Input type="datetime-local"  id="startTime"/>
-                    <label className="mt-3" style={{color:'blue'}}>Finish Filter</label>
-                    <Input type="datetime-local"  id="finishTime"/>
+                    <label className="mt-3" style={{color: 'blue'}}>Start Filter</label>
+                    <Input type="datetime-local" id="startTime"/>
+                    <label className="mt-3" style={{color: 'blue'}}>Finish Filter</label>
+                    <Input type="datetime-local" id="finishTime"/>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="info" onClick={()=> openModal()}>Consel</Button>
-                    <Button color="success" onClick={()=> filterDate()}>Next</Button>
+                    <Button color="info" onClick={() => openModal()}>Consel</Button>
+                    <Button color="success" onClick={() => filterDate()}>Next</Button>
                 </ModalFooter>
             </Modal>
 
@@ -75,8 +87,8 @@ function CabinetHome(props) {
     );
 }
 
-CabinetHome.prototype= {};
+CabinetHome.prototype = {};
 export default connect(
-    ({app:{companyInfo, companyStat}}) =>
-({companyInfo, companyStat}))
+    ({app: {companyInfo, companyStat}}) =>
+        ({companyInfo, companyStat}))
 (CabinetHome);

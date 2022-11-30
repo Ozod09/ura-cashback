@@ -40,7 +40,7 @@ public class OrderService {
         } catch (Exception e) {
             getCompany = companyUserRoleService.getCompanyFindByUser(getAdmin.getId(), 3);
         }
-        if (cashback <= getClient.getSalary()) {
+        if (cashback <= getClient.getSalary() && cashback >= 0) {
             companyClientCash = ((((cash_price - cashback) / 100) * getCompany.getClientPercentage()));
             int salary = cashback == 0
                     ? getClient.getSalary() + ((cash_price / 100) * getCompany.getClientPercentage())
