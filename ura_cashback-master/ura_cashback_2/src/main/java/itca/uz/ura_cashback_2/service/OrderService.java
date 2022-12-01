@@ -6,7 +6,10 @@ import itca.uz.ura_cashback_2.entity.Order;
 import itca.uz.ura_cashback_2.entity.User;
 import itca.uz.ura_cashback_2.exception.ResourceNotFoundException;
 import itca.uz.ura_cashback_2.payload.*;
-import itca.uz.ura_cashback_2.repository.*;
+import itca.uz.ura_cashback_2.repository.AuthRepository;
+import itca.uz.ura_cashback_2.repository.CompanyRepository;
+import itca.uz.ura_cashback_2.repository.CompanyUserRoleRepository;
+import itca.uz.ura_cashback_2.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -24,7 +27,7 @@ public class OrderService {
     private final AuthRepository authRepository;
     private final CompanyRepository companyRepository;
     private final CompanyUserRoleService companyUserRoleService;
-    private final AuthService authService;
+    private final  AuthService authService;
     private final CompanyUserRoleRepository companyUserRoleRepository;
 
 
@@ -47,7 +50,7 @@ public class OrderService {
         } else return new ApiResponse<>("There are not enough funds in your Cashback account", 401);
         Order order = Order.builder()
                 .client(getClient)
-                .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())
+                .companyId(getCompany.getId())
                 .clientCompCash(cashback)
                 .cash_price(cash_price).build();
         order.setCreatedBy(getAdmin.getId());
@@ -58,7 +61,12 @@ public class OrderService {
 
     public User login(ReqLogin reqLogin) {
         User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
-        CompanyUserRole companyUserRole = companyUserRoleRepository.kassir(user.getId()).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        CompanyUserRole companyUserRole;
+        try {
+            companyUserRole  = companyUserRoleRepository.kassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));;
+        } catch (Exception e) {
+            companyUserRole = companyUserRoleRepository.kassir(user.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+        }
         if (companyUserRole != null) {
             return user;
         }

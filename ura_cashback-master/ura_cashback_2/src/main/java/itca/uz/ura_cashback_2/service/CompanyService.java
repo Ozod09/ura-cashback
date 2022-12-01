@@ -7,6 +7,7 @@ import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -21,7 +22,7 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final AttachmentRepository attachmentRepository;
     private final CompanyMapper companyMapper;
-    private final CompanyUserRoleService companyUserRoleService;
+    private final @Lazy CompanyUserRoleService companyUserRoleService;
 
     public ApiResponse<?> addCompany(CompanyDto companyDto) {
         Company company = companyMapper.fromDto(companyDto);

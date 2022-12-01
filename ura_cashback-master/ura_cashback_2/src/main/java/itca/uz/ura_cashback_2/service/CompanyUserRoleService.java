@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanyUserRoleService {
 
-    final CompanyUserRoleRepository companyUserRoleRepository;
-    final CompanyService companyService;
+    private final CompanyUserRoleRepository companyUserRoleRepository;
+    private final CompanyService companyService;
 
     public CompanyUserRoleService(CompanyUserRoleRepository companyUserRoleRepository, @Lazy CompanyService companyService) {
         this.companyUserRoleRepository = companyUserRoleRepository;

@@ -6,7 +6,7 @@ import add from '../companyCabinet/img/add2.png';
 import edit from '../companyCabinet/img/edit2.png';
 import deleteImg from '../companyCabinet/img/delete2.png';
 import './cabinet.css'
-import {loginCompany, removeUser, saveCompanyKassa} from "../../redux/actions/AppAction";
+import {companyKassa, removeUser, saveCompanyKassa} from "../../redux/actions/AppAction";
 import Navbar from "../clint/navbar/Navbar";
 
 
@@ -14,10 +14,7 @@ class CompanyKassa extends Component {
 
 
     componentDidMount() {
-        this.props.dispatch(loginCompany({
-            password: sessionStorage.getItem("Password"),
-            phoneNumber: sessionStorage.getItem("PhoneNumber")
-        }));
+        this.props.dispatch(companyKassa(sessionStorage.getItem("companyId")));
     }
 
     state = {
@@ -35,10 +32,7 @@ class CompanyKassa extends Component {
         document.body.style.backgroundColor = "rgb(232, 231, 231)";
 
         const getCompany = () => {
-            this.props.dispatch(loginCompany({
-                password: JSON.parse(localStorage.getItem("Password")),
-                phoneNumber: JSON.parse(localStorage.getItem("PhoneNumber"))
-            }))
+            this.props.dispatch(companyKassa(sessionStorage.getItem("companyId")))
         }
         const openModal = () => {
             this.setState({openModal: !this.state.openModal});
@@ -56,7 +50,7 @@ class CompanyKassa extends Component {
             this.setState({openPrePassword: !this.state.openPrePassword})
         }
 
-        const {companyInfo, search, dispatch, size, page} = this.props;
+        const {companyInfo, cabinetKassa, search, dispatch, size, page} = this.props;
 
 
         const paginate = (number) => {
@@ -132,7 +126,7 @@ class CompanyKassa extends Component {
             })
         }
 
-        const filter = companyInfo.kassa && companyInfo.kassa.filter((el) => {
+        const filter = cabinetKassa && cabinetKassa.filter((el) => {
             console.log(search)
             if (search === '') {
                 return el;
@@ -146,7 +140,7 @@ class CompanyKassa extends Component {
         const currentPosts = filter && filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const kassirName = [];
-        for (let i = 1; i <= Math.ceil(companyInfo.kassa && companyInfo.kassa.length / size); i++) {
+        for (let i = 1; i <= Math.ceil(cabinetKassa && cabinetKassa.length / size); i++) {
             kassirName.push(i);
         }
 
@@ -251,6 +245,6 @@ class CompanyKassa extends Component {
 CompanyKassa.propTypes = {};
 
 export default connect(
-    ({app: {companyInfo, search, dispatch, size, page}}) =>
-        ({companyInfo, search, dispatch, size, page}))
+    ({app: {companyInfo, cabinetKassa, search, dispatch, size, page}}) =>
+        ({companyInfo, cabinetKassa, search, dispatch, size, page}))
 (CompanyKassa);

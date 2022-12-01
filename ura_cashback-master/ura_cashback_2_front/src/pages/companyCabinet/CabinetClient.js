@@ -2,26 +2,24 @@ import React, {Component} from 'react';
 import CompanySidebar from "./CompanySidebar";
 import {connect} from "react-redux";
 import {Input, Table} from "reactstrap";
-import {loginCompany} from "../../redux/actions/AppAction";
+import {companyClient} from "../../redux/actions/AppAction";
 import Navbar from "../clint/navbar/Navbar";
 import './cabinet.css'
 
 class CabinetClient extends Component {
 
     componentDidMount() {
-        this.props.dispatch(loginCompany({
-            password: sessionStorage.getItem("Password"),
-            phoneNumber: sessionStorage.getItem("PhoneNumber")
-        }))
+        this.props.dispatch(companyClient(
+            sessionStorage.getItem("companyId")
+    ))
     }
 
     render() {
 
-        const {companyInfo, search, dispatch ,size, page} = this.props;
+        const {cabinetClient, search, dispatch ,size, page} = this.props;
 
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "rgb(232, 231, 231)";
-
         const paginate = (number) => {
             dispatch({
                 type: "updateState",
@@ -43,7 +41,7 @@ class CabinetClient extends Component {
             })
         }
 
-        const filter = companyInfo.clint && companyInfo.clint.filter((el)=>{
+        const filter = cabinetClient && cabinetClient.filter((el)=>{
             if(search === ''){
                 return el;
             }else {
@@ -56,7 +54,7 @@ class CabinetClient extends Component {
         const currentPosts = filter && filter.slice(indexOfFirstPosts,indexOfLasPost);
 
         const clientName = [];
-        for (let i = 1; i <= Math.ceil(companyInfo.clint && companyInfo.clint.length / size); i++) {
+        for (let i = 1; i <= Math.ceil(cabinetClient && cabinetClient.length / size); i++) {
             clientName.push(i);
         }
 
@@ -120,6 +118,6 @@ class CabinetClient extends Component {
 CabinetClient.propTypes = {};
 
 export default connect(
-    ({app: {companyInfo, search, dispatch ,size, page}}) =>
-    ({ companyInfo, search, dispatch ,size, page}))
+    ({app: {companyInfo, cabinetClient, search, dispatch ,size, page}}) =>
+    ({ companyInfo, cabinetClient, search, dispatch ,size, page}))
 (CabinetClient);

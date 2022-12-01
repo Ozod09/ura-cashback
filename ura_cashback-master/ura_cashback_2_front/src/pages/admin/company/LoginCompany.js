@@ -19,10 +19,8 @@ class LoginCompany extends Component {
         document.body.style.marginLeft = "3.7%";
         // document.body.style.backgroundColor = "rgb(231,230,230)";
         document.body.style.backgroundColor = "white";
-        const {dispatch, openLogin} = this.props;
+        const {openLogin} = this.props;
 
-        const flag = /^(?=.*[0-9]).{8,}$/;
-        const regex = new RegExp(flag);
 
         const login = () => {
             let password = document.getElementById("password").value;

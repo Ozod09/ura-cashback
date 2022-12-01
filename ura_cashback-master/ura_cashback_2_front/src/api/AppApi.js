@@ -11,6 +11,15 @@ export const loginSuperAdmin = (data) => {
 export const getCabinetCompany = (data) => {
     return HttpClient.doPost(api.users + "/company/login", data);
 }
+export const getCabinetClient = (data) => {
+    return HttpClient.doPost(api.users + "/company/client/" + data);
+}
+export const getCabinetKassa = (data) => {
+    return HttpClient.doPost(api.users + "/company/kassa/"+ data);
+}
+export const getCabinetOrder = (data) => {
+    return HttpClient.doPost(api.users + "/company/order/"+ data);
+}
 export const getOneUsers = (data) => {
     return HttpClient.doGet(api.users + "/" + data);
 }
