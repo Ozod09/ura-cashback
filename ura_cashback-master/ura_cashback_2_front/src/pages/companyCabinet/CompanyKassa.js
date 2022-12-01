@@ -87,7 +87,6 @@ class CompanyKassa extends Component {
                     };
                     this.props.dispatch(saveCompanyKassa(obj))
                     this.setState({openModal: false})
-                    window.location.reload();
                 } else {
                     let obj = {
                         firstName,

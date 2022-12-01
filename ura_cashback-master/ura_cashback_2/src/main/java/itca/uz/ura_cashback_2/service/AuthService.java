@@ -72,10 +72,7 @@ public class AuthService {
     }
 
     public AuthDto editKassa(AuthDto authDto, User user) {
-        AuthDto save = editUser(authDto, user);
-        CompanyUserRole companyUserRole = companyUserRoleRepository.getKassir(authDto.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", save));
-        companyUserRoleService.addCompanyUserRole(companyUserRole.getUserId(), companyUserRole.getCompanyId(), companyUserRole.getRoleId());
-        return save;
+        return editUser(authDto, user);
     }
 
     public ApiResponse<?> deleteClient(Long id) {
