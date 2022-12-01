@@ -44,9 +44,7 @@ public class OrderService {
                     ? getClient.getSalary() + ((cash_price / 100) * getCompany.getClientPercentage())
                     : (getClient.getSalary() - cashback) + ((((cash_price - cashback) / 100) * getCompany.getClientPercentage()));
             authService.editUserSalary(getClient, salary);
-        } else {
-            return new ApiResponse<>("There are not enough funds in your Cashback account", 401);
-        }
+        } else return new ApiResponse<>("There are not enough funds in your Cashback account", 401);
         Order order = Order.builder()
                 .client(getClient)
                 .companyId(companyUserRoleRepository.getKassir(getAdmin.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(403, "companyUserRole", "id", getAdmin)).getCompanyId())

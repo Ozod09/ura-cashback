@@ -31,7 +31,6 @@ public class AuthService {
     private final CompanyUserRoleService companyUserRoleService;
     private final UserMapper mapper;
 
-
     public ApiResponse<?> addRegisterClient(AuthDto authDto) {
         AuthDto save = addUser(authDto);
         companyUserRoleService.addCompanyUserRole(save.getId(), authDto.getCompanyId(), 4);
@@ -40,6 +39,23 @@ public class AuthService {
 
     public Long addCompanyAdmin(AuthDto authDto) {
         return addUser(authDto).getId();
+    }
+
+    public ApiResponse<Boolean> addKasser(AuthDto authDto, Long companyId) {
+        User user = new User();
+        user.setFirstName(authDto.getFirstName());
+        user.setLastName(authDto.getLastName());
+        user.setPhoneNumber(authDto.getPhoneNumber());
+        user.setEmail(authDto.getEmail());
+        user.setSalary(authDto.getSalary());
+        user.setActive(authDto.getActive());
+        user.setPassword(authDto.getPassword());
+        User saveUser = authRepository.save(user);
+        companyUserRoleService.addCompanyUserRole(saveUser.getId(), companyId, roleRepository
+                .findRoleName(RoleName.ROLE_USER).orElseThrow(() -> new ResourceAccessException("getRole")).getId());
+        companyUserRoleService.addCompanyUserRole(saveUser.getId(), companyId, roleRepository
+                .findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceAccessException("getRole")).getId());
+        return new ApiResponse<>(true);
     }
 
     public AuthDto addKassa(AuthDto authDto) {
@@ -69,11 +85,7 @@ public class AuthService {
 
     public ApiResponse<?> activeUser(Long id) {
         User user = authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser"));
-        if (user.getActive() == 1) {
-            user.setActive((byte) 0);
-        } else {
-            user.setActive((byte) 1);
-        }
+        user.setActive((byte) (user.getActive() == 1 ? 0 : 1));
         authRepository.save(user);
         return new ApiResponse<>("Successfully active", 200);
     }

@@ -34,6 +34,11 @@ public class AuthController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+    @PostMapping("/kasser/{companyId}")
+    public HttpEntity<?> addKesser(@PathVariable Long companyId, @RequestBody AuthDto authDto) {
+        return ResponseEntity.ok(authService.addKasser(authDto, companyId));
+    }
+
     @PostMapping("/companyAdmin")
     public HttpEntity<?> addCompanyAdmin(@RequestBody AuthDto authDto) {
         return ResponseEntity.ok(authService.addCompanyAdmin(authDto));
