@@ -54,7 +54,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.editPassword(reqPassword));
     }
 
-
     @PutMapping("/companyAdmin/{id}")
     public HttpEntity<?> editCompanyAdmin(@PathVariable Long id, @RequestBody AuthDto authDto) {
         User user = authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser"));

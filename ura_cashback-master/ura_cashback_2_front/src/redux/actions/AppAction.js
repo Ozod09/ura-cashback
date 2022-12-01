@@ -9,17 +9,23 @@ import {
     addOrder,
     deleteOrder,
     editCompany,
-    editCompanyKassa, editCompanyPassword,
+    editCompanyKassa,
+    editCompanyPassword,
     editOrder,
     findByPhoneNumber,
-    findByUser, getCabinetClient,
-    getCabinetCompany, getCabinetKassa, getCabinetOrder,
+    findByUser,
+    getCabinetClient,
+    getCabinetCompany,
+    getCabinetKassa,
+    getCabinetOrder,
     getCompanies,
     getOneUsers,
     getOrders,
     getUsers,
-    loginOrder, loginSuperAdmin,
-    removeUsers, statisticCompany
+    loginOrder,
+    loginSuperAdmin,
+    removeUsers,
+    statisticCompany
 } from "../../api/AppApi";
 import * as types from "../actionTypes/AppActionTypes";
 import {toast} from "react-toastify";
@@ -48,6 +54,7 @@ export const loginCompany = (payload) => (dispatch) => {
         data: payload
     }).then(res => {
         if (res !== undefined) {
+            console.log(res);
             sessionStorage.setItem("companyId", res.payload.id)
             dispatch({
                 type: 'updateState',
@@ -70,12 +77,13 @@ export const companyClient = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
-            dispatch({
-                type: 'updateState',
-                payload: {
-                    cabinetClient: res.payload
-                }
-            })
+        console.log(res.payload);
+        dispatch({
+            type: 'updateState',
+            payload: {
+                cabinetClient: res.payload
+            }
+        })
     })
 }
 
@@ -284,7 +292,8 @@ export const saveCompanyKassa = (payload) => (dispatch) => {
                     openModal: true,
                     currentUser: res.payload
                 }
-            })
+            });
+            companyKassa(sessionStorage.getItem("companyId"));
         } else toast.error("Error");
     })
 }

@@ -22,4 +22,8 @@ public interface CompanyUserRoleRepository extends JpaRepository<CompanyUserRole
 
     @Query("select kassir from CompanyUserRole kassir where kassir.userId = ?1 and kassir.roleId = ?2")
     Optional<CompanyUserRole> kassir(Long userId, Integer roleId);
+
+    Optional<List<CompanyUserRole>> findByCompanyIdEquals(Long companyId);
+
+    Optional<List<CompanyUserRole>> findByCompanyIdEqualsAndRoleIdEquals(Long companyId, Integer roleId);
 }

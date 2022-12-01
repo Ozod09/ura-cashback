@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import CabinetOperation from "../../companyCabinet/CabinetOperation";
 import cashbackLogo from "../order/loginPage/image/logo.png";
 import registerFoto from "../userAdmin/registerFoto.png";
 import {Button, Input} from "reactstrap";
-import {loginCompany, superAdminLogin} from "../../../redux/actions/AppAction";
+import {superAdminLogin} from "../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import CompanyAdmin from "./CompanyAdmin";
 
 class AdminPanel extends Component {
 
-    state={
+    state = {
         openPassword: false,
-        resRegex:false
+        resRegex: false
     }
 
     render() {
@@ -21,18 +20,18 @@ class AdminPanel extends Component {
         const flag = /^.{8,}$/;
         const regex = new RegExp(flag);
 
-        const login = ()=>{
+        const login = () => {
             let password = document.getElementById("password").value;
             // if(password.match(regex) !== null){
             let phoneNumber = document.getElementById("phoneNumber").value;
-            let obj = {phoneNumber,password};
+            let obj = {phoneNumber, password};
             this.props.dispatch(superAdminLogin(obj));
             // }else {
             //     this.setState({resRegex: !this.state.resRegex})
             // }
         }
 
-        const password = ()=>{
+        const password = () => {
             this.setState({openPassword: !this.state.openPassword})
         }
 
@@ -82,6 +81,6 @@ class AdminPanel extends Component {
 AdminPanel.propTypes = {};
 
 export default connect(
-    ({app:{openLogin}})=>
+    ({app: {openLogin}}) =>
         ({openLogin}))
 (AdminPanel);

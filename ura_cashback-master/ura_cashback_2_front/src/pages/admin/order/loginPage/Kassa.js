@@ -77,4 +77,3 @@ export default connect(
     ({app: {orders, dispatch, currentAdmin}}) =>
     ({orders, dispatch, currentAdmin}))
 (Kassa);
-

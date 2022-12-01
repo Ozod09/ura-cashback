@@ -25,8 +25,10 @@ import CompanyPassword from "../pages/companyCabinet/CompanyPassword";
 function App() {
     return (
         <Provider store={store}>
+            {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
             <Routes>
                 //
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/' element={<Home/>}/>
                 //
 
@@ -35,11 +37,13 @@ function App() {
                 <Route path='/company' element={<CompanyAdmin/>}/>
                 <Route path='/user' element={<AuthAdmin/>}/>
                 <Route path='/order' element={<Order/>}/>
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/*' element={<NotFount/>}/>
                 //
 
                 //registerCompanyAdmin
                 <Route path='/company/register' element={<CompanyClint/>}/>
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/authUserCompany/register' element={<AuthUserCompany/>}/>
                 //
 
@@ -49,19 +53,23 @@ function App() {
                 <Route path='/cabinetClient' element={<CabinetClient/>}/>
                 <Route path='/company/kassa' element={<CompanyKassa/>}/>
                 <Route path='/company/operation' element={<CabinetHome/>}/>
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/company/password' element={<CompanyPassword/>}/>
                 //
 
 
                 //client register
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/register/client' element={<ClientRegister/>}/>
                 //
 
                 //login
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/company/login' element={<LoginCompany/>}/>
                 //
 
                 //kassa
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <Route path='/kassa' element={<KasserLogin/>}/>
                 //
 

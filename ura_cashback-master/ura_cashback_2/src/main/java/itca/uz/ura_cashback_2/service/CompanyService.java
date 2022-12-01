@@ -1,13 +1,15 @@
 package itca.uz.ura_cashback_2.service;
 
 import itca.uz.ura_cashback_2.entity.Company;
+import itca.uz.ura_cashback_2.entity.User;
 import itca.uz.ura_cashback_2.mappers.CompanyMapper;
+import itca.uz.ura_cashback_2.mappers.UserMapper;
 import itca.uz.ura_cashback_2.payload.ApiResponse;
+import itca.uz.ura_cashback_2.payload.AuthDto;
 import itca.uz.ura_cashback_2.payload.CompanyDto;
 import itca.uz.ura_cashback_2.repository.AttachmentRepository;
 import itca.uz.ura_cashback_2.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -22,7 +24,8 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final AttachmentRepository attachmentRepository;
     private final CompanyMapper companyMapper;
-    private final @Lazy CompanyUserRoleService companyUserRoleService;
+    final UserMapper userMapper;
+    private final CompanyUserRoleService companyUserRoleService;
 
     public ApiResponse<?> addCompany(CompanyDto companyDto) {
         Company company = companyMapper.fromDto(companyDto);
@@ -53,6 +56,26 @@ public class CompanyService {
         }
         return companyDtoList;
     }
+
+    //////////////////////////
+
+    public List<AuthDto> getCompanyFindByCompany(Long companyId) {
+        List<AuthDto> userList = new ArrayList<>();
+        for (User user : companyUserRoleService.getFainByCompany(companyId)) {
+            userList.add(userMapper.fromUser(user));
+        }
+        return userList;
+    }
+
+    public List<AuthDto> getCompanyUserFindByCompanyAndRole(Long companyId, Integer roleId) {
+        List<AuthDto> userList = new ArrayList<>();
+        for (User user : companyUserRoleService.getUserFindByCompanyAndRole(companyId, roleId)) {
+            userList.add(userMapper.fromUser(user));
+        }
+        return userList;
+    }
+
+    /////////////////////////////////////////
 
     public Company getOneCompany(Long companyId) {
         return companyRepository.findById(companyId).orElseThrow(() -> new ResourceAccessException("GetCompany"));

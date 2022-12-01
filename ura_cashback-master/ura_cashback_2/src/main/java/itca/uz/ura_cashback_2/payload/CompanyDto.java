@@ -31,12 +31,6 @@ public class CompanyDto {
     private Long userId;
     private User user;
 
-    private List<OrderDto> orders;
-
-    private List<User> kassa;
-
-    private List<User> clint;
-
     private ResStatistic resStatistic;
 
     private boolean active1;

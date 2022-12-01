@@ -26,7 +26,6 @@ class LoginCompany extends Component {
             let password = document.getElementById("password").value;
             let phoneNumber = document.getElementById("phoneNumber").value;
             let obj = {phoneNumber, password};
-            console.log(obj);
             this.props.dispatch(loginCompany(obj));
             sessionStorage.setItem('PhoneNumber', phoneNumber)
             sessionStorage.setItem('Password', password)

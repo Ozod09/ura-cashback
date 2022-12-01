@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import shape from "../companyCabinet/img/Shape.png";
 import copy from "../companyCabinet/img/RectangleCopy.png";
 import strelka from '../companyCabinet/img/Strelka.png';
@@ -6,14 +6,22 @@ import Navbar from "../clint/navbar/Navbar";
 import CompanySidebar from "./CompanySidebar";
 import {Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {connect} from "react-redux";
-import {byId, companyStatistic} from "../../redux/actions/AppAction";
+import {byId, companyStatistic, loginCompany} from "../../redux/actions/AppAction";
 
 function CabinetHome(props) {
+    const {companyInfo, companyStat, dispatch} = props;
+
+    useEffect(() => {
+        getCompany();
+    }, []);
+
+    function getCompany() {
+        console.log({password: sessionStorage.getItem("Password"), phoneNumber: sessionStorage.getItem("PhoneNumber")})
+        dispatch(loginCompany({password: sessionStorage.getItem("Password"), phoneNumber: sessionStorage.getItem("PhoneNumber")}));
+    }
 
     document.body.style.marginLeft = "3.7%";
-    document.body.style.backgroundColor = "rgb(231,230,230)";
-
-    const {companyInfo, companyStat} = props;
+    document.body.style.backgroundColor = "rgb(231, 230, 230)";
 
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
@@ -44,8 +52,10 @@ function CabinetHome(props) {
     const openModal = () => setOpen(!open);
 
     const filterDate = () => {
-        props.dispatch(companyStatistic({startTime : byId("startTime"),
-            finishTime: byId("finishTime"), companyId: companyInfo.id}));
+        props.dispatch(companyStatistic({
+            startTime: byId("startTime"),
+            finishTime: byId("finishTime"), companyId: companyInfo.id
+        }));
         setRes(true);
         setOpen(false);
     }
@@ -89,6 +99,6 @@ function CabinetHome(props) {
 
 CabinetHome.prototype = {};
 export default connect(
-    ({app: {companyInfo, companyStat}}) =>
-        ({companyInfo, companyStat}))
+    ({app: {companyInfo, companyStat, dispatch}}) =>
+        ({companyInfo, companyStat, dispatch}))
 (CabinetHome);

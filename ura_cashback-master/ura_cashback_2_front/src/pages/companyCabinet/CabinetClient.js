@@ -11,12 +11,12 @@ class CabinetClient extends Component {
     componentDidMount() {
         this.props.dispatch(companyClient(
             sessionStorage.getItem("companyId")
-    ))
+        ))
     }
 
     render() {
 
-        const {cabinetClient, search, dispatch ,size, page} = this.props;
+        const {cabinetClient, search, dispatch, size, page} = this.props;
 
         document.body.style.marginLeft = "3.7%";
         document.body.style.backgroundColor = "rgb(232, 231, 231)";
@@ -31,40 +31,32 @@ class CabinetClient extends Component {
 
 
         //Search
-        const set = (item)=>{
+        const set = (item) => {
             const lowerCase = item.target.value.toLowerCase();
             dispatch({
-                type:"updateState",
-                payload:{
-                    search:lowerCase
+                type: "updateState",
+                payload: {
+                    search: lowerCase
                 }
             })
         }
 
-        const filter = cabinetClient && cabinetClient.filter((el)=>{
-            if(search === ''){
-                return el;
-            }else {
-                return el.firstName.toLowerCase().includes(search)
-            }
-        })
+        const filter = cabinetClient && cabinetClient.filter((el) =>
+            search === '' ? el : el.firstName.toLowerCase().includes(search));
 
         const indexOfLasPost = page * size;
         const indexOfFirstPosts = indexOfLasPost - size;
-        const currentPosts = filter && filter.slice(indexOfFirstPosts,indexOfLasPost);
+        const currentPosts = filter && filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const clientName = [];
-        for (let i = 1; i <= Math.ceil(cabinetClient && cabinetClient.length / size); i++) {
-            clientName.push(i);
-        }
-
+        for (let i = 1; i <= Math.ceil(cabinetClient && cabinetClient.length / size); i++) clientName.push(i);
 
         return (
             <div id="cabClient">
                 <Navbar/>
                 <CompanySidebar/>
                 <div className="searchClient">
-                    <Input type="text" onChange={(item)=> set(item)} placeholder="Enter kassir name"/>
+                    <Input type="text" onChange={(item) => set(item)} placeholder="Enter kassir name"/>
                     <i className="pi pi-search searchIconcaClient"/>
                 </div>
                 <div className="ms-5 me-5 mt-5 clientTable">
@@ -103,6 +95,7 @@ class CabinetClient extends Component {
                     <ul className="pagination">
                         {clientName.map((number, i) =>
                             <li key={i} className="page-item">
+                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                 <a onClick={() => paginate(number)} className="page-link">{number}</a>
                             </li>
                         )}
@@ -118,6 +111,6 @@ class CabinetClient extends Component {
 CabinetClient.propTypes = {};
 
 export default connect(
-    ({app: {companyInfo, cabinetClient, search, dispatch ,size, page}}) =>
-    ({ companyInfo, cabinetClient, search, dispatch ,size, page}))
+    ({app: {companyInfo, cabinetClient, search, dispatch, size, page}}) =>
+        ({companyInfo, cabinetClient, search, dispatch, size, page}))
 (CabinetClient);

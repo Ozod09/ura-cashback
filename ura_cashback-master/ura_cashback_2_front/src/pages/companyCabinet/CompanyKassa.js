@@ -83,7 +83,7 @@ class CompanyKassa extends Component {
                         email,
                         password,
                         prePassword,
-                        companyId: companyInfo.id
+                        companyId: sessionStorage.getItem("companyId")
                     };
                     this.props.dispatch(saveCompanyKassa(obj))
                     this.setState({openModal: false})
@@ -126,24 +126,15 @@ class CompanyKassa extends Component {
             })
         }
 
-        const filter = cabinetKassa && cabinetKassa.filter((el) => {
-            console.log(search)
-            if (search === '') {
-                return el;
-            } else {
-                return el.firstName.toLowerCase().includes(search)
-            }
-        })
+        const filter = cabinetKassa && cabinetKassa.filter((el) =>
+            search === '' ? el : el.firstName.toLowerCase().includes(search))
 
         const indexOfLasPost = page * size;
         const indexOfFirstPosts = indexOfLasPost - size;
         const currentPosts = filter && filter.slice(indexOfFirstPosts, indexOfLasPost);
 
         const kassirName = [];
-        for (let i = 1; i <= Math.ceil(cabinetKassa && cabinetKassa.length / size); i++) {
-            kassirName.push(i);
-        }
-
+        for (let i = 1; i <= Math.ceil(cabinetKassa && cabinetKassa.length / size); i++) kassirName.push(i);
 
         return (
             <div id="cabKassa">
