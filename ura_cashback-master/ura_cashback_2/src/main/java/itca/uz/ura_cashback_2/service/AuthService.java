@@ -44,23 +44,6 @@ public class AuthService {
         return addUser(authDto).getId();
     }
 
-    public ApiResponse<Boolean> addKasser(AuthDto authDto, Long companyId) {
-        User user = new User();
-        user.setFirstName(authDto.getFirstName());
-        user.setLastName(authDto.getLastName());
-        user.setPhoneNumber(authDto.getPhoneNumber());
-        user.setEmail(authDto.getEmail());
-        user.setSalary(authDto.getSalary());
-        user.setActive(authDto.getActive());
-        user.setPassword(authDto.getPassword());
-        User saveUser = authRepository.save(user);
-        companyUserRoleService.addCompanyUserRole(saveUser.getId(), companyId, roleRepository
-                .findRoleName(RoleName.ROLE_USER).orElseThrow(() -> new ResourceAccessException("getRole")).getId());
-        companyUserRoleService.addCompanyUserRole(saveUser.getId(), companyId, roleRepository
-                .findRoleName(RoleName.ROLE_KASSA).orElseThrow(() -> new ResourceAccessException("getRole")).getId());
-        return new ApiResponse<>(true);
-    }
-
     public AuthDto addKassa(AuthDto authDto) {
         AuthDto save = addUser(authDto);
         companyUserRoleService.addCompanyUserRole(save.getId(), authDto.getCompanyId(), 3);
