@@ -23,6 +23,6 @@ public class Order extends AbsEntity {
 
     private int clientCompCash;
 
-    private int cash_price;
+    private int cashPrice;
 
 }

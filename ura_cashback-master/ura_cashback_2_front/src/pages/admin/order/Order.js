@@ -83,7 +83,7 @@ class Order extends Component {
                             <tr>
                                 <td>{item.company && item.company.name}</td>
                                 <td>{item.admin && item.admin.firstName} {item.admin && item.admin.lastName}</td>
-                                <td>{item.cash_price}</td>
+                                <td>{item.cashPrice}</td>
                                 <td>{item.cashback}</td>
                                 <td>{item.client && item.client.firstName} {item.client && item.client.lastName}</td>
                             </tr>

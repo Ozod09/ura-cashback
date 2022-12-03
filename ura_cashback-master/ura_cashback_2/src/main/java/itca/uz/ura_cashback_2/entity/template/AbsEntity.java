@@ -35,5 +35,4 @@ public abstract class AbsEntity {
 
     @LastModifiedBy
     private Long updatedBy;
-
 }

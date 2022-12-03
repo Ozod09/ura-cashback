@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +26,12 @@ public class OrderService {
     private final CompanyUserRoleService companyUserRoleService;
     private final  AuthService authService;
     private final CompanyUserRoleRepository companyUserRoleRepository;
+    private final CompanyService companyService;
+
 
 
     public ApiResponse<?> addOrder(OrderDto orderDto) {
-        int cashback = orderDto.getCashback(), cash_price = orderDto.getCash_price(), companyClientCash;
+        int cashback = orderDto.getCashback(), cash_price = orderDto.getCashPrice(), companyClientCash;
         User getClient = authService.getOneUser(orderDto.getClientId());
         User getAdmin = authService.getOneUser(orderDto.getAdminId());
         Company getCompany;
@@ -52,7 +51,7 @@ public class OrderService {
                 .client(getClient)
                 .companyId(getCompany.getId())
                 .clientCompCash(cashback)
-                .cash_price(cash_price).build();
+                .cashPrice(cash_price).build();
         order.setCreatedBy(getAdmin.getId());
         order.setCompanyClientCash(companyClientCash);
         orderRepository.save(order);
@@ -81,9 +80,27 @@ public class OrderService {
         return orderRepository.findCreatedBy(userId);
     }
 
-    public List<Order> getOrderList() {
-        return orderRepository.findAll();
+//    public List<Order> getOrderList() {
+//        return orderRepository.findAll();
+//    }
+
+
+    //////////////////////////////   N E W   /////////////////////////////////
+    public List<OrderDto> getOrderList() {
+        List<OrderDto> orderDtoList =new ArrayList<>();
+        for (Order order : orderRepository.findAll()) {
+            OrderDto orderDto = new OrderDto();
+            orderDto.setCompany(companyService.getOneCompany(order.getCompanyId()));
+            orderDto.setAdmin(authService.getOneUser(order.getCreatedBy()));
+            orderDto.setCashPrice(order.getCashPrice());
+            orderDto.setCashback(order.getCompanyClientCash());
+            orderDto.setClient(order.getClient());
+            orderDtoList.add(orderDto);
+        }
+        return orderDtoList;
     }
+    //////////////////////////////   N E W   /////////////////////////////////
+
 
     public ApiResponse<?> deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
@@ -101,7 +118,7 @@ public class OrderService {
             int companyClientCash = 0;
             int clientCash = 0;
             for (Order order1 : orderList) {
-                allBalance += order1.getCash_price();
+                allBalance += order1.getCashPrice();
                 companyClientCash += order1.getCompanyClientCash();
                 allClient.add(order1.getClient().getId());
             }

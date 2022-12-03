@@ -41,8 +41,10 @@ public class CompanyService {
         Company company1 = companyMapper.fromDto(companyDto);
         company1.setId(company.getId());
         company1.setActive(company.getActive());
-        company1.setAttachment(attachmentRepository.findById(companyDto.getAttachmentId())
-                .orElseThrow(() -> new ResourceAccessException("GetAttachment")));
+        company1.setAttachment(companyDto.getAttachmentId() != null
+                ? attachmentRepository.findById(companyDto.getAttachmentId())
+                .orElseThrow(() -> new ResourceAccessException("GetAttachment"))
+                : company.getAttachment());
         companyRepository.save(company1);
         return new ApiResponse<>("Successfully saved company", 200);
     }

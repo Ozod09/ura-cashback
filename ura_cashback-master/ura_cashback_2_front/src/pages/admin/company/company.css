@@ -1,6 +1,11 @@
 body{
     background-color: rgba(231, 229, 229, 0.73);
 }
+.company-img {
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+}
 
 .img{
     /*width: 30%;*/

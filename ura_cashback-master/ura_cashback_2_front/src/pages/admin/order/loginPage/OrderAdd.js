@@ -8,7 +8,7 @@ import Kassa from "./Kassa";
 
 
 function OrderAdd(props) {
-    const {dispatch, currentUser, currentAdmin, modal} = props;
+    const {dispatch, currentUser, currentAdmin, modal, onSuccess} = props;
 
     console.log(currentAdmin, 'admin')
     console.log(currentUser, 'user')
@@ -16,6 +16,7 @@ function OrderAdd(props) {
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
+    const [info, setInfo] = useState(false);
 
     let cashback, cash_price;
 
@@ -28,14 +29,20 @@ function OrderAdd(props) {
         });
     }
 
-    const setBackClick = () => {
-        setBack(!back);
-    }
+    const setBackClick = () => setBack(!back);
+    const openInfo = () => setInfo(!info);
+
 
     const addOrderSend = () => {
         cash_price = document.getElementById("cash_price").value;
         cashback = document.getElementById("cashback").value;
-        dispatch(saveOrder({adminId: currentAdmin.id, clientId: currentUser.id, cash_price, cashback}));
+        dispatch(saveOrder({
+            adminId: currentAdmin.id,
+            clientId: currentUser.id,
+            cash_price,
+            cashback,
+            CallBack: () => onSuccess()
+        }));
     }
 
     const openModal = () => {
@@ -89,9 +96,9 @@ function OrderAdd(props) {
                                     className="btn btn-primary form-btn-login w-100 mt-5"
                                     type="button"
                                     onClick={() => {
-                                        addOrderSend();
+                                        openInfo();
                                     }}
-                            ><b>ПРОДОЛЖИТЬ</b></Button>
+                            ><b>Davom etish</b></Button>
                         </div>
                     </Row>
                 </div>
@@ -121,6 +128,18 @@ function OrderAdd(props) {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" outline onClick={isModal}>Cansel</Button>
+                </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={info} toggle={openInfo}>
+                <ModalHeader>
+                    a
+                </ModalHeader>
+                <ModalBody>
+                    b
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={addOrderSend} color="success">Ok</Button>
                 </ModalFooter>
             </Modal>
         </>

@@ -26,6 +26,7 @@ export default class HttpClient {
     }
 
     static doPost(url, data) {
+        console.log("url: " + url + " data: " + data)
         return HttpClient.doRequest().post(url, data)
     }
 
