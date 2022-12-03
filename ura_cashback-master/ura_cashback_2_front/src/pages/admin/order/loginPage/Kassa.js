@@ -46,9 +46,8 @@ function Kassa(props) {
                                             <tbody key={i}>
                                             <tr>
                                                 <td>{item.client.firstName}</td>
-                                                <td>{item.cash_price}</td>
-                                                <td>{item.companyClientCash
-                                                }</td>
+                                                <td>{item.cashPrice}</td>
+                                                <td>{item.companyClientCash}</td>
                                             </tr>
                                             </tbody>
                                         )
