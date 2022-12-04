@@ -54,7 +54,8 @@ function CabinetHome(props) {
     const filterDate = () => {
         props.dispatch(companyStatistic({
             startTime: byId("startTime"),
-            finishTime: byId("finishTime"), companyId: companyInfo.id
+            finishTime: byId("finishTime"),
+            companyId: companyInfo.id
         }));
         setRes(true);
         setOpen(false);
