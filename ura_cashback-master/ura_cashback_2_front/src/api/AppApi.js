@@ -30,11 +30,11 @@ export const addCompanyAdmin = (data) => {
     return HttpClient.doPost(api.users + "/companyAdmin", data);
 }
 export const addCompanyKassa = (data) => {
-    console.log("add")
     return HttpClient.doPost(api.users + "/companyKassa", data);
 }
 export const editCompanyKassa = (data) => {
-    console.log("edit")
+    console.log(api.users + "/companyKassa/" + data.id)
+    console.log(data)
     return HttpClient.doPut(api.users + "/companyKassa/" + data.id, data);
 }
 export const removeUsers = (data) => {

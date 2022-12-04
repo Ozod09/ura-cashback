@@ -85,7 +85,7 @@ class AuthAdmin extends Component {
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Password</th>
-                            <th>Active</th>
+                            <th>Balance</th>
                             <th colSpan="2">Action</th>
                         </tr>
                         </thead>
@@ -99,14 +99,7 @@ class AuthAdmin extends Component {
                                     <td>{item.email}</td>
                                     <td>{item.phoneNumber}</td>
                                     <td>{item.password}</td>
-                                    <td>{item.active ?
-                                        <Input type="checkbox" checked={item.active}
-                                               onClick={() => changeActiveUser(item)}
-                                               onChange={changeActive}/> :
-                                        <Input type="checkbox" checked={item.active}
-                                               onClick={() => changeActiveUser(item)}
-                                               onChange={changeActive}/>}
-                                    </td>
+                                    <td>{item.salary}</td>
                                     <td><Button color="danger" outline onClick={() => deleteModal(item)}>Delete</Button>
                                     </td>
                                 </tr>

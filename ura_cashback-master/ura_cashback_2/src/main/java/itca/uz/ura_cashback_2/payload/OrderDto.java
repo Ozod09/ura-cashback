@@ -15,7 +15,7 @@ public class OrderDto {
     private User admin;
     private Long clientId;
     private User client;
-    private int cash_price;
+    private int cashPrice;
     private int cashback;
     private String date;
     private Company company;

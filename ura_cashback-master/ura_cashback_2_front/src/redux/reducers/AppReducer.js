@@ -13,7 +13,7 @@ const initState = {
     user: [],
     search: '',
     page: "1",
-    size:"5",
+    size:"10",
     activeUser: false,
     orders: [],
     company: [],
@@ -38,7 +38,7 @@ const initState = {
 const reducers = {
 
     [types.REQUEST_SUCCESS](state) {
-        state.showModal = false
+
         state.deleteShowModal = false
     },
     [types.GET_ORDER_LIST](state, payload) {
@@ -48,13 +48,15 @@ const reducers = {
         state.user = payload.payload
     },
     [types.REQUEST_SUCCESS](state) {
-        state.showModal = false
+
     },
     [types.GET_COMPANY_LIST](state, payload) {
         state.company = payload.payload
     },
     [types.GET_ORDER_LOGIN](state, payload) {
-        state.currentAdmin = payload.payload
+        console.log('payload',payload)
+        state.currentAdmin = payload.payload;
+        state.showModal = true;
     },
     [types.GET_ATTACHMENT_ID](state, payload) {
         state.attachmentId = payload.payload

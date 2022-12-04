@@ -10,10 +10,10 @@ import Kassa from "./Kassa";
 
 function KassaClient(props) {
 
-    const {dispatch, activeUser} = props;
+    const {dispatch, activeUser, onSuccess} = props;
 
     const submit = () => {
-        dispatch(findByUserPhoneNumber(document.getElementById("phoneNumber").value));
+        dispatch(findByUserPhoneNumber(document.getElementById("phoneNumber").value, 'dsads') );
     }
 
     const [back, setBack] = useState(true);
@@ -26,7 +26,7 @@ function KassaClient(props) {
         <>{back
             ? <div>
                 {activeUser
-                    ? <OrderAdd/>
+                    ? <OrderAdd onSuccess={onSuccess}/>
                     : <div className="login">
                         <div className="login-page client">
                             <div className="kassa-nav">

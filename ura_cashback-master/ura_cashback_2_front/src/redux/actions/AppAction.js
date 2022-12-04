@@ -163,15 +163,17 @@ export const companyStatistic = (payload) => (dispatch) => {
 }
 
 export const findByUserPhoneNumber = (payload) => (dispatch) => {
+
     dispatch({
-        api: findByPhoneNumber,
-        types: [
-            types.REQUEST_START,
-            types.GET_ONE_USER_LIST,
-            types.REQUEST_ERROR
-        ],
-        data: payload
-    }).then(res => {
+            api: findByPhoneNumber,
+            types: [
+                types.REQUEST_START,
+                types.GET_ONE_USER_LIST,
+                types.REQUEST_ERROR
+            ],
+            data: payload
+        }
+    ).then(res => {
         if (res !== undefined) {
             dispatch({
                 type: "updateState",
@@ -180,6 +182,7 @@ export const findByUserPhoneNumber = (payload) => (dispatch) => {
                     currentUser: res.payload
                 }
             });
+
         } else toast.warning("user not fount");
     });
 }
@@ -335,7 +338,7 @@ export const saveCompany = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(() => {
-        toast.success("Company saved successfully!")
+        toast.success(`Company ${payload.id ? "Edit" : "Saving"} successfully!`)
         dispatch({
             type: 'updateState',
             payload: {
@@ -343,8 +346,8 @@ export const saveCompany = (payload) => (dispatch) => {
             }
         })
     }).catch(() => {
-        toast.error("Error saving company!");
-    })
+        toast.error(`Error ${payload.id ? "Edit" : "Saving"} company!`);
+    });
 }
 
 
@@ -364,6 +367,8 @@ export const activeCompany = (payload) => (dispatch) => {
         toast.error("Error active company!");
     })
 }
+
+//////// ------------ Order ------------- ////////////
 export const getOrder = () => (dispatch) => {
     dispatch({
         api: getOrders,
@@ -387,6 +392,7 @@ export const saveOrder = (payload) => (dispatch) => {
         if (res.success) {
             dispatch(getOrder());
             toast.success("Saqlandi");
+            payload.CallBack()
         } else toast.error("Error");
     })
 }
@@ -467,15 +473,16 @@ export const addAttachmentAction = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
+        console.log(res)
         dispatch({
             type: 'updateState',
             payload: {
                 attachmentId: res.payload,
             }
         });
-    }).then(() => {
         toast.success("Attachment saved successfully!");
-    }).catch(() => {
+    }).catch((err) => {
+        console.log(err)
         toast.error("Error saving attachment!");
     });
 }

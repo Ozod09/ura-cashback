@@ -2,52 +2,48 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import image from "./image/logo.png";
 import {Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
-import {saveOrder} from "../../../../redux/actions/AppAction";
+import {byId, saveOrder} from "../../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import Kassa from "./Kassa";
 
 
 function OrderAdd(props) {
-    const {dispatch, currentUser, currentAdmin, modal} = props;
+    const {dispatch, currentUser, currentAdmin, onSuccess} = props;
 
-    console.log(currentAdmin, 'admin')
-    console.log(currentUser, 'user')
+    // console.log('admin:', currentAdmin)
+    // console.log('user:', currentUser)
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
+    const [info, setInfo] = useState(false);
+    const [cash_price, setCashPrice] = useState(0);
+    const [cashback, setCashback] = useState(0);
 
-    let cashback, cash_price;
-
-    const isModal = () => {
-        dispatch({
-            type: 'updateState',
-            payload: {
-                modal: !modal
-            }
-        });
-    }
-
-    const setBackClick = () => {
-        setBack(!back);
-    }
+    const setBackClick = () => setBack(!back);
+    const openInfo = () => setInfo(!info);
 
     const addOrderSend = () => {
-        cash_price = document.getElementById("cash_price").value;
-        cashback = document.getElementById("cashback").value;
-        dispatch(saveOrder({adminId: currentAdmin.id, clientId: currentUser.id, cash_price, cashback}));
+        setCashPrice(byId("cash_price"));
+        setCashback(byId("cashback"));
+        dispatch(saveOrder({
+            adminId: currentAdmin.id,
+            clientId: currentUser.id,
+            cash_price,
+            cashback,
+            CallBack: () => onSuccess()
+        }));
     }
 
     const openModal = () => {
-        cash_price = document.getElementById("cash_price").value;
-        cashback = document.getElementById("cashback").value;
+        setCashPrice(byId("cash_price"));
+        setCashback(byId("cashback"));
         setOpen(!open);
     }
 
     const onChange = (item) => {
         setRes(currentUser.salary < item.target.value);
     }
-
 
     return (
         <>
@@ -73,14 +69,15 @@ function OrderAdd(props) {
                             <p>Mijozning cashbacki: {currentUser.salary}</p>
                             <Input type="number" placeholder="cash_price" id="cash_price"
                                    className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1"/>
-                            {open ? <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback"
-                                           defaultValue={currentUser.salary} id="cashback"
-                                           className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/> :
-                                <Input onChange={(item) => onChange(item)} type="text" placeholder="cashback"
-                                       id="cashback"
-                                       className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/>}
+                            {open
+                                ? <Input onChange={(item) => onChange(item)} type="text"
+                                         placeholder="cashback" defaultValue={currentUser.salary} id="cashback"
+                                         className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/>
+                                : <Input onChange={(item) => onChange(item)} type="text"
+                                         placeholder="cashback" id="cashback"
+                                         className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/>}
                             <Button onClick={() => openModal()} className="orderButton">All</Button>
-                            {res ? <small style={{color: "red"}}>kiritilgan cashback katta</small> : ""}
+                            {res && <small style={{color: "red"}}>kiritilgan cashback katta</small>}
                             <Button style={{
                                 backgroundColor: "#5468FF",
                                 height: "50px",
@@ -89,15 +86,15 @@ function OrderAdd(props) {
                                     className="btn btn-primary form-btn-login w-100 mt-5"
                                     type="button"
                                     onClick={() => {
-                                        addOrderSend();
+                                        openInfo();
                                     }}
-                            ><b>ПРОДОЛЖИТЬ</b></Button>
+                            ><b>Davom etish</b></Button>
                         </div>
                     </Row>
                 </div>
                 : <Kassa/>
             }
-            <Modal isOpen={modal} fullscreen="lg">
+            <Modal isOpen={info} fullscreen="lg" toggle={openInfo}>
                 <ModalHeader> </ModalHeader>
                 <ModalBody>
                     <h4 className="text-center">Report</h4>
@@ -116,11 +113,11 @@ function OrderAdd(props) {
                             <p>cashback: <b>{currentUser.salary}</b></p>
                         </Col>
                     </Row>
-                    <p>naqt dan: <b>{cashback - cash_price}</b></p>
-                    <p>cashback dan: <b>{cashback}</b></p>
+                    <p>naqt dan: <b>{byId("cash_price") - byId("cashback")}</b></p>
+                    <p>cashback dan: <b>{byId("cashback")}</b></p>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" outline onClick={isModal}>Cansel</Button>
+                    <Button onClick={addOrderSend} color="success">Ok</Button>
                 </ModalFooter>
             </Modal>
         </>
@@ -130,6 +127,6 @@ function OrderAdd(props) {
 OrderAdd.propTypes = {};
 
 export default connect(
-    ({app: {activeUser, dispatch, currentUser, currentAdmin, showModal, modal}}) =>
-        ({activeUser, dispatch, currentUser, currentAdmin, showModal, modal}))
+    ({app: {activeUser, dispatch, currentUser, currentAdmin, showModal}}) =>
+        ({activeUser, dispatch, currentUser, currentAdmin, showModal}))
 (OrderAdd);

@@ -23,7 +23,7 @@ function Kassa(props) {
     return (
         <>
             {isOrder ?
-                <KassaClient/>
+                <KassaClient onSuccess={() => setIsOrder(false)}/>
                 :
                 <div className="login">
                     <div className="login-page">
@@ -46,9 +46,8 @@ function Kassa(props) {
                                             <tbody key={i}>
                                             <tr>
                                                 <td>{item.client.firstName}</td>
-                                                <td>{item.cash_price}</td>
-                                                <td>{item.companyClientCash
-                                                }</td>
+                                                <td>{item.cashPrice}</td>
+                                                <td>{item.companyClientCash}</td>
                                             </tr>
                                             </tbody>
                                         )
@@ -71,9 +70,10 @@ function Kassa(props) {
         </>
     );
 }
+
 Kassa.propTypes = {};
 
 export default connect(
     ({app: {orders, dispatch, currentAdmin}}) =>
-    ({orders, dispatch, currentAdmin}))
+        ({orders, dispatch, currentAdmin}))
 (Kassa);

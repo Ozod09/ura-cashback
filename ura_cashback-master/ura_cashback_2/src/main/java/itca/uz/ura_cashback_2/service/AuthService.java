@@ -162,7 +162,7 @@ public class AuthService {
         int urtachaCheck = 0;
         int clientCash = 0;
         for (Order order : orderRepository.findCreatedBy(companyId)) {
-            allBalance += order.getCash_price();
+            allBalance += order.getCashPrice();
             companyClientCash += order.getCompanyClientCash();
             allClient.add(order.getClient().getId());
         }
@@ -192,7 +192,7 @@ public class AuthService {
             orderDto.setAdmin(authRepository.findById(kassaOrder.getCreatedBy()).orElseThrow(() -> new ResourceAccessException("GetKassir")));
             orderDto.setClient(kassaOrder.getClient());
             orderDto.setCashback(kassaOrder.getCompanyClientCash());
-            orderDto.setCash_price(kassaOrder.getCash_price());
+            orderDto.setCashPrice(kassaOrder.getCashPrice());
             orderDtoList.add(orderDto);
         }
         return orderDtoList;
