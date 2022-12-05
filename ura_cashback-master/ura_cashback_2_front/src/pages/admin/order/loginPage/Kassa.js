@@ -20,6 +20,8 @@ function Kassa(props) {
         setIsOrder(true);
     }
 
+    if (!isOrder) dispatch(getOrderFindByUser(currentAdmin.id));
+
     return (
         <>
             {isOrder ?

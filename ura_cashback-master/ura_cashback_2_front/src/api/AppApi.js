@@ -57,6 +57,7 @@ export const getOrders = () => {
     return HttpClient.doGet(api.order + "/list");
 }
 export const addOrder = (data) => {
+    console.log(data, "order")
     return HttpClient.doPost(api.order, data);
 }
 export const editOrder = (data) => {
