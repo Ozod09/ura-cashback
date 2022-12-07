@@ -13,7 +13,7 @@ function KassaClient(props) {
     const {dispatch, activeUser, onSuccess} = props;
 
     const submit = () => {
-        dispatch(findByUserPhoneNumber(document.getElementById("phoneNumber").value, 'dsads') );
+        dispatch(findByUserPhoneNumber(document.getElementById("phoneNumber").value));
     }
 
     const [back, setBack] = useState(true);
