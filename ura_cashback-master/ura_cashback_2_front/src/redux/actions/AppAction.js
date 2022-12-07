@@ -30,7 +30,7 @@ import {
 import * as types from "../actionTypes/AppActionTypes";
 import {toast} from "react-toastify";
 
-export const byId = id => document.getElementById(id).value;
+export const byId = id => document.getElementById(id) && document.getElementById(id).value;
 
 export const getUser = () => (dispatch) => {
     dispatch({

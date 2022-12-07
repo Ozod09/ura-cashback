@@ -10,34 +10,28 @@ import Kassa from "./Kassa";
 function OrderAdd(props) {
     const {dispatch, currentUser, currentAdmin, onSuccess} = props;
 
-    // console.log('admin:', currentAdmin)
-    // console.log('user:', currentUser)
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
     const [info, setInfo] = useState(false);
-    const [cash_price, setCashPrice] = useState(0);
-    const [cashback, setCashback] = useState(0);
 
     const setBackClick = () => setBack(!back);
     const openInfo = () => setInfo(!info);
 
     const addOrderSend = () => {
-        setCashPrice(byId("cash_price"));
-        setCashback(byId("cashback"));
+        let cashbackValue = byId("cashback");
+        let cashPriceValue = byId("cash_price");
         dispatch(saveOrder({
             adminId: currentAdmin.id,
             clientId: currentUser.id,
-            cash_price,
-            cashback,
+            cashPrice: cashPriceValue,
+            cashback: cashbackValue,
             CallBack: () => onSuccess()
         }));
     }
 
     const openModal = () => {
-        setCashPrice(byId("cash_price"));
-        setCashback(byId("cashback"));
         setOpen(!open);
     }
 

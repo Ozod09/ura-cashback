@@ -58,7 +58,6 @@ class CabinetOperation extends Component {
             kassirName.push(i);
         }
 
-
         return (
             <div>
                 <Navbar/>
@@ -85,7 +84,7 @@ class CabinetOperation extends Component {
                                     <td>{item.admin.firstName} {item.admin.lastName}</td>
                                     <td>{item.date}</td>
                                     <td>{item.client.firstName} {item.client.lastName}</td>
-                                    <td>{item.cash_price}</td>
+                                    <td>{item.cashPrice}</td>
                                     <td>{item.cashback}</td>
                                 </tr>
                                 </tbody>
