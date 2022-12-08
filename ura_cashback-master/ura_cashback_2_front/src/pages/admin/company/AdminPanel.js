@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import cashbackLogo from "../order/loginPage/image/logo.png";
+import cashbackLogo from "../order/loginPage/image/img_1.png";
 import registerFoto from "../userAdmin/registerFoto.png";
 import {Button, Input} from "reactstrap";
 import {superAdminLogin} from "../../../redux/actions/AppAction";

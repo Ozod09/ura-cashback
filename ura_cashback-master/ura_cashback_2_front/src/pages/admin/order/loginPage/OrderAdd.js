@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import image from "./image/logo.png";
 import {Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
 import {byId, saveOrder} from "../../../../redux/actions/AppAction";
 import {connect} from "react-redux";
@@ -57,7 +56,7 @@ function OrderAdd(props) {
                                         </svg>
                                     </i>
                                 </Link>
-                                <img src={image} alt="Icon"/>
+                                {/*<img src={image} alt="Icon"/>*/}
                             </div>
                             <p>Name: {currentUser.firstName} {currentUser.lastName}</p>
                             <p>Mijozning cashbacki: {currentUser.salary}</p>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import uraImg from "./img/header-logo/ura-logo.svg";
+import uraImg from "../order/loginPage/image/img_1.png";
 import uraStile from "./img/header-logo/ellipse.png";
 import "./home.css";
 import HomeNavbar from "./HomeNavbar";

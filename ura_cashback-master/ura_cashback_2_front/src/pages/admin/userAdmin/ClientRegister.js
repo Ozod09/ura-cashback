@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {getCompany, saveCompanyUser} from "../../../redux/actions/AppAction";
-import cashbackLogo from "../order/loginPage/image/logo.png";
+import cashbackLogo from "../order/loginPage/image/img_1.png";
 import registerFoto from "./registerFoto.png";
 import {Button, Input} from "reactstrap";
 import ResultClient from "./ResultClient";

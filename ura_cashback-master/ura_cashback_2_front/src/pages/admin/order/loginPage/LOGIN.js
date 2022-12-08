@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "./image/logo.png";
+import logo from "./image/img_1.png";
 import {Button, Input} from "reactstrap";
 
 function Login({onSubmit}) {
@@ -9,7 +9,7 @@ function Login({onSubmit}) {
             <div className="login-page">
                 <h4 className="text-center">Kassir</h4>
                 <div className="big-logo-box">
-                    <img src={logo} alt="URA cashback"/>
+                    <img src={logo} alt="cashback" className="kasserLogo"/>
                 </div>
                 <div className="login-form inputs">
                     <div className="login-form-container">

@@ -11,7 +11,6 @@ function KasserLogin({dispatch, showModal}) {
     const orderLogin = () => {
         const phoneNumber = document.getElementById("phoneNumber").value;
         const password = document.getElementById("password").value;
-        dispatch(loginOrderAction({phoneNumber, password}));
         dispatch(loginOrderAction({phoneNumber, password, companyId: company && company.id}));
     }
 

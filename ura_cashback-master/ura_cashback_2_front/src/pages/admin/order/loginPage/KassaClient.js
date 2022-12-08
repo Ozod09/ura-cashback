@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import image from "./image/logo.png";
 import "./style.scss";
 import {Button, Input} from "reactstrap";
 import {Link} from "react-router-dom";
@@ -40,7 +39,6 @@ function KassaClient(props) {
                                         </svg>
                                     </i>
                                 </Link>
-                                <img src={image} alt="Icon"/>
                             </div>
                             <Input type="text" placeholder="Номер телефона" id="phoneNumber"
                                    className="mt-5 fw-semibold p-3 ms-1 me-1"/>

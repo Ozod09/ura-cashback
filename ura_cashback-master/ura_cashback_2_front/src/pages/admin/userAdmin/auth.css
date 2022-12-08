@@ -3,9 +3,11 @@
 }
 
 .img1 {
-    height: 4rem;
     margin-left: 20px;
     margin-top: 20px;
+    width: 120px;
+    height: 100px;
+    border-radius: 10px;
 }
 
 .img2 {

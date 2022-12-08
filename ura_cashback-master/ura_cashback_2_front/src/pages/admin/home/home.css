@@ -21,15 +21,11 @@ a{
 }
 .uraImg{
     position: absolute;
-    width: 150px;
-    height: 70px;
-    left: 41px;
-    /*: 10px;*/
-    top: 25px;
-    /*font-weight: 500;*/
-    /*box-sizing: inherit;*/
-    /*box-sizing: border-box;*/
-    /*outline: 0;*/
+    width: 140px;
+    height: 100px;
+    left: 25px;
+    top: 20px;
+    border-radius: 30px;
 }
 
 .box{

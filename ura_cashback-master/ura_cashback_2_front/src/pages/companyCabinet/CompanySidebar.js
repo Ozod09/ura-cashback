@@ -20,7 +20,6 @@ function Sidebar(props) {
         {img: order, name: "cashback", url: "/cabinetOrder"},
         {img: clients, name: "Mijozlar", url: "/cabinetClient"},
         {img: programm, name: "Xodimlar", url: "/company/kassa"},
-        // {img: settings, name: "Sozlamalar", url: "/company/settings"},
         {img: parol, name: "Parolni o'zgartirish", url: "/company/password"},
     ]
 

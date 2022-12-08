@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import "./style.scss";
 import {Link} from "react-router-dom";
-import image from "./image/logo.png";
+import image from "./image/img_1.png";
 import KassaClient from "./KassaClient";
 import {Table} from "reactstrap";
 import {connect} from "react-redux";
