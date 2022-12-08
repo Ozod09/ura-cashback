@@ -60,7 +60,6 @@ function CabinetHome(props) {
             name: "O'rtacha cheklar"
         }
     ]
-    console.log(companyInfo)
 
     const openModal = () => setOpen(!open);
 
