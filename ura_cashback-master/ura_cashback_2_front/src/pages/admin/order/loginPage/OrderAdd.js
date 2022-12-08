@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
-import {byId, saveOrder} from "../../../../redux/actions/AppAction";
+import {byId, findByUserPhoneNumber, saveOrder} from "../../../../redux/actions/AppAction";
 import {connect} from "react-redux";
 import Kassa from "./Kassa";
 
@@ -9,6 +9,9 @@ import Kassa from "./Kassa";
 function OrderAdd(props) {
     const {dispatch, currentUser, currentAdmin, onSuccess} = props;
 
+    useEffect(() => {
+        dispatch(findByUserPhoneNumber(sessionStorage.getItem("phoneNumber")));
+    });
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
