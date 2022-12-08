@@ -173,7 +173,6 @@ export const findByUserPhoneNumber = (payload) => (dispatch) => {
             data: payload
         }
     ).then(res => {
-        console.log("res: ", res);
         if (res !== undefined) {
             dispatch({
                 type: "updateState",
@@ -391,7 +390,7 @@ export const saveOrder = (payload) => (dispatch) => {
         if (res.success) {
             dispatch(getOrder());
             toast.success("Saqlandi");
-            payload.CallBack()
+            payload.CallBack();
         } else toast.error("Error");
     })
 }

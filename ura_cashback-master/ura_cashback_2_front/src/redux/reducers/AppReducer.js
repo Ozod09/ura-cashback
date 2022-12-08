@@ -10,6 +10,7 @@ const initState = {
     openCabinet: false,
     adminPanel: false,
     res:false,
+    isOrder: false,
     user: [],
     search: '',
     page: "1",

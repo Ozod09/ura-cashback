@@ -14,10 +14,10 @@ function Kassa(props) {
 
     useEffect(() => {
         dispatch(getOrderFindByUser(currentAdmin.id));
-    }, []);
+    }, [dispatch]);
 
     const addOrder = () => {
-        setIsOrder(true);
+        setIsOrder(!isOrder);
     }
 
     if (!isOrder) dispatch(getOrderFindByUser(currentAdmin.id));

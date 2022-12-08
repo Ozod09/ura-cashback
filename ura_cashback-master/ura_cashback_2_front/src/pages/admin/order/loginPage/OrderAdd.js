@@ -11,7 +11,7 @@ function OrderAdd(props) {
 
     useEffect(() => {
         dispatch(findByUserPhoneNumber(sessionStorage.getItem("phoneNumber")));
-    });
+    }, [dispatch]);
 
     const [back, setBack] = useState(true);
     const [open, setOpen] = useState(false);
@@ -31,6 +31,10 @@ function OrderAdd(props) {
             cashback: cashbackValue,
             CallBack: () => onSuccess()
         }));
+        dispatch({
+            type: "updateState",
+            payload: {activeUser: false}
+        });
     }
 
     const openModal = () => {
