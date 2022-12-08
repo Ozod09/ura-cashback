@@ -151,6 +151,7 @@ export const companyStatistic = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
+        console.log(res)
         if (res) {
             dispatch({
                 type: 'updateState',

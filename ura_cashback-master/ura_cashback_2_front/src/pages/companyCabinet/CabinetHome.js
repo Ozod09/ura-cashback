@@ -26,30 +26,7 @@ function CabinetHome(props) {
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
 
-    const imgList = [
-        {
-            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.jamiClient,
-            name: "Mijozlar soni"
-        },
-        {
-            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.allBalance,
-            name: "Jami savdo"
-        },
-        {
-            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.companyClientCash,
-            name: "To'langan cashback"
-        },
-        {
-            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.clientCash,
-            name: "Mijozlar cashback"
-        },
-        {
-            cleant: res ? companyStat : companyInfo.resStatistic && companyInfo.resStatistic.urtachaCheck,
-            name: "O'rtacha cheklar"
-        }
-    ]
-
-    const openModal = () => setOpen(!open);
+    console.log(companyStat, "company stat")
 
     const filterDate = () => {
         props.dispatch(companyStatistic({
@@ -60,6 +37,34 @@ function CabinetHome(props) {
         setRes(true);
         setOpen(false);
     }
+
+    const imgList = [
+        {
+            cleant: res ? companyStat.jamiClient :  companyInfo.resStatistic.jamiClient,
+            name: "Mijozlar soni"
+        },
+        {
+            cleant: res ? companyStat.allBalance :  companyInfo.resStatistic.allBalance,
+            name: "Jami savdo"
+        },
+        {
+            cleant: res ? companyStat.companyClientCash :  companyInfo.resStatistic.companyClientCash,
+            name: "To'langan cashback"
+        },
+        {
+            cleant: res ? companyStat.clientCash : companyInfo.resStatistic.clientCash,
+            name: "Mijozlar cashback"
+        },
+        {
+            cleant: res ? companyStat.urtachaCheck : companyInfo.resStatistic.urtachaCheck,
+            name: "O'rtacha cheklar"
+        }
+    ]
+    console.log(companyInfo)
+
+    const openModal = () => setOpen(!open);
+
+
 
     return (
         <div className="cabOperation">
