@@ -4,7 +4,7 @@ import "./style.scss";
 import {Button, Input} from "reactstrap";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import {findByUserPhoneNumber} from "../../../../redux/actions/AppAction";
+import {byId, findByUserPhoneNumber} from "../../../../redux/actions/AppAction";
 import OrderAdd from "./OrderAdd";
 import Kassa from "./Kassa";
 
@@ -14,6 +14,7 @@ function KassaClient(props) {
 
     const submit = () => {
         dispatch(findByUserPhoneNumber(document.getElementById("phoneNumber").value));
+        sessionStorage.setItem("phoneNumber", byId("phoneNumber"));
     }
 
     const [back, setBack] = useState(true);

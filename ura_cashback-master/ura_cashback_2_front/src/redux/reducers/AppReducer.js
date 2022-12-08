@@ -36,9 +36,7 @@ const initState = {
 }
 
 const reducers = {
-
     [types.REQUEST_SUCCESS](state) {
-
         state.deleteShowModal = false
     },
     [types.GET_ORDER_LIST](state, payload) {
@@ -54,7 +52,6 @@ const reducers = {
         state.company = payload.payload
     },
     [types.GET_ORDER_LOGIN](state, payload) {
-        console.log('payload',payload)
         state.currentAdmin = payload.payload;
         state.showModal = true;
     },

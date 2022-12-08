@@ -163,7 +163,6 @@ export const companyStatistic = (payload) => (dispatch) => {
 }
 
 export const findByUserPhoneNumber = (payload) => (dispatch) => {
-
     dispatch({
             api: findByPhoneNumber,
             types: [
@@ -174,6 +173,7 @@ export const findByUserPhoneNumber = (payload) => (dispatch) => {
             data: payload
         }
     ).then(res => {
+        console.log("res: ", res);
         if (res !== undefined) {
             dispatch({
                 type: "updateState",
@@ -182,7 +182,6 @@ export const findByUserPhoneNumber = (payload) => (dispatch) => {
                     currentUser: res.payload
                 }
             });
-
         } else toast.warning("user not fount");
     });
 }
