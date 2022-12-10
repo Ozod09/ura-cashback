@@ -22,6 +22,12 @@ function KassaClient(props) {
         setBack(!back);
     }
 
+    function enterButton() {
+        document.getElementById("phoneNumber").addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) document.getElementById("next").click();
+        });
+    }
+
     return (
         <>{back
             ? <div>
@@ -42,7 +48,7 @@ function KassaClient(props) {
                                 </Link>
                             </div>
                             <Input type="text" placeholder="Номер телефона" id="phoneNumber"
-                                   className="mt-5 fw-semibold p-3 ms-1 me-1"/>
+                                   className="mt-5 fw-semibold p-3 ms-1 me-1" onChange={enterButton}/>
                             <p>Введите номер телефона клиента или <br/> qr-код +998901235678</p>
                             <Button style={{
                                 backgroundColor: "#5468FF",
@@ -50,7 +56,7 @@ function KassaClient(props) {
                                 fontFamily: "'Museo Sans Cyrl', sans-serif"
                             }}
                                     className="btn btn-primary form-btn-login w-100" type="button"
-                                    onClick={submit}><b>ПРОДОЛЖИТЬ</b></Button>
+                                    onClick={submit} id="next"><b>ПРОДОЛЖИТЬ</b></Button>
                         </div>
                     </div>
                 }

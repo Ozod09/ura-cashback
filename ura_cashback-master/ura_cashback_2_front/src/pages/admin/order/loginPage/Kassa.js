@@ -14,7 +14,7 @@ function Kassa(props) {
 
     useEffect(() => {
         dispatch(getOrderFindByUser(currentAdmin.id));
-    }, [dispatch]);
+    }, [currentAdmin.id, dispatch]);
 
     const addOrder = () => {
         setIsOrder(!isOrder);
@@ -31,10 +31,13 @@ function Kassa(props) {
                     <div className="login-page">
 
                         <div className="kassa-nav">
-                            <Link to="/" className="text-decoration-none font-monospace link-1">Войти</Link>
-                            <img src={image} alt="Icon"/>
-                            <Link to="/" className="text-decoration-none font-monospace link-2">Пригласить</Link>
+                            <div>
+                                <Link to="/" className="text-decoration-none font-monospace link-1">Войти</Link>
+                                <img src={image} alt="Icon"/>
+                                <Link to="/" className="text-decoration-none  link-2">Пригласить</Link>
+                            </div>
                             <div className="overflow-auto fill">
+
                                 <Table>
                                     <thead>
                                     <tr>

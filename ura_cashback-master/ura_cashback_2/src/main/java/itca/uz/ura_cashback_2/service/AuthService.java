@@ -65,7 +65,6 @@ public class AuthService {
         return new ApiResponse<>("Successfully delete kassir", 200);
     }
 
-
     public ApiResponse<?> activeUser(Long id) {
         User user = authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser"));
         user.setActive((byte) (user.getActive() == 1 ? 0 : 1));
@@ -77,7 +76,6 @@ public class AuthService {
         user.setSalary(salary);
         authRepository.save(user);
     }
-
 
     public ResPageable getUserList(int page, int size) throws Exception {
         Page<User> allUser = authRepository.findAll(CommonUtils.getPageable(page * size, size));

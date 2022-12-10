@@ -16,6 +16,13 @@ class LoginCompany extends Component {
     }
 
     render() {
+
+        function enterButton() {
+            document.getElementById("password").addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) document.getElementById("next").click();
+            });
+        }
+
         document.body.style.marginLeft = "3.7%";
         // document.body.style.backgroundColor = "rgb(231,230,230)";
         document.body.style.backgroundColor = "white";
@@ -57,7 +64,7 @@ class LoginCompany extends Component {
                                            placeholder="Phone number"
                                            required/>
                                     <Input className="mb-5" type={this.state.openPassword ? "text" : "password"}
-                                           id="password" name="password" placeholder="Password"
+                                           id="password" name="password" placeholder="Password" onChange={enterButton}
                                            required/>
                                     {this.state.resRegex ?
                                         <p style={{color: "red"}}>Password error 0-9 password length = 8</p> : ""}
@@ -71,7 +78,7 @@ class LoginCompany extends Component {
                                     </ul>
                                 </div>
                             </div>
-                            <Button color="info" type="submit" outline onClick={() => login()}>Next</Button>
+                            <Button color="info" type="submit" id="next" outline onClick={() => login()}>Next</Button>
                         </div>
                     </div>
                 }

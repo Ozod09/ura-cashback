@@ -54,7 +54,6 @@ export const loginCompany = (payload) => (dispatch) => {
         data: payload
     }).then(res => {
         if (res !== undefined) {
-            console.log(res);
             sessionStorage.setItem("companyId", res.payload.id)
             dispatch({
                 type: 'updateState',
@@ -77,7 +76,6 @@ export const companyClient = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
-        console.log(res.payload);
         dispatch({
             type: 'updateState',
             payload: {

@@ -71,7 +71,8 @@ function OrderAdd(props) {
                                    className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1"/>
                             {open
                                 ? <Input onChange={(item) => onChange(item)} type="text"
-                                         placeholder="cashback" defaultValue={currentUser.salary} id="cashback"
+                                         placeholder="cashback"
+                                         defaultValue={currentUser.salary} id="cashback"
                                          className="mt-3 mb-5 fw-semibold p-3 ms-1 me-1  float-start cash"/>
                                 : <Input onChange={(item) => onChange(item)} type="text"
                                          placeholder="cashback" id="cashback"

@@ -16,8 +16,10 @@ function CabinetHome(props) {
     }, []);
 
     function getCompany() {
-        console.log({password: sessionStorage.getItem("Password"), phoneNumber: sessionStorage.getItem("PhoneNumber")})
-        dispatch(loginCompany({password: sessionStorage.getItem("Password"), phoneNumber: sessionStorage.getItem("PhoneNumber")}));
+        dispatch(loginCompany({
+            password: sessionStorage.getItem("Password"),
+            phoneNumber: sessionStorage.getItem("PhoneNumber")
+        }));
     }
 
     document.body.style.marginLeft = "3.7%";
@@ -25,8 +27,6 @@ function CabinetHome(props) {
 
     const [open, setOpen] = useState(false);
     const [res, setRes] = useState(false);
-
-    console.log(companyStat, "company stat")
 
     const filterDate = () => {
         props.dispatch(companyStatistic({
@@ -40,30 +40,28 @@ function CabinetHome(props) {
 
     const imgList = [
         {
-            cleant: res ? companyStat.jamiClient :  companyInfo.resStatistic.jamiClient,
+            cleant: res ? companyStat && companyStat.jamiClient : companyInfo && companyInfo.resStatistic.jamiClient,
             name: "Mijozlar soni"
         },
         {
-            cleant: res ? companyStat.allBalance :  companyInfo.resStatistic.allBalance,
+            cleant: res ? companyStat && companyStat.allBalance : companyInfo && companyInfo.resStatistic.allBalance,
             name: "Jami savdo"
         },
         {
-            cleant: res ? companyStat.companyClientCash :  companyInfo.resStatistic.companyClientCash,
+            cleant: res ? companyStat && companyStat.companyClientCash : companyInfo && companyInfo.resStatistic.companyClientCash,
             name: "To'langan cashback"
         },
         {
-            cleant: res ? companyStat.clientCash : companyInfo.resStatistic.clientCash,
+            cleant: res ? companyStat && companyStat.clientCash : companyInfo && companyInfo.resStatistic.clientCash,
             name: "Mijozlar cashback"
         },
         {
-            cleant: res ? companyStat.urtachaCheck : companyInfo.resStatistic.urtachaCheck,
+            cleant: res ? companyStat.urtachaCheck : companyInfo && companyInfo.resStatistic.urtachaCheck,
             name: "O'rtacha cheklar"
         }
-    ]
+    ];
 
     const openModal = () => setOpen(!open);
-
-
 
     return (
         <div className="cabOperation">
