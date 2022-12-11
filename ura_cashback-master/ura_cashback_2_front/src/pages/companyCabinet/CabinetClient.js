@@ -68,7 +68,7 @@ class CabinetClient extends Component {
                             <th>Last Name</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Salary</th>
+                            <th>Cashback</th>
                             <th>Password</th>
                         </tr>
                         </thead>
