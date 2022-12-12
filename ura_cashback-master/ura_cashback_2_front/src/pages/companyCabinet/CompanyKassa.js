@@ -103,6 +103,7 @@ class CompanyKassa extends Component {
             } else {
                 this.setState({resRegex: !this.state.resRegex})
             }
+            window.location.reload()
             getCompany()
         }
 

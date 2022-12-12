@@ -11,16 +11,17 @@ import {byId, companyStatistic, loginCompany} from "../../redux/actions/AppActio
 function CabinetHome(props) {
     const {companyInfo, companyStat, dispatch} = props;
 
-    useEffect(() => {
-        getCompany();
-    }, []);
-
     function getCompany() {
         dispatch(loginCompany({
             password: sessionStorage.getItem("Password"),
             phoneNumber: sessionStorage.getItem("PhoneNumber")
         }));
     }
+
+    useEffect(() => {
+        getCompany();
+    }, []);
+
 
     document.body.style.marginLeft = "3.7%";
     document.body.style.backgroundColor = "rgb(231, 230, 230)";
@@ -37,12 +38,12 @@ function CabinetHome(props) {
         setRes(true);
         setOpen(false);
     }
-
+    console.log(companyStat)
     const imgList = [
-        {
-            cleant: res ? companyStat && companyStat.jamiClient : companyInfo && companyInfo.resStatistic.jamiClient,
-            name: "Mijozlar soni"
-        },
+        // {
+        //     cleant: res ? companyStat && companyStat.jamiClient : companyInfo && companyInfo.resStatistic.jamiClient,
+        //     name: "Mijozlar soni"
+        // },
         {
             cleant: res ? companyStat && companyStat.allBalance : companyInfo && companyInfo.resStatistic.allBalance,
             name: "Jami savdo"
