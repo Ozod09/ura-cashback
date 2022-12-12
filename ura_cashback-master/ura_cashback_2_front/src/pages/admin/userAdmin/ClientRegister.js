@@ -58,7 +58,7 @@ class ClientRegister extends Component {
             <>
                 {showModal ?
                     <ResultClient/>  :
-                    <div className="row home">
+                    <div className="row home m-0">
                         <div className='col-6'>
                             <img className="row img1" src={cashbackLogo} alt="not"/>
                             <img className="img2" src={registerFoto} alt="not"/>
@@ -75,27 +75,27 @@ class ClientRegister extends Component {
                                     <Input className="mb-2" type="text" id="phoneNumber" placeholder="Phone number"
                                            required/>
                                     <Input className="mb-2" type="email" id="email" placeholder="Email" required/>
-                                    <select className="mb-2 select" id="companyId">
-                                        <option>Company</option>
-                                        {company.map((item,i)=>
-                                            <option key={i} value={item.id} >{item.name}</option>
-                                        )}
-                                    </select>
                                     <Input className="mb-2" type={this.state.openPassword ? "text" : "password"} id="password" placeholder="Password"
                                          required/>
                                     <Input className="mb-2" type={this.state.openPrePassword ? "text" : "password"} id="prePassword" placeholder="Pre password"
                                            required/>
                                     {this.state.resRegex ? <p style={{color:"red"}}>Password error  length = 8</p> : ""}
+                                    <select className="mb-2 mt-4 select form-select" id="companyId">
+                                        <option>Company</option>
+                                        {company.map((item,i)=>
+                                            <option key={i} value={item.id} >{item.name}</option>
+                                        )}
+                                    </select>
                                 </div>
                                 <div className="col-2">
                                     <ul>
                                         <li className="row iconca1"><i className="pi pi-user"/></li>
                                         <li className="row iconca2"><i className="pi pi-user"/></li>
-                                        <li className="row iconca3"><i className="pi pi-phone"/></li>
-                                        <li className="row iconca4"><i className="pi pi-at"/></li>
-                                        <li className="row iconca7" onClick={()=> password()}>
+                                        <li className="row coll"><i className="pi pi-phone"/></li>
+                                        <li className="row email"><i className="pi pi-at"/></li>
+                                        <li className="row password" onClick={()=> password()}>
                                             {this.state.openPassword ? <i className="pi pi-eye-slash"/> : <i className="pi pi-eye"/>}</li>
-                                        <li className="row iconca8" onClick={()=> prePassword()}>
+                                        <li className="row password" onClick={()=> prePassword()}>
                                             {this.state.openPrePassword ? <i className="pi pi-eye-slash" /> : <i className="pi pi-eye"/> }</li>
                                     </ul>
                                 </div>

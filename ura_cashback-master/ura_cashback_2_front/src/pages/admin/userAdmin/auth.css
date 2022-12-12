@@ -53,14 +53,19 @@
     margin-left: -75px;
 }
 
-.iconca3 {
-    margin-top: 45px;
-    margin-left: -75px;
+.coll {
+    margin-top: 70%;
+    margin-left: -100%;
 }
 
-.iconca7 {
-    margin-top: 93px;
-    margin-left: -75px;
+.email {
+    margin-top: 60%;
+    margin-left: -100%;
+}
+
+.password {
+    margin-top: 70%;
+    margin-left: -100%;
 }
 
 .register2 {
