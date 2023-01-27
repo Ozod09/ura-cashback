@@ -17,7 +17,7 @@ class Home extends Component {
                      data-aos-easing="ease-in-back" src={uraImg} alt="Loading..."/>
 
                 <h1 className="box">Siz mijozlar sonini ko'paytirishni xohlaysizmi yoki shunchaki mavjudlarini yo'qotmasliknimi?</h1>
-                <h1 className="box1">"Ura! cashback "sizning qaroringiz. Mijozlar har doim siz bilan birga bo'lishlari uchun ularni qanday xursand qilish haqida ko'proq bilib oling!</h1>
+                <h1 className="box1">"Cashback "sizning qaroringiz. Mijozlar har doim siz bilan birga bo'lishlari uchun ularni qanday xursand qilish haqida ko'proq bilib oling!</h1>
 
             </div>
         );

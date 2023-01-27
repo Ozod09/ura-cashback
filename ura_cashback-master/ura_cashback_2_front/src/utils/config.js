@@ -1,5 +1,6 @@
 export const config = {
   // BASE_URL: "http://70.32.24.165/api",
+  // BASE_URL: 'https://cashback-new.herokuapp.com/api',
   BASE_URL: 'http://localhost/api',
   // BASE_URL: 'http://localhost:8080/api',
   // SHARING_URL: "http://70.32.24.165", //tegma o'lasan hayot uchun xavfli!!!

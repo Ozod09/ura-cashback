@@ -53,6 +53,7 @@ export const loginCompany = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
+        console.log(res)
         if (res !== undefined) {
             sessionStorage.setItem("companyId", res.payload.id)
             dispatch({
@@ -62,7 +63,7 @@ export const loginCompany = (payload) => (dispatch) => {
                     openLogin: true
                 }
             })
-        } else toast.error("Company not Active");
+        }
     })
 }
 
@@ -292,6 +293,7 @@ export const saveCompanyKassa = (payload) => (dispatch) => {
                     currentUser: res.payload
                 }
             });
+            dispatch(companyKassa(sessionStorage.getItem("companyId")));
             companyKassa(sessionStorage.getItem("companyId"));
         } else toast.error("Error");
     })
@@ -307,6 +309,7 @@ export const removeUser = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
+        dispatch(companyKassa(sessionStorage.getItem("companyId")));
         toast.success(res.success);
     })
 }
@@ -469,7 +472,7 @@ export const addAttachmentAction = (payload) => (dispatch) => {
         ],
         data: payload
     }).then(res => {
-        console.log(res)
+        console.log("imageId: ", res)
         dispatch({
             type: 'updateState',
             payload: {
@@ -478,7 +481,7 @@ export const addAttachmentAction = (payload) => (dispatch) => {
         });
         toast.success("Attachment saved successfully!");
     }).catch((err) => {
-        console.log(err)
+        console.log("err: ", err)
         toast.error("Error saving attachment!");
     });
 }

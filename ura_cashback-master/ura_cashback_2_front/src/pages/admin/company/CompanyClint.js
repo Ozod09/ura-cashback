@@ -15,6 +15,12 @@ class CompanyRegister extends Component {
         const sendPhoto = (item) => {
             let obj = new FormData();
             obj.append("request", item.target.files[0]);
+            // const config = {
+            //     headers: {'Content-Type': 'application/json'}
+            // }
+            // axios.post("http://localhost/api/attachment", obj, config)
+            //     .then(res => console.log(res))
+            //     .catch(err => console.log(err));
             this.props.dispatch(addAttachmentAction(obj));
         }
 

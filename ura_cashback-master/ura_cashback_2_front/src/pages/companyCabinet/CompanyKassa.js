@@ -100,18 +100,12 @@ class CompanyKassa extends Component {
                     this.props.dispatch(saveCompanyKassa(obj))
                     this.setState({openModal: false})
                 }
-            } else {
-                this.setState({resRegex: !this.state.resRegex})
-            }
-            window.location.reload()
-            getCompany()
+            } else this.setState({resRegex: !this.state.resRegex});
         }
 
         const deleteCompanyKassr = () => {
             this.setState({deleteModal: !this.state.deleteModal})
             this.props.dispatch(removeUser(this.state.kassaId));
-            window.location.reload();
-            getCompany()
         }
 
 

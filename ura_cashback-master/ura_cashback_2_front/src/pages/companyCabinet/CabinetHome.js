@@ -38,26 +38,26 @@ function CabinetHome(props) {
         setRes(true);
         setOpen(false);
     }
-    console.log(companyStat)
+
     const imgList = [
-        // {
-        //     cleant: res ? companyStat && companyStat.jamiClient : companyInfo && companyInfo.resStatistic.jamiClient,
-        //     name: "Mijozlar soni"
-        // },
         {
-            cleant: res ? companyStat && companyStat.allBalance : companyInfo && companyInfo.resStatistic.allBalance,
+            cleant: res ? companyStat &&  companyStat.jamiClient  : companyInfo.resStatistic.jamiClient,
+            name: "Mijozlar soni"
+        },
+        {
+            cleant: res ? companyStat.allBalance :  companyInfo.resStatistic.allBalance,
             name: "Jami savdo"
         },
         {
-            cleant: res ? companyStat && companyStat.companyClientCash : companyInfo && companyInfo.resStatistic.companyClientCash,
+            cleant: res ? companyStat.companyClientCash : companyInfo.resStatistic.companyClientCash,
             name: "To'langan cashback"
         },
         {
-            cleant: res ? companyStat && companyStat.clientCash : companyInfo && companyInfo.resStatistic.clientCash,
+            cleant: res ? companyStat.clientCash  : companyInfo.resStatistic.clientCash,
             name: "Mijozlar cashback"
         },
         {
-            cleant: res ? companyStat.urtachaCheck : companyInfo && companyInfo.resStatistic.urtachaCheck,
+            cleant: res ? companyStat.urtachaCheck :  companyInfo.resStatistic.urtachaCheck,
             name: "O'rtacha cheklar"
         }
     ];

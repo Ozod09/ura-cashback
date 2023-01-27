@@ -1,5 +1,6 @@
 import HttpClient from "../utils/HttpClient";
 import {api} from "./api";
+import axios from "axios";
 // import data from "bootstrap/js/src/dom/data";
 //*****************************************************************=> User
 export const getUsers = () => {
@@ -27,7 +28,7 @@ export const addCompanyUser = (data) => {
     return HttpClient.doPost(api.users, data);
 }
 export const addCompanyAdmin = (data) => {
-    return HttpClient.doPost(api.users + "/companyAdmin", data);
+    return HttpClient.doPost(api.users + "/companyAdmin", data).catch(err => console.log(err));
 }
 export const addCompanyKassa = (data) => {
     return HttpClient.doPost(api.users + "/companyKassa", data);
@@ -90,5 +91,6 @@ export const activeCompany12 = (data) => {
 }
 //*****************************************************************=> Attachment
 export const addAttachment = (data) => {
+    console.log("data: ", data, "url: " + api.attachment);
     return HttpClient.doPost(api.attachment, data);
 }

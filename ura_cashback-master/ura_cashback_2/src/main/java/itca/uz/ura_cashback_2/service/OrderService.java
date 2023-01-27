@@ -59,12 +59,15 @@ public class OrderService {
     }
 
     public User login(ReqLogin reqLogin) {
-        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(), reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
+        User user = authRepository.findPhoneAndPassword(reqLogin.getPhoneNumber(),
+                reqLogin.getPassword()).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", reqLogin));
         CompanyUserRole companyUserRole;
         try {
-            companyUserRole  = companyUserRoleRepository.kassir(user.getId(), 2).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));;
+            companyUserRole  = companyUserRoleRepository.kassir(user.getId(), 2)
+                    .orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));;
         } catch (Exception e) {
-            companyUserRole = companyUserRoleRepository.kassir(user.getId(), 3).orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
+            companyUserRole = companyUserRoleRepository.kassir(user.getId(), 3)
+                    .orElseThrow(() -> new ResourceNotFoundException(404, "companyUserRole", "id", reqLogin));
         }
         if (companyUserRole != null) {
             return user;
@@ -123,7 +126,8 @@ public class OrderService {
                 allClient.add(order1.getClient().getId());
             }
             for (Long id : allClient) {
-                clientCash += authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", id)).getSalary();
+                clientCash += authRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException(404, "User", "id", id)).getSalary();
             }
             int urtachaCheck = allBalance / allClient.size();
             return ResStatistic.builder()

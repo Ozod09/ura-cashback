@@ -16,6 +16,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value = "from orders where companyId = ?1 and createdAt between ?2 and ?3")
     List<Order> findByCompanyIdAndCreatedAt( Long companyId, Timestamp startTime,Timestamp endTime);
-
-
 }

@@ -23,18 +23,19 @@ class AuthUserCompany extends Component {
         const flag = /^(?=.*[0-9]).{8,}$/;
         const regex = new RegExp(flag);
 
-        const registerUserCompany = ()=>{
+        const registerUserCompany = () => {
             const password = document.getElementById("password").value;
             const prePassword = document.getElementById("prePassword").value;
 
-            if(password.match(regex) !== null && prePassword.match(regex) !== null){
+            if (password.match(regex) !== null && prePassword.match(regex) !== null) {
                 const firstName = document.getElementById("firstName").value;
                 const lastName = document.getElementById("lastName").value;
                 const phoneNumber = document.getElementById("phoneNumber").value;
                 const email = document.getElementById("email").value;
-                let obj = {firstName,lastName,phoneNumber,email,password,prePassword};
+                let obj = {firstName, lastName, phoneNumber, email, password, prePassword};
+                console.log(obj)
                 this.props.dispatch(saveCompanyAdmin(obj))
-            }else {
+            } else {
                 this.setState({resRegex: !this.state.resRegex})
             }
 
@@ -80,12 +81,14 @@ class AuthUserCompany extends Component {
                                     <ul>
                                         <li className="row iconca1"><i className="pi pi-user"/></li>
                                         <li className="row iconca2"><i className="pi pi-user"/></li>
-                                        <li className="row iconca3"><i className="pi pi-phone"/></li>
-                                        <li className="row iconca3"><i className="pi pi-at"/></li>
-                                        <li className="row iconca3" onClick={()=> password()}>
-                                            {this.state.openPassword ? <i className="pi pi-eye-slash"/> : <i className="pi pi-eye"/>}</li>
-                                        <li className="row iconca3" onClick={()=> prePassword()}>
-                                            {this.state.openPrePassword ? <i className="pi pi-eye-slash" /> : <i className="pi pi-eye"/> }</li>
+                                        <li className="row coll"><i className="pi pi-phone"/></li>
+                                        <li className="row email"><i className="pi pi-at"/></li>
+                                        <li className="row password" onClick={() => password()}>
+                                            {this.state.openPassword ? <i className="pi pi-eye-slash"/> :
+                                                <i className="pi pi-eye"/>}</li>
+                                        <li className="row password" onClick={() => prePassword()}>
+                                            {this.state.openPrePassword ? <i className="pi pi-eye-slash"/> :
+                                                <i className="pi pi-eye"/>}</li>
                                     </ul>
                                 </div>
                             </div>

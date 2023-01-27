@@ -146,20 +146,20 @@ public class AuthService {
                 companyDto1.setActive1(company.getActive() == 1);
                 companyDto1.setId(company.getId());
                 companyDto1.setUser(user);
-                companyDto1.setResStatistic(getCompanyStatistic(company.getId()));
+                companyDto1.setResStatistic(getCompanyStatistic(companyUserRole.getUserId()));
                 return companyDto1;
             }
         }
         return null;
     }
 
-    public ResStatistic getCompanyStatistic(Long companyId) {
+    public ResStatistic getCompanyStatistic(Long adminId) {
         Set<Long> allClient = new HashSet<>();
         int allBalance = 0;
         int companyClientCash = 0;
         int urtachaCheck = 0;
         int clientCash = 0;
-        for (Order order : orderRepository.findCreatedBy(companyId)) {
+        for (Order order : orderRepository.findCreatedBy(adminId)) {
             allBalance += order.getCashPrice();
             companyClientCash += order.getCompanyClientCash();
             allClient.add(order.getClient().getId());

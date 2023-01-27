@@ -52,7 +52,6 @@ class ClientRegister extends Component {
         const prePassword = ()=>{
             this.setState({openPrePassword: !this.state.openPrePassword})
         }
-        console.log(company)
 
         return (
             <>
@@ -69,16 +68,12 @@ class ClientRegister extends Component {
                             <h2>Hisob ochish</h2>
                             <div className="row">
                                 <div className="col-10 pe-0">
-                                    <Input className="mb-2" type="text" id="firstName" placeholder="First name"
-                                           required/>
+                                    <Input className="mb-2" type="text" id="firstName" placeholder="First name" required/>
                                     <Input className="mb-2" type="text" id="lastName" placeholder="Last name" required/>
-                                    <Input className="mb-2" type="text" id="phoneNumber" placeholder="Phone number"
-                                           required/>
+                                    <Input className="mb-2" type="text" id="phoneNumber" placeholder="Phone number" required/>
                                     <Input className="mb-2" type="email" id="email" placeholder="Email" required/>
-                                    <Input className="mb-2" type={this.state.openPassword ? "text" : "password"} id="password" placeholder="Password"
-                                         required/>
-                                    <Input className="mb-2" type={this.state.openPrePassword ? "text" : "password"} id="prePassword" placeholder="Pre password"
-                                           required/>
+                                    <Input className="mb-2" type={this.state.openPassword ? "text" : "password"} id="password" placeholder="Password" required/>
+                                    <Input className="mb-2" type={this.state.openPrePassword ? "text" : "password"} id="prePassword" placeholder="Pre password" required/>
                                     {this.state.resRegex ? <p style={{color:"red"}}>Password error  length = 8</p> : ""}
                                     <select className="mb-2 mt-4 select form-select" id="companyId">
                                         <option>Company</option>
